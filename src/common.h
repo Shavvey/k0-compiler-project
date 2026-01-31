@@ -20,6 +20,7 @@ do {\
 #define alist_last(al) (al)->items[(al)->size-1]
 
 #define alist_append(al, item) do {                                          \
+  assert((al) != NULL);                                                      \
   if ((al)->capacity - (al)->size == 0) {                                    \
     (al)->capacity += AL_RESIZE_INC;                                         \
     (al)->items = realloc((al)->items, (al)->capacity*sizeof(*(al)->items)); \

@@ -22,4 +22,5 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim,
 char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt);
 void sb_delete(StringBuilder *sb);
 void sb_print(StringBuilder *sb);
+void sb_append(StringBuilder *sb, const char *str);
 #endif  // INCLUDE_SRC_STR_H_

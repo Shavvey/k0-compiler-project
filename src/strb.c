@@ -5,11 +5,15 @@
 
 StringBuilder sb_from_cstring(char *str, CopyOrMove opt) {
   StringBuilder sb = {0};
-  int len = strlen(str);
+  size_t len = strlen(str);
   alist_append_many(&sb, str, len);
   if (opt == MOVE)
     free(str);
   return sb;
+}
+
+void sb_append(StringBuilder *sb, const char *str) {
+  alist_append_many(sb, str, strlen(str));
 }
 
 char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt) {
@@ -22,7 +26,7 @@ char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt) {
 }
 
 void sb_chop_by_delim(StringBuilder *sb, const char *delim) {
-  int window = strnlen(delim, sb->size);
+  size_t window = strnlen(delim, sb->size);
   for (size_t s = 0; s < sb->size; s += 1) {
     if (strncmp(sb->items + s, delim, window) == 0) {
       for (size_t i = 0; i < window; i += 1) {
@@ -46,7 +50,7 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
   } SubIndex;
   SubIndex si = {0};
   int window = strnlen(delim, sb->size);
-  int slen = strlen(substr);
+  size_t slen = strlen(substr);
   for (size_t cursor = 0; cursor < sb->size; cursor += 1) {
     if (strncmp(sb->items + cursor, delim, window) == 0) {
       // Keep track starting indexes of delims
