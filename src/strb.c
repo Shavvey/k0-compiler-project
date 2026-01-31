@@ -67,6 +67,7 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
       alist_insert_at(sb, substr[j], si.items[ssi] + (slen - 1) * ssi);
     }
   }
+  alist_free(&si);
 }
 
 char *sb_to_string(StringBuilder *sb, CopyOrMove opt) {

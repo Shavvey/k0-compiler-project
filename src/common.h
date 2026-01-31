@@ -26,7 +26,8 @@ do {\
     (al)->items = realloc((al)->items, (al)->capacity*sizeof(*(al)->items)); \
     assert((al)->items != NULL && "Array list alloc failed!\n");             \
   }                                                                          \
-  (al)->items[(al)->size++] = (item);                                        \
+  (al)->items[(al)->size] = (item);                                          \
+  (al)->size += 1;                                                           \
 }while(0)
 
 #define alist_free(al) do {                                                  \
@@ -39,7 +40,7 @@ do {\
   size_t i = 0;                                                              \
   while(i < (size)) {                                                        \
      alist_append((al), (new_items)[i]);                                     \
-     i++;                                                                    \
+     i += 1;                                                                 \
   }                                                                          \
 }while(0)
 
