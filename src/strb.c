@@ -27,11 +27,14 @@ char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt) {
 
 void sb_chop_by_delim(StringBuilder *sb, const char *delim) {
   size_t window = strnlen(delim, sb->size);
-  for (size_t s = 0; s < sb->size; s += 1) {
+  size_t s = 0;
+  while (s < sb->size) {
     if (strncmp(sb->items + s, delim, window) == 0) {
       for (size_t i = 0; i < window; i += 1) {
         alist_delete_at(sb, s);
       }
+    } else {
+      s += 1;
     }
   }
 }
@@ -44,27 +47,35 @@ void sb_print(StringBuilder *sb) {
 void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
   // Helper arraylist that records indexes
   typedef struct {
-    int *items;
+    size_t *items;
     size_t size;
     size_t capacity;
   } SubIndex;
   SubIndex si = {0};
-  int window = strnlen(delim, sb->size);
+  size_t window = strnlen(delim, sb->size);
   size_t slen = strlen(substr);
-  for (size_t cursor = 0; cursor < sb->size; cursor += 1) {
-    if (strncmp(sb->items + cursor, delim, window) == 0) {
-      // Keep track starting indexes of delims
-      alist_append(&si, cursor);
-      for (int i = 0; i < window; i += 1) {
-        alist_delete_at(sb, cursor);
+  size_t s = 0;
+  while (s < sb->size) {
+    if (strncmp(sb->items + s, delim, window) == 0) {
+      alist_append(&si, s);
+      for (size_t i = 0; i < window; i += 1) {
+        alist_delete_at(sb, s);
       }
+    } else {
+      s += 1;
     }
   }
-  // Replay cursor captures of starting chopped indexes
-  for (size_t ssi = 0; ssi < si.size; ssi += 1) {
-    for (int j = slen - 1; j >= 0; j -= 1) {
-      // Offset based on what was written by prev iterations
-      alist_insert_at(sb, substr[j], si.items[ssi] + (slen - 1) * ssi);
+  for (size_t i = 0; i < si.size; i += 1) {
+    size_t iindex = si.items[i];
+    size_t index = iindex + (slen * i);
+    if (sb->size == 0) { // CASE 1: string is empty
+      alist_append_many(sb, substr, slen);
+    } else if (sb->size <= index) { // CASE 2: index points to last
+      alist_append_many(sb, substr, slen);
+    } else { // CASE 3: index points somewhere in middle
+      for (int j = slen - 1; j >= 0; j -= 1) {
+        alist_insert_at(sb, substr[j], index);
+      }
     }
   }
   alist_free(&si);
