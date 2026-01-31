@@ -5,8 +5,8 @@
 // StringBuilder is just a arraylist of chars, uses `common.h`
 typedef struct {
   char* items;
-  size_t capacity;
-  size_t size;
+  int capacity;
+  int size;
 } StringBuilder;
 
 typedef enum {
@@ -17,7 +17,8 @@ typedef enum {
 // API
 StringBuilder sb_from_cstring(char *str, CopyOrMove opt);
 void sb_chop_by_delim(StringBuilder *sb, const char *delim);
-void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *sub);
-char *sb_to_string(StringBuilder *sb, CopyOrMove opt);
+void sb_sub_by_delim(StringBuilder *sb, const char *delim,
+                     const char *substr);
+char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt);
 void sb_delete(StringBuilder *sb);
 #endif  // INCLUDE_SRC_STR_H_

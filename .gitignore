@@ -1,0 +1,6 @@
+# MACOS STUFF
+**/.DS_Store
+
+# C INTERMEDIATE COMPILATION STEPS OUTPUT
+**/*.o
+**/*.gch
