@@ -65,8 +65,10 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
       s += 1;
     }
   }
+  // Replay the captured inserted indices, use them to insert substr
   for (size_t i = 0; i < si.size; i += 1) {
     size_t iindex = si.items[i];
+    // Calculate offset based on written chars in prev itrs
     size_t index = iindex + (slen * i);
     if (sb->size == 0) { // CASE 1: string is empty
       alist_append_many(sb, substr, slen);
