@@ -1,11 +1,11 @@
 #include "strb.h"
+#include <stdio.h>
 
 int main() {
+  printf("Hello\n");
   StringBuilder sb = sb_from_cstring("Hello, World\n Hello", COPY);
+  sb_print(&sb);
   sb_sub_by_delim(&sb, "Hello", "Hell");
   sb_print(&sb);
-  StringBuilder sb1 = sb_from_cstring("Hello, World\n Hello", COPY);
-  sb_sub_by_delim(&sb1, "Hello", "Hell");
-  sb_print(&sb1);
   return 0;
 }

@@ -35,7 +35,7 @@ do {\
 }while(0)
 
 #define alist_append_many(al, new_items, size) do {                          \
-  int i = 0;                                                                 \
+  size_t i = 0;                                                              \
   while(i < (size)) {                                                        \
      alist_append((al), (new_items)[i]);                                     \
      i++;                                                                    \
@@ -47,20 +47,23 @@ do {\
     eprintf("Out of range!\n");                                              \
     break;                                                                   \
   }                                                                          \
-  for (int i = (idx); i < (al)->size; i++) {                                 \
+  for (size_t i = (idx); i < (al)->size; i++) {                              \
        (al)->items[i] = (al)->items[i+1];                                    \
   }                                                                          \
   (al)->size--;                                                              \
 }while(0)
 
+#define alist_delete_last(al) do {                                           \
+  (al)->size--;                                                              \
+}while(0)
 
 #define alist_insert_at(al, item, idx) do {                                  \
-  if ((idx) < 0 || (idx) >= (al)->size) {                                    \
+  if ((idx) >= (al)->size) {                                                 \
     eprintf("Out of range!\n");                                              \
     break;                                                                   \
   }                                                                          \
   alist_append((al), alist_last((al)));                                      \
-  for (int s = (al)->size; s > idx; s--) {                                   \
+  for (size_t s = (al)->size; s > idx; s--) {                                \
        (al)->items[s]  = (al)->items[s-1];                                   \
   }                                                                          \
   (al)->items[(idx)] = (item);                                               \

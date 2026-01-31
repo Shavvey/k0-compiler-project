@@ -23,9 +23,9 @@ char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt) {
 
 void sb_chop_by_delim(StringBuilder *sb, const char *delim) {
   int window = strnlen(delim, sb->size);
-  for (int s = 0; s < sb->size; s += 1) {
+  for (size_t s = 0; s < sb->size; s += 1) {
     if (strncmp(sb->items + s, delim, window) == 0) {
-      for (int i = 0; i < window; i += 1) {
+      for (size_t i = 0; i < window; i += 1) {
         alist_delete_at(sb, s);
       }
     }
@@ -34,7 +34,7 @@ void sb_chop_by_delim(StringBuilder *sb, const char *delim) {
 
 void sb_print(StringBuilder *sb) {
   // TOOD: Add a way to modify the print format of this function
-  printf("%.*s\n", sb->size, sb->items);
+  printf("%.*s\n", (int)sb->size, sb->items);
 }
 
 void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
@@ -47,7 +47,7 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
   SubIndex si = {0};
   int window = strnlen(delim, sb->size);
   int slen = strlen(substr);
-  for (int cursor = 0; cursor < sb->size; cursor += 1) {
+  for (size_t cursor = 0; cursor < sb->size; cursor += 1) {
     if (strncmp(sb->items + cursor, delim, window) == 0) {
       // Keep track starting indexes of delims
       alist_append(&si, cursor);
@@ -57,7 +57,7 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
     }
   }
   // Replay cursor captures of starting chopped indexes
-  for (int ssi = 0; ssi < si.size; ssi += 1) {
+  for (size_t ssi = 0; ssi < si.size; ssi += 1) {
     for (int j = slen - 1; j >= 0; j -= 1) {
       // Offset based on what was written by prev iterations
       alist_insert_at(sb, substr[j], si.items[ssi] + (slen - 1) * ssi);

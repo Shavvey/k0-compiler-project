@@ -5,8 +5,8 @@
 // StringBuilder is just a arraylist of chars, uses `common.h`
 typedef struct {
   char* items;
-  int capacity;
-  int size;
+  size_t capacity;
+  size_t size;
 } StringBuilder;
 
 typedef enum {
