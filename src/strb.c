@@ -32,6 +32,10 @@ void sb_chop_by_delim(StringBuilder *sb, const char *delim) {
   }
 }
 
+void sb_print(StringBuilder *sb) {
+  printf("%.*s\n", sb->size, sb->items);
+}
+
 void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
   typedef struct {
     int *items;
@@ -50,10 +54,10 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
     }
   }
   // replay cursor captures of starting chopped indexes
-  for (int ssi = si.size - 1; ssi <= 0; ssi -= 1) {
-    printf("Help\n");
-    for (int j = 0; j < slen; j += 1) {
-      alist_insert_at(sb, substr[j], si.items[ssi]);
+  for (int ssi = 0; ssi < si.size; ssi += 1) {
+    for (int j = slen - 1; j >= 0; j -= 1) {
+      // offset based on what was written by prev iterations
+      alist_insert_at(sb, substr[j], si.items[ssi] + (slen-1)*ssi);
     }
   }
 }

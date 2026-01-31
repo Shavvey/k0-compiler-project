@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g
+CFLAGS=-g -W -Wall
 OBJS=src/main.o src/strb.o
 EXEC=output
 LDFLAGS=-lfl
