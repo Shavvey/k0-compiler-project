@@ -23,4 +23,5 @@ char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt);
 void sb_delete(StringBuilder *sb);
 void sb_print(StringBuilder *sb);
 void sb_append(StringBuilder *sb, const char *str);
+int sb_has_substr(StringBuilder *sb, const char *str);
 #endif  // INCLUDE_SRC_STR_H_

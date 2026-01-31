@@ -17,7 +17,7 @@ void sb_append(StringBuilder *sb, const char *str) {
 }
 
 char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt) {
-  char *str = (char *)malloc(sb->size * sizeof(char));
+  char *str = (char *)malloc((sb->size + 1) * sizeof(char));
   strncpy(str, sb->items, sb->size);
   str[sb->size] = '\0';
   if (opt == MOVE)
@@ -79,3 +79,13 @@ char *sb_to_string(StringBuilder *sb, CopyOrMove opt) {
 }
 
 void sb_delete(StringBuilder *sb) { alist_free(sb); }
+
+int sb_has_substr(StringBuilder *sb, const char *str) {
+  size_t window = strnlen(str, sb->size);
+  for (size_t s = 0; s < sb->size; s += 1) {
+    if (strncmp(sb->items + s, str, window) == 0) {
+      return 1;
+    }
+  }
+  return 0;
+}
