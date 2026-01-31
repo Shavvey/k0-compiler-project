@@ -20,7 +20,6 @@ do {\
 #define alist_last(al) (al)->items[(al)->size-1]
 
 #define alist_append(al, item) do {                                          \
-  assert((al) != NULL && "Null pointer!");                                   \
   if ((al)->capacity - (al)->size == 0) {                                    \
     (al)->capacity += AL_RESIZE_INC;                                         \
     (al)->items = realloc((al)->items, (al)->capacity*sizeof(*(al)->items)); \
@@ -36,7 +35,7 @@ do {\
 }while(0)
 
 #define alist_append_many(al, new_items, size) do {                          \
-  size_t i = 0;                                                              \
+  int i = 0;                                                                 \
   while(i < (size)) {                                                        \
      alist_append((al), (new_items)[i]);                                     \
      i++;                                                                    \
@@ -48,7 +47,7 @@ do {\
     eprintf("Out of range!\n");                                              \
     break;                                                                   \
   }                                                                          \
-  for (size_t i = (idx); i < (al)->size; i++) {                              \
+  for (int i = (idx); i < (al)->size; i++) {                                 \
        (al)->items[i] = (al)->items[i+1];                                    \
   }                                                                          \
   (al)->size--;                                                              \
@@ -61,7 +60,7 @@ do {\
     break;                                                                   \
   }                                                                          \
   alist_append((al), alist_last((al)));                                      \
-  for (size_t s = (al)->size; s > idx; s--) {                                \
+  for (int s = (al)->size; s > idx; s--) {                                   \
        (al)->items[s]  = (al)->items[s-1];                                   \
   }                                                                          \
   (al)->items[(idx)] = (item);                                               \

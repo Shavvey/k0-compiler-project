@@ -17,7 +17,7 @@ char *sb_to_cstring(StringBuilder *sb, CopyOrMove opt) {
   strncpy(str, sb->items, sb->size);
   str[sb->size] = '\0';
   if (opt == MOVE)
-    free(sb->items);
+    alist_free(sb);
   return str;
 }
 
@@ -33,10 +33,12 @@ void sb_chop_by_delim(StringBuilder *sb, const char *delim) {
 }
 
 void sb_print(StringBuilder *sb) {
+  // TOOD: Add a way to modify the print format of this function
   printf("%.*s\n", sb->size, sb->items);
 }
 
 void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
+  // Helper arraylist that records indexes
   typedef struct {
     int *items;
     size_t size;
@@ -47,20 +49,28 @@ void sb_sub_by_delim(StringBuilder *sb, const char *delim, const char *substr) {
   int slen = strlen(substr);
   for (int cursor = 0; cursor < sb->size; cursor += 1) {
     if (strncmp(sb->items + cursor, delim, window) == 0) {
-      alist_append(&si, cursor); // keep track of delim deletions
+      // Keep track starting indexes of delims
+      alist_append(&si, cursor);
       for (int i = 0; i < window; i += 1) {
         alist_delete_at(sb, cursor);
       }
     }
   }
-  // replay cursor captures of starting chopped indexes
+  // Replay cursor captures of starting chopped indexes
   for (int ssi = 0; ssi < si.size; ssi += 1) {
     for (int j = slen - 1; j >= 0; j -= 1) {
-      // offset based on what was written by prev iterations
-      alist_insert_at(sb, substr[j], si.items[ssi] + (slen-1)*ssi);
+      // Offset based on what was written by prev iterations
+      alist_insert_at(sb, substr[j], si.items[ssi] + (slen - 1) * ssi);
     }
   }
 }
 
-char *sb_to_string(StringBuilder *sb, CopyOrMove opt);
-void sb_delete(StringBuilder *sb);
+char *sb_to_string(StringBuilder *sb, CopyOrMove opt) {
+  char *str = (char *)malloc(sb->size * sizeof(char));
+  strncpy(str, sb->items, sb->size);
+  if (opt == MOVE)
+    alist_free(sb);
+  return str;
+}
+
+void sb_delete(StringBuilder *sb) { alist_free(sb); }

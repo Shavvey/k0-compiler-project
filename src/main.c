@@ -5,6 +5,7 @@ int main() {
   sb_sub_by_delim(&sb, "Hello", "Hell");
   sb_print(&sb);
   StringBuilder sb1 = sb_from_cstring("Hello, World\n Hello", COPY);
-  sb_chop_by_delim(&sb1, "Hello");
+  sb_sub_by_delim(&sb1, "Hello", "Hell");
+  sb_print(&sb1);
   return 0;
 }
