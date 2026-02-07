@@ -1,17 +1,9 @@
-#include "strb.h"
-#include <stdio.h>
+#include "lexer.h"
+#include "token.h"
 
-int main() {
-  StringBuilder sb = sb_from_cstring("MovelHHHHHHHH", COPY);
-  sb_print(&sb);
-  sb_sub_by_delim(&sb, "HHHH", "S");
-  sb_print(&sb);
-  if (sb_has_substr(&sb, "SS")) {
-    printf("Snake Eyes\n");
-  }
-  sb_chop_by_delim(&sb, "SS");
-  char *cstr = sb_to_cstring(&sb, MOVE);
-  puts(cstr);
-  free(cstr);
-  return 0;
+int main(int argc, char **argv) {
+  TokenList tl = lex_files(argc, argv);
+  print_tokens(&tl);
+  delete_tokens(&tl);
+  return EXIT_SUCCESS;
 }

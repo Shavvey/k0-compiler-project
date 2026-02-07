@@ -1,14 +1,22 @@
 CC=gcc
 CFLAGS=-g -W -Wall
-OBJS=src/main.o src/strb.o
-EXEC=output
-LDFLAGS=-lfl
 
-all: $(EXEC)
+LDFLAGS=-lfl
+OBJS=src/main.o src/token.o src/lex.yy.o src/lexer.o
+EXEC=output
+
+LEX_RULES=src/k0lex.l
+FLEX_OUT=src/lex.yy.c
+
+all: lexer $(EXEC)
 
 # Create the final exec
 $(EXEC): $(OBJS)
 	$(CC) -o $(EXEC) $(OBJS) $(CFLAGS) $(LDFLAGS)
+
+# rule to quickly compile the flex rules in .l file to c file
+lexer: $(LEXER)
+	flex -o $(FLEX_OUT) $(LEX_RULES)
 
 # Compile all objs from their respective c source files
 %.o: %.c

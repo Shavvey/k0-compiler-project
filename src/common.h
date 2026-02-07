@@ -3,13 +3,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#define eprintf(...) do { \
-  fprintf(stderr, "%s:%d [ERROR]: %s", __FILE__, __LINE__, __VA_ARGS__);\
+#define eprintf(msg, ...) do {\
+  fprintf(stderr, "%s:%d:%s() [ERROR]: " msg, __FILE__, __LINE__, __func__, ##__VA_ARGS__);\
 }while(0)
-#define wprintf(...) do { \
-  fprintf(stderr, "%s:%d [WARN]: %s", __FILE__, __LINE__, __VA_ARGS__);\
+#ifndef NOWARN
+#define wprintf(msg, ...) do {\
+  fprintf(stderr, "%s:%d:%s() [WARN]: " msg, __FILE__, __LINE__, __func__, ##__VA_ARGS__);\
 }while(0)
-#define UNIMPLEMENTED(...) \
+#else
+#define wprintf(...)
+#endif
+#define UNIMPLEMENTED(...)\
 do {\
   printf("%s:%d [UNIMPLEMENTED]: %s", __FILE__, __LINE__, __VA_ARGS__);\
   exit(1);\
@@ -38,7 +42,7 @@ do {\
   size_t i = 0;                                                              \
   while(i < (size)) {                                                        \
      alist_append((al), (new_items)[i]);                                     \
-     i += 1;                                                                 \
+     i++;                                                                    \
   }                                                                          \
 }while(0)
 
