@@ -15,7 +15,7 @@ $(EXEC): $(OBJS)
 	$(CC) -o $(EXEC) $(OBJS) $(CFLAGS) $(LDFLAGS)
 
 # rule to quickly compile the flex rules in .l file to c file
-lexer: $(LEXER)
+lexer: $(LEXER_RULES)
 	flex -o $(FLEX_OUT) $(LEX_RULES)
 
 # Compile all objs from their respective c source files

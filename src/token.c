@@ -216,7 +216,7 @@ Token new_token(int category, const char *lexeme, const char *filename,
 }
 
 /* Function to print out the tokens in a table of values  */
-void print_tokens(TokenList *tl) {
+void print_tokens(const TokenList *tl) {
   // print out the header of the table
   const char *const header[] = {"Type", "Lexeme", "Lineno", "File",
                                 "Sval/Ival/Dval"};

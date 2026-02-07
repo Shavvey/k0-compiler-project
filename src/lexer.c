@@ -15,7 +15,7 @@ extern int newline;
 const char *filename; // tracked filename of current tokenizing file
 int lineno = 1;       // linenumber of current tokenizing file
 
-static void tokenlist_append(TokenList *tl, Token t, const bool ins_semicolon) {
+static void append_token(TokenList *tl, Token t, const bool ins_semicolon) {
   if (ins_semicolon && is_beginner(t.category) &&
       is_ender(alist_last(tl).category) && newline) {
     alist_append(tl, new_token(SEMICOLON, "AUTO INSERTED SEMICOLON", filename,
@@ -24,33 +24,47 @@ static void tokenlist_append(TokenList *tl, Token t, const bool ins_semicolon) {
   alist_append(tl, t);
 }
 
+static Token get_next_token() {
+  // lex the file is yylex
+  int tok_int = yylex();
+  if (tok_int == ERRNO) {
+    eprintf("Could not lex line content => %s at %s:%d\n", yytext, filename,
+            lineno);
+    exit(EXIT_FAILURE);
+  }
+  Token token = new_token(tok_int, yytext, filename, lineno);
+  return token;
+}
+
 static TokenList lex_file(const char *fname) {
   filename = fname; // set filename
-  lineno = 1;
-  int tok_int;
+  lineno = 1;       // rest linenumber
   TokenList tl = {0};
   yyin = fopen(fname, "r"); // open file for flex
   if (yyin == NULL) {
     eprintf("Could not open file: %s\n", fname);
     exit(EXIT_FAILURE);
   }
-  do {
-    // lex the file is yylex
-    tok_int = yylex();
-    if (tok_int == ERRNO) {
-      eprintf("Could not lex line content => %s at %s:%d\n", yytext, fname,
-              lineno);
-      exit(EXIT_FAILURE);
-    }
-    // create tokens and organize them into a list
-    if (tok_int >= 0) {
-      Token token = new_token(tok_int, yytext, fname, lineno);
-      tokenlist_append(&tl, token, 1);
-    }
-    newline = 0;
-  } while (tok_int != EOFNO);
+  Token token = get_next_token();
+  while(token.category != EOFNO) {
+    append_token(&tl, token, 0);
+    token = get_next_token();
+  } 
   fclose(yyin);
   return tl;
+}
+
+static Token get_and_expect(int expected_category) {
+  // first return the next token
+  Token t = get_next_token();
+  if (t.category != expected_category) {
+    int category = t.category;
+    eprintf("Expected %d:%s got %d:%s!\n", expected_category,
+            ytab_ltable[expected_category - 258], category,
+            ytab_ltable[category - 258]);
+    exit(EXIT_FAILURE);
+  }
+  return t;
 }
 
 /** NOTE: this should be the only public facing component of the lexer,
@@ -75,5 +89,3 @@ TokenList lex_files(int argc, char **argv) {
   yylex_destroy();
   return tl;
 }
-
-void get_and_expect(int expected_category) {}

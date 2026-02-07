@@ -28,7 +28,7 @@ typedef struct {
 // API
 Token new_token(int category, const char *lexeme, 
                 const char *filename, const int lineno);
-void print_tokens(TokenList *tl);
+void print_tokens(const TokenList *tl);
 void delete_tokens(TokenList *tl);
 void merge_tokens(TokenList *dest, TokenList *src);
 int is_ender(int category);
