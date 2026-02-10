@@ -11,7 +11,7 @@ fun types() {
   var E2: Double = 0.3E1
   var _11111: Int = 1
   var l: Int = 10L // ints may have the L notation, but is ignored
-  var binary: Int = 0b10001_
+  var binary: Int = 0b10001
   var b1: Int = 0b1_000_1
   var hex: Int = 0x1F
   var s1: String = "NULL"

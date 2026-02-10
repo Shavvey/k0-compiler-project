@@ -47,7 +47,8 @@ static TokenList lex_file(const char *fname) {
   }
   Token token = get_next_token();
   while(token.category != EOFNO) {
-    append_token(&tl, token, 0);
+    append_token(&tl, token, 1);
+    newline = 0;
     token = get_next_token();
   } 
   fclose(yyin);
