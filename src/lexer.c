@@ -22,6 +22,8 @@ static void append_token(TokenList *tl, Token t, const bool ins_semicolon) {
                                lineno - 1));
   }
   alist_append(tl, t);
+  // consume newline flag after append is successful
+  newline = 0;
 }
 
 static Token get_next_token() {
@@ -36,6 +38,22 @@ static Token get_next_token() {
   return token;
 }
 
+static Token get_and_expect(int expected_category) {
+  // First return the next token
+  Token t = get_next_token();
+  if (t.category != expected_category) {
+    int category = t.category;
+    SYNTAX_ERROR("Expected %d:%s got %d:%s!\n", expected_category,
+                 ytab_ltable[expected_category - 258], category,
+                 ytab_ltable[category - 258]);
+    exit(EXIT_FAILURE);
+  }
+  // If we get what we expected, just return it. Insertion will happen later
+  return t;
+}
+
+// static Token get_and_expect_from_many(int excepted_category, ...) {}
+
 static TokenList lex_file(const char *fname) {
   filename = fname; // set filename
   lineno = 1;       // rest linenumber
@@ -46,26 +64,22 @@ static TokenList lex_file(const char *fname) {
     exit(EXIT_FAILURE);
   }
   Token token = get_next_token();
-  while(token.category != EOFNO) {
+  while (token.category != EOFNO) {
+    // TODO: maybe make a define macro that controls auto semicolon
+    // insertion?
     append_token(&tl, token, 1);
-    newline = 0;
     token = get_next_token();
-  } 
+    if (token.category == VAR || token.category == VAL) {
+      // speculatively get next token and check its category
+      Token next_token = get_and_expect(IDENTIFIER);
+      append_token(&tl, token, 1);
+      // if assertion succeeds, run main loop but with this new speculatively
+      // returned token
+      token = next_token;
+    }
+  }
   fclose(yyin);
   return tl;
-}
-
-static Token get_and_expect(int expected_category) {
-  // first return the next token
-  Token t = get_next_token();
-  if (t.category != expected_category) {
-    int category = t.category;
-    eprintf("Expected %d:%s got %d:%s!\n", expected_category,
-            ytab_ltable[expected_category - 258], category,
-            ytab_ltable[category - 258]);
-    exit(EXIT_FAILURE);
-  }
-  return t;
 }
 
 /** NOTE: this should be the only public facing component of the lexer,

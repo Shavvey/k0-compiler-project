@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#define SYNTAX_ERROR(msg, ...) do {\
+  fprintf(stderr,  "[SYNTAX ERROR]: %s:%d => " msg, filename, lineno, ##__VA_ARGS__);\
+  exit(1); \
+}while(0)
 #define eprintf(msg, ...) do {\
   fprintf(stderr, "%s:%d:%s() [ERROR]: " msg, __FILE__, __LINE__, __func__, ##__VA_ARGS__);\
 }while(0)
