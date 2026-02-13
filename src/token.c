@@ -15,6 +15,9 @@ static char *chop_dquote(const char *str) {
   return chopped_str;
 }
 
+/** Helper fucntion to chop away any triple double quote strings
+ *  and then retrieve their enclosed content
+ */
 static char *chop_trip_dquote(const char *str) {
   int nlen = strlen(str) - 6;
   char *chopped_str = (char *)malloc((nlen + 1) * sizeof(char));
@@ -39,7 +42,7 @@ static char *str_remove_char(char *str, char c) {
   return nstr;
 }
 
-/* Helper function to strip off escape sequences
+/** Helper function to strip off escape sequences
  * EXAMPLE f: "aba\n" => "aba<NL>" or "abs\"" => "abs""
  */
 static char *strip_esc_chars(char *str) {
@@ -52,7 +55,7 @@ static char *strip_esc_chars(char *str) {
     if (str[idx] == '\\') {
       char c = str[++idx];
       switch (c) {
-      case '\n': // NOTE: may need to revise this
+      case '\n':
       case '\\':
       case '\"':
       case '\'':
@@ -284,7 +287,6 @@ int is_ender(int category) {
   switch (category) {
   case IDENTIFIER:
   case RPAR:
-  case RCURL:
   case RSQUARE:
   case REALLITERAL:
   case NULLLITERAL:
@@ -305,6 +307,7 @@ int is_ender(int category) {
  */
 int is_beginner(int category) {
   switch (category) {
+  case RCURL:
   case VAL:
   case VAR:
   case IDENTIFIER:

@@ -31,7 +31,7 @@ static void append_token(TokenList *tl, Token t) {
 }
 
 static Token get_next_token() {
-  // lex the file is yylex
+  // Use yylex to return token category, construct token based on this
   int tok_int = yylex();
   if (tok_int == ERRNO) {
     eprintf("Could not lex line content => %s at %s:%d\n", yytext, filename,
@@ -80,7 +80,9 @@ static TokenList scan_file(const char *fname) {
       token = next_token;
     }
   }
-  // NOTE: last token is the "endfile" token, we ignore this one and just delete it
+  /** NOTE: this token is the "endfile" token.
+   *  We don't need to merge and append this one.
+   *  Just delete it and ignore it for now */
   free(token.filename);
   free(token.lexeme);
   fclose(yyin);
