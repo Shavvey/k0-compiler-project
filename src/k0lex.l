@@ -44,13 +44,13 @@ err_char "'"[^\']*"'"
 letter [a-zA-Z]
 id (({letter}|"_")({letter}|"_"|{dec_digit})*)|("`"[^`\r\n]+"`")
 newline (\n|\r\n)
-comment "//"[^\r\n]*{newline}
+comment "//"[^\r\n]*
 block_comment "/*"(.|[\r\n])*"*/"$
 unpair_block_comment "/*"[^\r\n]*
 %%
 \n                            { lineno += 1; newline = 1; }
 {whitespace}                  { /* ignore whitespace */ }
-{comment}                     { newline = 1; }
+{comment}                     { /* ignore comments */ }
 {block_comment}               { /* ignore multi-line comments */ }
 {unpair_block_comment}        { SYNTAX_ERROR("Must close block comment with '*/': %s\n", yytext); }
 <<EOF>>                       { return EOFNO; }
