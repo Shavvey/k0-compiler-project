@@ -6,8 +6,7 @@ extern int lineno;
 // control values, not a part of synatx
 #define ERRNO -1 // error value
 #define EOFNO -2 // end-of-file value
-
-#define ADD 258 
+#define ADD 258
 #define MULT 259 
 #define DIV 260 
 #define MOD 261 
@@ -76,6 +75,7 @@ extern int lineno;
 
 #define TABLE_SIZE 66
 #define MAX_LENGTH 17
+#define YTABLE_START 258
 static const char ytab_ltable[TABLE_SIZE][MAX_LENGTH] = {
 	"ADD",
 	"MULT",

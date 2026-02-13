@@ -1030,7 +1030,7 @@ case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
 #line 53 "src/k0lex.l"
-{ /* ignore comments */ }
+{ newline = 1; }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */

@@ -50,7 +50,7 @@ unpair_block_comment "/*"[^\r\n]*
 %%
 \n                            { lineno += 1; newline = 1; }
 {whitespace}                  { /* ignore whitespace */ }
-{comment}                     { /* ignore comments */ }
+{comment}                     { newline = 1; }
 {block_comment}               { /* ignore multi-line comments */ }
 {unpair_block_comment}        { SYNTAX_ERROR("Must close block comment with '*/': %s\n", yytext); }
 <<EOF>>                       { return EOFNO; }

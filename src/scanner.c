@@ -48,8 +48,8 @@ static Token get_and_expect(int expected_category) {
   if (t.category != expected_category) {
     int category = t.category;
     SYNTAX_ERROR("Expected %d:%s got %d:%s!\n", expected_category,
-                 ytab_ltable[expected_category - 258], category,
-                 ytab_ltable[category - 258]);
+                 ytab_ltable[expected_category - YTABLE_START], category,
+                 ytab_ltable[category - YTABLE_START]);
     exit(EXIT_FAILURE);
   }
   // If we get what we expected, just return it. Insertion will happen later
@@ -67,10 +67,6 @@ static TokenList scan_file(const char *fname) {
   }
   Token token = get_next_token();
   while (token.category != EOFNO) {
-    // TODO: maybe make a define macro that controls auto semicolon
-    // insertion?
-    append_token(&tl, token);
-    token = get_next_token();
 
     if (token.category == VAR || token.category == VAL) {
       // speculatively get next token and check its category
@@ -80,14 +76,16 @@ static TokenList scan_file(const char *fname) {
       // returned token
       token = next_token;
     }
+    append_token(&tl, token);
+    token = get_next_token();
   }
   fclose(yyin);
   return tl;
 }
 
 /** NOTE: this should be the only public facing component of the scanner,
- * since the entire point of the scanner is gather all the text input and emit
- * a series of tokens
+ * since the entire point of the scanner is to gather all the text input and
+ * emit a series of tokens
  */
 TokenList scan_files(int argc, char **argv) {
   TokenList tl = {0};
@@ -103,7 +101,6 @@ TokenList scan_files(int argc, char **argv) {
     eprintf("No file passed!\n");
     exit(EXIT_FAILURE);
   }
-  print_tokens(&tl);
   yylex_destroy();
   return tl;
 }
