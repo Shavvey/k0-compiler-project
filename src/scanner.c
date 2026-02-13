@@ -68,6 +68,9 @@ static TokenList scan_file(const char *fname) {
   Token token = get_next_token();
   while (token.category != EOFNO) {
 
+    append_token(&tl, token);
+    token = get_next_token();
+
     if (token.category == VAR || token.category == VAL) {
       // speculatively get next token and check its category
       Token next_token = get_and_expect(IDENTIFIER);
@@ -76,9 +79,10 @@ static TokenList scan_file(const char *fname) {
       // returned token
       token = next_token;
     }
-    append_token(&tl, token);
-    token = get_next_token();
   }
+  // NOTE: last token is the "endfile" token, we ignore this one and just delete it
+  free(token.filename);
+  free(token.lexeme);
   fclose(yyin);
   return tl;
 }
