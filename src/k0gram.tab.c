@@ -67,14 +67,16 @@
 
 
 /* First part of user prologue.  */
-#line 67 "src/k0gram.y"
+#line 148 "src/k0gram.y"
 
   #include <stdio.h>
+  extern const char *filename;
+  extern int lineno;
   /* Function prototypes */
   extern int yylex(void);
   extern void yyerror(const char* s);
 
-#line 78 "src/k0gram.tab.c"
+#line 80 "src/k0gram.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -105,6 +107,86 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 70 "src/k0gram.y"
+
+
+  extern const char *filename;
+  extern int lineno;
+
+  #define TABLE_SIZE 66
+  #define MAX_LENGTH 17
+  #define YTABLE_START 258
+  static const char ytab_ltable[TABLE_SIZE][MAX_LENGTH] = {
+    "ADD",
+    "MULT",
+    "DIV",
+    "MOD",
+    "SUB",
+    "ASSIGNMENT",
+    "ADD_ASSIGNMENT",
+    "SUB_ASSIGNMENT",
+    "MULT_ASSIGNMENT",
+    "DIV_ASSIGNMENT",
+    "MOD_ASSIGNMENT",
+    "DOT",
+    "COMMA",
+    "INCR",
+    "DECR",
+    "CONJ",
+    "DISJ",
+    "EXCL_WS",
+    "EXCL_NO_WS",
+    "QUEST_WS",
+    "QUEST_NO_WS",
+    "LANGLE",
+    "RANGLE",
+    "LE",
+    "GE",
+    "EXCL_EQ",
+    "EXCL_EQEQ",
+    "EQEQ",
+    "EQEQEQ",
+    "FUN",
+    "VAL",
+    "VAR",
+    "IF",
+    "ELSE",
+    "FOR",
+    "DO",
+    "WHILE",
+    "RETURN",
+    "CONTINUE",
+    "BREAK",
+    "INTEGERLITERAL",
+    "BINLITERAL",
+    "HEXLITERAL",
+    "DOUBLELITERAL",
+    "FLOATLITERAL",
+    "REALLITERAL",
+    "BOOLEANLITERAL",
+    "NULLLITERAL",
+    "CHARACTERLITERAL",
+    "STRINGLITERAL",
+    "IDENTIFIER",
+    "LPAR",
+    "RPAR",
+    "LSQUARE",
+    "RSQUARE",
+    "COLON",
+    "SEMICOLON",
+    "LCURL",
+    "RCURL",
+    "EXCL_EXCL",
+    "RANGE",
+    "RANGE_UNTIL",
+    "CONST",
+    "IMPORT",
+    "HASH",
+    "IN"
+  };
+
+#line 190 "src/k0gram.tab.c"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -179,7 +261,10 @@ extern int yydebug;
     RANGE_UNTIL = 319,             /* RANGE_UNTIL  */
     CONST = 320,                   /* CONST  */
     IMPORT = 321,                  /* IMPORT  */
-    HASH = 322                     /* HASH  */
+    HASH = 322,                    /* HASH  */
+    IN = 323,                      /* IN  */
+    ERRNO = 324,                   /* ERRNO  */
+    EOFNO = 325                    /* EOFNO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -271,20 +356,23 @@ enum yysymbol_kind_t
   YYSYMBOL_CONST = 65,                     /* CONST  */
   YYSYMBOL_IMPORT = 66,                    /* IMPORT  */
   YYSYMBOL_HASH = 67,                      /* HASH  */
-  YYSYMBOL_YYACCEPT = 68,                  /* $accept  */
-  YYSYMBOL_program = 69,                   /* program  */
-  YYSYMBOL_func_list = 70,                 /* func_list  */
-  YYSYMBOL_func = 71,                      /* func  */
-  YYSYMBOL_arg_list = 72,                  /* arg_list  */
-  YYSYMBOL_arg = 73,                       /* arg  */
-  YYSYMBOL_block = 74,                     /* block  */
-  YYSYMBOL_stmt_list = 75,                 /* stmt_list  */
-  YYSYMBOL_stmt = 76,                      /* stmt  */
-  YYSYMBOL_params = 77,                    /* params  */
-  YYSYMBOL_param = 78,                     /* param  */
-  YYSYMBOL_primary_expr = 79,              /* primary_expr  */
-  YYSYMBOL_quest = 80,                     /* quest  */
-  YYSYMBOL_type = 81                       /* type  */
+  YYSYMBOL_IN = 68,                        /* IN  */
+  YYSYMBOL_ERRNO = 69,                     /* ERRNO  */
+  YYSYMBOL_EOFNO = 70,                     /* EOFNO  */
+  YYSYMBOL_YYACCEPT = 71,                  /* $accept  */
+  YYSYMBOL_program = 72,                   /* program  */
+  YYSYMBOL_func_list = 73,                 /* func_list  */
+  YYSYMBOL_func = 74,                      /* func  */
+  YYSYMBOL_arg_list = 75,                  /* arg_list  */
+  YYSYMBOL_arg = 76,                       /* arg  */
+  YYSYMBOL_block = 77,                     /* block  */
+  YYSYMBOL_stmt_list = 78,                 /* stmt_list  */
+  YYSYMBOL_stmt = 79,                      /* stmt  */
+  YYSYMBOL_params = 80,                    /* params  */
+  YYSYMBOL_param = 81,                     /* param  */
+  YYSYMBOL_primary_expr = 82,              /* primary_expr  */
+  YYSYMBOL_quest = 83,                     /* quest  */
+  YYSYMBOL_type = 84                       /* type  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -615,7 +703,7 @@ union yyalloc
 #define YYLAST   40
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  68
+#define YYNTOKENS  71
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  14
 /* YYNRULES -- Number of rules.  */
@@ -624,7 +712,7 @@ union yyalloc
 #define YYNSTATES  38
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   322
+#define YYMAXUTOK   325
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -670,16 +758,16 @@ static const yytype_int8 yytranslate[] =
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67
+      65,    66,    67,    68,    69,    70
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    75,    75,    75,    76,    76,    77,    79,    79,    80,
-      81,    82,    82,    83,    84,    84,    85,    86,    87,    87,
-      88,    89
+       0,   158,   158,   158,   159,   159,   160,   162,   162,   163,
+     164,   165,   165,   166,   167,   167,   168,   169,   170,   170,
+     171,   172
 };
 #endif
 
@@ -706,9 +794,9 @@ static const char *const yytname[] =
   "BOOLEANLITERAL", "NULLLITERAL", "CHARACTERLITERAL", "STRINGLITERAL",
   "IDENTIFIER", "LPAR", "RPAR", "LSQUARE", "RSQUARE", "COLON", "SEMICOLON",
   "LCURL", "RCURL", "EXCL_EXCL", "RANGE", "RANGE_UNTIL", "CONST", "IMPORT",
-  "HASH", "$accept", "program", "func_list", "func", "arg_list", "arg",
-  "block", "stmt_list", "stmt", "params", "param", "primary_expr", "quest",
-  "type", YY_NULLPTR
+  "HASH", "IN", "ERRNO", "EOFNO", "$accept", "program", "func_list",
+  "func", "arg_list", "arg", "block", "stmt_list", "stmt", "params",
+  "param", "primary_expr", "quest", "type", YY_NULLPTR
 };
 
 static const char *
@@ -788,18 +876,18 @@ static const yytype_int8 yycheck[] =
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    32,    69,    70,    71,    53,     0,    71,    54,    53,
-      72,    73,    58,    55,    73,    53,    81,    58,    22,    23,
-      80,    53,    60,    74,    53,    75,    76,    79,    54,    61,
-      76,    53,    77,    78,    15,    55,    78,    59
+       0,    32,    72,    73,    74,    53,     0,    74,    54,    53,
+      75,    76,    58,    55,    76,    53,    84,    58,    22,    23,
+      83,    53,    60,    77,    53,    78,    79,    82,    54,    61,
+      79,    53,    80,    81,    15,    55,    81,    59
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    68,    69,    69,    70,    70,    71,    72,    72,    73,
-      74,    75,    75,    76,    77,    77,    78,    79,    80,    80,
-      81,    81
+       0,    71,    72,    72,    73,    73,    74,    75,    75,    76,
+      77,    78,    78,    79,    80,    80,    81,    82,    83,    83,
+      84,    84
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1271,7 +1359,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1275 "src/k0gram.tab.c"
+#line 1363 "src/k0gram.tab.c"
 
       default: break;
     }

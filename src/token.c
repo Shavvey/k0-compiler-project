@@ -1,6 +1,6 @@
 #include "token.h"
 #include "common.h"
-#include "y.tab.h"
+#include "k0gram.tab.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

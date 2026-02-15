@@ -63,9 +63,92 @@
 %token CONST
 %token IMPORT
 %token HASH
+%token IN
+%token ERRNO
+%token EOFNO
+
+%code requires {
+
+  extern const char *filename;
+  extern int lineno;
+
+  #define TABLE_SIZE 66
+  #define MAX_LENGTH 17
+  #define YTABLE_START 258
+  static const char ytab_ltable[TABLE_SIZE][MAX_LENGTH] = {
+    "ADD",
+    "MULT",
+    "DIV",
+    "MOD",
+    "SUB",
+    "ASSIGNMENT",
+    "ADD_ASSIGNMENT",
+    "SUB_ASSIGNMENT",
+    "MULT_ASSIGNMENT",
+    "DIV_ASSIGNMENT",
+    "MOD_ASSIGNMENT",
+    "DOT",
+    "COMMA",
+    "INCR",
+    "DECR",
+    "CONJ",
+    "DISJ",
+    "EXCL_WS",
+    "EXCL_NO_WS",
+    "QUEST_WS",
+    "QUEST_NO_WS",
+    "LANGLE",
+    "RANGLE",
+    "LE",
+    "GE",
+    "EXCL_EQ",
+    "EXCL_EQEQ",
+    "EQEQ",
+    "EQEQEQ",
+    "FUN",
+    "VAL",
+    "VAR",
+    "IF",
+    "ELSE",
+    "FOR",
+    "DO",
+    "WHILE",
+    "RETURN",
+    "CONTINUE",
+    "BREAK",
+    "INTEGERLITERAL",
+    "BINLITERAL",
+    "HEXLITERAL",
+    "DOUBLELITERAL",
+    "FLOATLITERAL",
+    "REALLITERAL",
+    "BOOLEANLITERAL",
+    "NULLLITERAL",
+    "CHARACTERLITERAL",
+    "STRINGLITERAL",
+    "IDENTIFIER",
+    "LPAR",
+    "RPAR",
+    "LSQUARE",
+    "RSQUARE",
+    "COLON",
+    "SEMICOLON",
+    "LCURL",
+    "RCURL",
+    "EXCL_EXCL",
+    "RANGE",
+    "RANGE_UNTIL",
+    "CONST",
+    "IMPORT",
+    "HASH",
+    "IN"
+  };
+}
 
 %{
   #include <stdio.h>
+  extern const char *filename;
+  extern int lineno;
   /* Function prototypes */
   extern int yylex(void);
   extern void yyerror(const char* s);

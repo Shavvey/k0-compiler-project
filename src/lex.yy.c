@@ -720,7 +720,7 @@ char *yytext;
 /* Simple wc implementation in Flex */
 #define YY_NO_INPUT 1
 #line 7 "src/k0lex.l"
-      #include "y.tab.h"
+      #include "k0gram.tab.h"
       #define UNSUPPORTED() do {\
         fprintf(stderr, "[TOKENIZER ERROR]: %s:%d => Kotlin token '%s' is recognized but unsupported in k0.\n", \
         filename, lineno, yytext);\

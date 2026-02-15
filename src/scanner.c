@@ -1,7 +1,7 @@
 #include "scanner.h"
 #include "common.h"
 #include "token.h"
-#include "y.tab.h"
+#include "k0gram.tab.h"
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
