@@ -10,7 +10,7 @@ typedef union {
 } Value;
 
 // Token definition
-typedef struct {
+typedef struct _Token {
    int category;     /* the integer code returned by yylex */
    char *lexeme;     /* the actual string (lexeme) matched */
    char *filename;   /* the source file in which the token occurs */

@@ -77,14 +77,15 @@
 /* First part of user prologue.  */
 #line 155 "src/k0gram.y"
 
-  #include <stdio.h>
+  #include "common.h"
+  #include "parser.h"
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(const char* s);
   int k0_debug = 1;
 
-#line 88 "src/k0gram.tab.c"
+#line 89 "src/k0gram.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -590,9 +591,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   166,   166,   166,   169,   169,   171,   174,   174,   176,
-     178,   180,   180,   182,   184,   184,   186,   186,   188,   188,
-     189,   189,   191,   193,   193,   195,   196
+       0,   166,   166,   167,   169,   170,   172,   174,   175,   177,
+     179,   181,   182,   184,   186,   187,   189,   190,   192,   193,
+     194,   195,   197,   199,   200,   202,   203
 };
 #endif
 
@@ -1186,14 +1187,32 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 3: /* program: %empty  */
+  case 2: /* program: func_list  */
 #line 166 "src/k0gram.y"
-                      { printf("Function body %d\n", yytoken); }
-#line 1193 "src/k0gram.tab.c"
+                   { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+#line 1194 "src/k0gram.tab.c"
+    break;
+
+  case 3: /* program: %empty  */
+#line 167 "src/k0gram.y"
+                { printf("[WARN]: Empty program\n"); }
+#line 1200 "src/k0gram.tab.c"
+    break;
+
+  case 4: /* func_list: func_list func  */
+#line 169 "src/k0gram.y"
+                          { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+#line 1206 "src/k0gram.tab.c"
+    break;
+
+  case 5: /* func_list: func  */
+#line 170 "src/k0gram.y"
+                { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+#line 1212 "src/k0gram.tab.c"
     break;
 
 
-#line 1197 "src/k0gram.tab.c"
+#line 1216 "src/k0gram.tab.c"
 
       default: break;
     }

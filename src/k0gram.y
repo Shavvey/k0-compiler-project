@@ -147,50 +147,57 @@
   #include "parser.h"
 }
 
-%define api.value.type { Token }
+%define api.value.type { Node *}
 %define api.prefix {k0_}
 %define parse.trace
 
 %defines "src/k0gram.tab.h"
 %{
-  #include <stdio.h>
+  #include "common.h"
+  #include "parser.h"
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(const char* s);
   int k0_debug = 1;
 %}
-
 %start program
 %%
-program: func_list |  { printf("Function body %d\n", yytoken); }
-         %empty ; 
+program: func_list { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+       | %empty { printf("[WARN]: Empty program\n"); }; 
 
-func_list: func_list func | func ;
+func_list: func_list func { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+         | func { printf("[INFO]: Applied rule: %d\n", yyn-1); };
 
-func: FUN IDENTIFIER LPAR arg_list 
-      RPAR block;
+func: FUN IDENTIFIER LPAR arg_list RPAR block;
 
-arg_list: arg_list arg | arg ;
+arg_list: arg_list arg 
+        | arg ;
         
 arg: IDENTIFIER COLON type ;
 
 block: LCURL stmt_list RCURL ;
 
-stmt_list: stmt_list stmt | stmt ;
+stmt_list: stmt_list stmt 
+         | stmt ;
 
 stmt: primary_expr ;
     
-params: params COMMA param | param ;
+params: params COMMA param 
+      | param ;
 
-param: IDENTIFIER | literal;
+param: IDENTIFIER 
+     | literal;
 
-literal: INTEGERLITERAL | REALLITERAL 
-       | STRINGLITERAL | CHARACTERLITERAL
+literal: INTEGERLITERAL 
+       | REALLITERAL 
+       | STRINGLITERAL 
+       | CHARACTERLITERAL
 
 primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON ;
 
-quest: QUEST_NO_WS | QUEST_WS ;
+quest: QUEST_NO_WS  
+     | QUEST_WS ;
 
-type: IDENTIFIER |
-      IDENTIFIER quest ;
+type: IDENTIFIER 
+    | IDENTIFIER quest ;

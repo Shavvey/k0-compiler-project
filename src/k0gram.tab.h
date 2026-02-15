@@ -218,7 +218,7 @@ extern int k0_debug;
 
 /* Value type.  */
 #if ! defined K0_STYPE && ! defined K0_STYPE_IS_DECLARED
-typedef  Token  K0_STYPE;
+typedef  Node * K0_STYPE;
 # define K0_STYPE_IS_TRIVIAL 1
 # define K0_STYPE_IS_DECLARED 1
 #endif
