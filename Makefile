@@ -10,7 +10,6 @@ FLEX_OUT=src/lex.yy.c
 
 PARSE_RULES=src/k0gram.y
 BISON_OUT=src/k0gram.tab.c
-BISON_HEAD_OUT=src/k0gram.tab.h
 
 all: lexer $(EXEC)
 
@@ -25,7 +24,6 @@ lexer: $(LEXER_RULES)
 # rule to quickly compile the bison rules in .y file to c file
 parser: $(PARSE_RULES)
 	bison -o $(BISON_OUT) $(PARSE_RULES)
-	bison -o $(BISON_HEAD_OUT) -d $(PARSE_RULES)
 
 # Compile all objs from their respective c source files
 %.o: %.c lexer parser

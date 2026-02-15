@@ -153,6 +153,7 @@
   extern int yylex(void);
   extern void yyerror(const char* s);
 %}
+%defines "src/k0gram.tab.h"
 %start program
 %%
 program: func_list | ;
