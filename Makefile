@@ -3,7 +3,7 @@ CFLAGS=-g -W -Wall
 
 LDFLAGS=-lfl
 OBJS=src/main.o src/token.o src/lex.yy.o src/scanner.o
-EXEC=output
+EXEC=k0
 
 LEX_RULES=src/k0lex.l
 FLEX_OUT=src/lex.yy.c
