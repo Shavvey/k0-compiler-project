@@ -4,5 +4,6 @@
 #include "token.h"
 #include <stdbool.h>
 
-TokenList scan_files(int argc, char **argv);
+TokenList lex_files(int argc, char **argv);
+Token get_next_token();
 #endif  // INCLUDE_SRC_SCANNER_H_

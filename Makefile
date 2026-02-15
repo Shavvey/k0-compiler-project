@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-g -W -Wall
 
 LDFLAGS=-lfl
-OBJS=src/main.o src/token.o src/lex.yy.o src/scanner.o src/strb.o
+OBJS=src/main.o src/token.o src/lex.yy.o src/lexer.o src/strb.o
 EXEC=k0
 
 LEX_RULES=src/k0lex.l

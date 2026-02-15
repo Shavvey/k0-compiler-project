@@ -1,4 +1,4 @@
-#include "scanner.h"
+#include "lexer.h"
 #include "common.h"
 #include "token.h"
 #include "k0gram.tab.h"
@@ -30,7 +30,7 @@ static void append_token(TokenList *tl, Token t) {
   newline = 0;
 }
 
-static Token get_next_token() {
+Token get_next_token() {
   // Use yylex to return token category, construct token based on this
   int tok_int = yylex();
   if (tok_int == ERRNO) {
@@ -93,7 +93,7 @@ static TokenList scan_file(const char *fname) {
  * since the entire point of the scanner is to gather all the text input and
  * emit a series of tokens
  */
-TokenList scan_files(int argc, char **argv) {
+TokenList lex_files(int argc, char **argv) {
   TokenList tl = {0};
   if (argc > 1) {
     // NOTE: assumes passed files are all the args we are given
