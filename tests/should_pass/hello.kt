@@ -1,4 +1,4 @@
-fun hello(args: Array<String>) {
+fun hello(args: String) {
   // simple hello world example, test some very basic tokens
-  var s: String = "Hello, World!"
+  println("Hello, World!")
 }

@@ -13,22 +13,24 @@ size_t cursor = 0;
 
 ParseTree parse(TokenList tl) {
   token_stream = tl;
-  int res = k0_lex();
-  if (res) {
-    printf("Parsing was successful!\n");
-  } else {
-    printf("[ERROR]: Something went wrong!\n");
+  print_tokens(&token_stream);
+  int res = k0_parse();
+  if (res == 0) {
+    printf("Somehow parsing worked!\n");
   }
   delete_tokens(&tl);
   return (ParseTree){0};
 }
 
-/* I can't believe this works */
+/* I can't believe this works, kind of */
 int k0_lex() {
   if (cursor == token_stream.size) {
     return K0_EMPTY;
   }
   K0_STYPE peek = token_stream.items[cursor];
+  printf("Peeking token value! %d:%s\n", peek.category,
+         ytab_ltable[peek.category - YTABLE_START]);
+  k0_lval = peek;
   cursor += 1;
   return peek.category;
 }

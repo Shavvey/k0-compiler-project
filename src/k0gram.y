@@ -152,7 +152,8 @@
 %define api.prefix {k0_}
 
 %{
-  #define YYDEBUG 1
+  #define k0_debug 1
+  #include <stdio.h>
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
@@ -161,18 +162,33 @@
 %defines "src/k0gram.tab.h"
 %start program
 %%
-program: func_list | ;
+program: func_list | %empty ; 
+
 func_list: func_list func | func ;
+
 func: FUN IDENTIFIER LPAR arg_list 
-      RPAR COLON IDENTIFIER block ;
+      RPAR block;
+
 arg_list: arg_list arg | arg ;
+        
 arg: IDENTIFIER COLON type ;
+
 block: LCURL stmt_list RCURL ;
+
 stmt_list: stmt_list stmt | stmt ;
+
 stmt: primary_expr ;
+    
 params: params COMMA param | param ;
-param: IDENTIFIER ;
+
+param: IDENTIFIER | literal;
+
+literal: INTEGERLITERAL | REALLITERAL 
+       | STRINGLITERAL | CHARACTERLITERAL
+
 primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON ;
+
 quest: QUEST_NO_WS | QUEST_WS ;
+
 type: IDENTIFIER |
       IDENTIFIER quest ;
