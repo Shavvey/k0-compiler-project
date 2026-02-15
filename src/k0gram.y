@@ -68,7 +68,6 @@
 %token EOFNO
 
 %code requires {
-
   extern const char *filename;
   extern int lineno;
 
@@ -150,19 +149,22 @@
 
 %define api.value.type { Token }
 %define api.prefix {k0_}
+%define parse.trace
 
+%defines "src/k0gram.tab.h"
 %{
-  #define k0_debug 1
   #include <stdio.h>
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(const char* s);
+  int k0_debug = 1;
 %}
-%defines "src/k0gram.tab.h"
+
 %start program
 %%
-program: func_list | %empty ; 
+program: func_list |  { printf("Function body %d\n", yytoken); }
+         %empty ; 
 
 func_list: func_list func | func ;
 

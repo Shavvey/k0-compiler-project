@@ -75,14 +75,14 @@
 #define yychar          k0_char
 
 /* First part of user prologue.  */
-#line 154 "src/k0gram.y"
+#line 155 "src/k0gram.y"
 
-  #define k0_debug 1
   #include <stdio.h>
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(const char* s);
+  int k0_debug = 1;
 
 #line 88 "src/k0gram.tab.c"
 
@@ -590,9 +590,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   165,   165,   165,   167,   167,   169,   172,   172,   174,
-     176,   178,   178,   180,   182,   182,   184,   184,   185,   185,
-     185,   185,   187,   189,   189,   191,   192
+       0,   166,   166,   166,   169,   169,   171,   174,   174,   176,
+     178,   180,   180,   182,   184,   184,   186,   186,   188,   188,
+     189,   189,   191,   193,   193,   195,   196
 };
 #endif
 
@@ -1186,9 +1186,9 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* program: func_list  */
-#line 165 "src/k0gram.y"
-                   {printf("Some\n");}
+  case 3: /* program: %empty  */
+#line 166 "src/k0gram.y"
+                      { printf("Function body %d\n", yytoken); }
 #line 1193 "src/k0gram.tab.c"
     break;
 

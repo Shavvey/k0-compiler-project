@@ -46,7 +46,7 @@
 #   define K0_DEBUG 0
 #  endif
 # else /* ! defined YYDEBUG */
-#  define K0_DEBUG 0
+#  define K0_DEBUG 1
 # endif /* ! defined YYDEBUG */
 #endif  /* ! defined K0_DEBUG */
 #if K0_DEBUG
@@ -54,7 +54,6 @@ extern int k0_debug;
 #endif
 /* "%code requires" blocks.  */
 #line 70 "src/k0gram.y"
-
 
   extern const char *filename;
   extern int lineno;
@@ -134,7 +133,7 @@ extern int k0_debug;
   #include "token.h"
   #include "parser.h"
 
-#line 138 "src/k0gram.tab.h"
+#line 137 "src/k0gram.tab.h"
 
 /* Token kinds.  */
 #ifndef K0_TOKENTYPE
