@@ -227,7 +227,7 @@ typedef  Node * K0_STYPE;
 extern K0_STYPE k0_lval;
 
 
-int k0_parse (void);
+int k0_parse (ParserStatus *ps);
 
 
 #endif /* !YY_K0_SRC_K0GRAM_TAB_H_INCLUDED  */

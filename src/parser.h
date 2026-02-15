@@ -2,6 +2,8 @@
 #define INCLUDE_SRC_PARSER_H_
 #include "lexer.h"
 
+
+// DECLARATIONS
 typedef struct _Token Terminal;
 
 typedef struct {
@@ -11,7 +13,6 @@ typedef struct {
   char *symbol_name;
 } NonTerminal;
 
-// DECLARATIONS
 typedef struct _Node {
   union {
     Terminal term;
@@ -24,6 +25,10 @@ typedef struct {
   Node const *root;
 } ParseTree;
 
+typedef struct _ParserStatus {
+  ParseTree parse_tree;
+  int ko_nerrs;
+} ParserStatus;
 
 // API
 ParseTree parse(TokenList tl);

@@ -81,11 +81,10 @@
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
-  extern void yyerror(const char* s);
-  extern int yykind;
+  extern void yyerror(ParserStatus *ps, const char *msg);
   int k0_debug = 1;
 
-#line 89 "src/k0gram.tab.c"
+#line 88 "src/k0gram.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -753,7 +752,7 @@ enum { YYENOMEM = -2 };
       }                                                           \
     else                                                          \
       {                                                           \
-        yyerror (YY_("syntax error: cannot back up")); \
+        yyerror (ps, YY_("syntax error: cannot back up")); \
         YYERROR;                                                  \
       }                                                           \
   while (0)
@@ -786,7 +785,7 @@ do {                                                                      \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Kind, Value); \
+                  Kind, Value, ps); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -798,10 +797,11 @@ do {                                                                      \
 
 static void
 yy_symbol_value_print (FILE *yyo,
-                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep)
+                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, ParserStatus *ps)
 {
   FILE *yyoutput = yyo;
   YY_USE (yyoutput);
+  YY_USE (ps);
   if (!yyvaluep)
     return;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
@@ -816,12 +816,12 @@ yy_symbol_value_print (FILE *yyo,
 
 static void
 yy_symbol_print (FILE *yyo,
-                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep)
+                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, ParserStatus *ps)
 {
   YYFPRINTF (yyo, "%s %s (",
              yykind < YYNTOKENS ? "token" : "nterm", yysymbol_name (yykind));
 
-  yy_symbol_value_print (yyo, yykind, yyvaluep);
+  yy_symbol_value_print (yyo, yykind, yyvaluep, ps);
   YYFPRINTF (yyo, ")");
 }
 
@@ -855,7 +855,7 @@ do {                                                            \
 
 static void
 yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
-                 int yyrule)
+                 int yyrule, ParserStatus *ps)
 {
   int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -868,7 +868,7 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
                        YY_ACCESSING_SYMBOL (+yyssp[yyi + 1 - yynrhs]),
-                       &yyvsp[(yyi + 1) - (yynrhs)]);
+                       &yyvsp[(yyi + 1) - (yynrhs)], ps);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -876,7 +876,7 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
-    yy_reduce_print (yyssp, yyvsp, Rule); \
+    yy_reduce_print (yyssp, yyvsp, Rule, ps); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -917,9 +917,10 @@ int yydebug;
 
 static void
 yydestruct (const char *yymsg,
-            yysymbol_kind_t yykind, YYSTYPE *yyvaluep)
+            yysymbol_kind_t yykind, YYSTYPE *yyvaluep, ParserStatus *ps)
 {
   YY_USE (yyvaluep);
+  YY_USE (ps);
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
@@ -946,7 +947,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (void)
+yyparse (ParserStatus *ps)
 {
     yy_state_fast_t yystate = 0;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1100,7 +1101,7 @@ yybackup:
   if (yychar == K0_EMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token\n"));
-      yychar = yylex ();
+      yychar = yylex (ps);
     }
 
   if (yychar <= K0_EOF)
@@ -1189,156 +1190,156 @@ yyreduce:
     {
   case 2: /* program: func_list  */
 #line 166 "src/k0gram.y"
-                   { yyval = create_nterm(yyn, "program", 1, yyvsp[0]); printf("Something: %s\n", yyval->value.nonterm.symbol_name); }
-#line 1194 "src/k0gram.tab.c"
+                   { yyval = create_nterm(yyn, "program", 1, yyvsp[0]); ps->parse_tree.root = yyval; }
+#line 1195 "src/k0gram.tab.c"
     break;
 
   case 3: /* program: %empty  */
 #line 167 "src/k0gram.y"
                 { printf("[WARN]: Empty program\n"); }
-#line 1200 "src/k0gram.tab.c"
+#line 1201 "src/k0gram.tab.c"
     break;
 
   case 4: /* func_list: func_list func  */
 #line 169 "src/k0gram.y"
                           { yyval = create_nterm(yyn, "func_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1206 "src/k0gram.tab.c"
+#line 1207 "src/k0gram.tab.c"
     break;
 
   case 5: /* func_list: func  */
 #line 170 "src/k0gram.y"
                 { yyval = create_nterm(yyn, "func_list", 1, yyvsp[0]); }
-#line 1212 "src/k0gram.tab.c"
+#line 1213 "src/k0gram.tab.c"
     break;
 
   case 6: /* func: FUN IDENTIFIER LPAR arg_list RPAR block  */
 #line 172 "src/k0gram.y"
-                                              { yyval = create_nterm(yyn, "func", 5, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1]); }
-#line 1218 "src/k0gram.tab.c"
+                                              { yyval = create_nterm(yyn, "func", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1219 "src/k0gram.tab.c"
     break;
 
   case 7: /* arg_list: arg_list arg  */
 #line 174 "src/k0gram.y"
                        { yyval = create_nterm(yyn, "arg_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1224 "src/k0gram.tab.c"
+#line 1225 "src/k0gram.tab.c"
     break;
 
   case 8: /* arg_list: arg  */
 #line 175 "src/k0gram.y"
               {yyval = create_nterm(yyn, "arg_list", 1, yyvsp[0]); }
-#line 1230 "src/k0gram.tab.c"
+#line 1231 "src/k0gram.tab.c"
     break;
 
   case 9: /* arg: IDENTIFIER COLON type  */
 #line 177 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "arg", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1236 "src/k0gram.tab.c"
+#line 1237 "src/k0gram.tab.c"
     break;
 
   case 10: /* block: LCURL stmt_list RCURL  */
 #line 179 "src/k0gram.y"
                              { yyval = create_nterm(yyn, "block", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1242 "src/k0gram.tab.c"
+#line 1243 "src/k0gram.tab.c"
     break;
 
   case 11: /* stmt_list: stmt_list stmt  */
 #line 181 "src/k0gram.y"
                           { yyval = create_nterm(yyn, "stmt_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1248 "src/k0gram.tab.c"
+#line 1249 "src/k0gram.tab.c"
     break;
 
   case 12: /* stmt_list: stmt  */
 #line 182 "src/k0gram.y"
                 { yyval = create_nterm(yyn, "stmt_list", 1, yyvsp[0]); }
-#line 1254 "src/k0gram.tab.c"
+#line 1255 "src/k0gram.tab.c"
     break;
 
   case 13: /* stmt: primary_expr  */
 #line 184 "src/k0gram.y"
                    {yyval = create_nterm(yyn, "stmt", 1, yyvsp[0]); }
-#line 1260 "src/k0gram.tab.c"
+#line 1261 "src/k0gram.tab.c"
     break;
 
   case 14: /* params: params COMMA param  */
 #line 186 "src/k0gram.y"
                            {yyval = create_nterm(yyn, "params", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1266 "src/k0gram.tab.c"
+#line 1267 "src/k0gram.tab.c"
     break;
 
   case 15: /* params: param  */
 #line 187 "src/k0gram.y"
               {yyval = create_nterm(yyn, "params", 1, yyvsp[0]); }
-#line 1272 "src/k0gram.tab.c"
+#line 1273 "src/k0gram.tab.c"
     break;
 
   case 16: /* param: IDENTIFIER  */
 #line 189 "src/k0gram.y"
                   { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
-#line 1278 "src/k0gram.tab.c"
+#line 1279 "src/k0gram.tab.c"
     break;
 
   case 17: /* param: literal  */
 #line 190 "src/k0gram.y"
                { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
-#line 1284 "src/k0gram.tab.c"
+#line 1285 "src/k0gram.tab.c"
     break;
 
   case 18: /* literal: INTEGERLITERAL  */
 #line 192 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1290 "src/k0gram.tab.c"
+#line 1291 "src/k0gram.tab.c"
     break;
 
   case 19: /* literal: REALLITERAL  */
 #line 193 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1296 "src/k0gram.tab.c"
+#line 1297 "src/k0gram.tab.c"
     break;
 
   case 20: /* literal: STRINGLITERAL  */
 #line 194 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1302 "src/k0gram.tab.c"
+#line 1303 "src/k0gram.tab.c"
     break;
 
   case 21: /* literal: CHARACTERLITERAL  */
 #line 195 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1308 "src/k0gram.tab.c"
+#line 1309 "src/k0gram.tab.c"
     break;
 
   case 22: /* primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON  */
 #line 198 "src/k0gram.y"
             {yyval = create_nterm(yyn, "primary_expr", 5, yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1314 "src/k0gram.tab.c"
+#line 1315 "src/k0gram.tab.c"
     break;
 
   case 23: /* quest: QUEST_NO_WS  */
 #line 200 "src/k0gram.y"
                    { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); }
-#line 1320 "src/k0gram.tab.c"
+#line 1321 "src/k0gram.tab.c"
     break;
 
   case 24: /* quest: QUEST_WS  */
 #line 201 "src/k0gram.y"
                 {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); }
-#line 1326 "src/k0gram.tab.c"
+#line 1327 "src/k0gram.tab.c"
     break;
 
   case 25: /* type: IDENTIFIER  */
 #line 203 "src/k0gram.y"
                  { yyval = create_nterm(yyn, "type", 1, yyvsp[0]); }
-#line 1332 "src/k0gram.tab.c"
+#line 1333 "src/k0gram.tab.c"
     break;
 
   case 26: /* type: IDENTIFIER quest  */
 #line 204 "src/k0gram.y"
                        {yyval = create_nterm(yyn, "type", 2, yyvsp[-1], yyvsp[0]); }
-#line 1338 "src/k0gram.tab.c"
+#line 1339 "src/k0gram.tab.c"
     break;
 
 
-#line 1342 "src/k0gram.tab.c"
+#line 1343 "src/k0gram.tab.c"
 
       default: break;
     }
@@ -1385,7 +1386,7 @@ yyerrlab:
   if (!yyerrstatus)
     {
       ++yynerrs;
-      yyerror (YY_("syntax error"));
+      yyerror (ps, YY_("syntax error"));
     }
 
   if (yyerrstatus == 3)
@@ -1402,7 +1403,7 @@ yyerrlab:
       else
         {
           yydestruct ("Error: discarding",
-                      yytoken, &yylval);
+                      yytoken, &yylval, ps);
           yychar = K0_EMPTY;
         }
     }
@@ -1458,7 +1459,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-                  YY_ACCESSING_SYMBOL (yystate), yyvsp);
+                  YY_ACCESSING_SYMBOL (yystate), yyvsp, ps);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1496,7 +1497,7 @@ yyabortlab:
 | yyexhaustedlab -- YYNOMEM (memory exhaustion) comes here.  |
 `-----------------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (ps, YY_("memory exhausted"));
   yyresult = 2;
   goto yyreturnlab;
 
@@ -1511,7 +1512,7 @@ yyreturnlab:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval);
+                  yytoken, &yylval, ps);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -1520,7 +1521,7 @@ yyreturnlab:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  YY_ACCESSING_SYMBOL (+*yyssp), yyvsp);
+                  YY_ACCESSING_SYMBOL (+*yyssp), yyvsp, ps);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow

@@ -157,19 +157,19 @@
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
-  extern void yyerror(const char* s);
-  extern int yykind;
+  extern void yyerror(ParserStatus *ps, const char *msg);
   int k0_debug = 1;
 %}
+%param { ParserStatus *ps }
 %start program
 %%
-program: func_list { $$ = create_nterm(yyn, "program", 1, $1); printf("Something: %d\n", $$->value.nonterm.symbol_name); }
+program: func_list { $$ = create_nterm(yyn, "program", 1, $1); ps->parse_tree.root = $$; }
        | %empty { printf("[WARN]: Empty program\n"); }; 
 
 func_list: func_list func { $$ = create_nterm(yyn, "func_list", 2, $1, $2); }
          | func { $$ = create_nterm(yyn, "func_list", 1, $1); };
 
-func: FUN IDENTIFIER LPAR arg_list RPAR block { $$ = create_nterm(yyn, "func", 5, $1, $2, $3, $4, $5); };
+func: FUN IDENTIFIER LPAR arg_list RPAR block { $$ = create_nterm(yyn, "func", 6, $1, $2, $3, $4, $5, $6); };
 
 arg_list: arg_list arg { $$ = create_nterm(yyn, "arg_list", 2, $1, $2); }
         | arg {$$ = create_nterm(yyn, "arg_list", 1, $1); } ;

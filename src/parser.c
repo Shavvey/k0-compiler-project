@@ -6,8 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-int k0_error(char *s) {
-  fprintf(stderr, "[PARSE ERROR]: %s\n", s);
+int k0_error(ParserStatus *ps, const char *msg) {
+  ps->ko_nerrs += 1;
+  fprintf(stderr, "[PARSE ERROR]: Occured when parsing %d:%s\n", ps->ko_nerrs,
+          msg);
   exit(EXIT_FAILURE);
 }
 
@@ -17,14 +19,14 @@ size_t cursor = 0;
 ParseTree parse(TokenList tl) {
   token_stream = tl;
   print_tokens(&token_stream);
-  int res = k0_parse();
+  // create helper parser status, which will allow us to dummp
+  // the in progress tree if needed
+  ParserStatus ps = {0};
+  int res = k0_parse(&ps);
   if (res == 0) {
     printf("Somehow parsing worked!\n");
   }
-  printf("What is the this value: %d\n", k0_lval->is_term);
-  printf("%d\n", k0_lval->value.term.category);
-  delete_tokens(&tl);
-  return (ParseTree){0};
+  return ps.parse_tree;
 }
 
 /* I can't believe this works, kind of */
