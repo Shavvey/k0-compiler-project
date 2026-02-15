@@ -35,14 +35,22 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_SRC_K0GRAM_TAB_H_INCLUDED
-# define YY_YY_SRC_K0GRAM_TAB_H_INCLUDED
+#ifndef YY_K0_SRC_K0GRAM_TAB_H_INCLUDED
+# define YY_K0_SRC_K0GRAM_TAB_H_INCLUDED
 /* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
+#ifndef K0_DEBUG
+# if defined YYDEBUG
 #if YYDEBUG
-extern int yydebug;
+#   define K0_DEBUG 1
+#  else
+#   define K0_DEBUG 0
+#  endif
+# else /* ! defined YYDEBUG */
+#  define K0_DEBUG 0
+# endif /* ! defined YYDEBUG */
+#endif  /* ! defined K0_DEBUG */
+#if K0_DEBUG
+extern int k0_debug;
 #endif
 /* "%code requires" blocks.  */
 #line 70 "src/k0gram.y"
@@ -123,17 +131,20 @@ extern int yydebug;
     "IN"
   };
 
-#line 127 "src/k0gram.tab.h"
+  #include "token.h"
+  #include "parser.h"
+
+#line 138 "src/k0gram.tab.h"
 
 /* Token kinds.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
+#ifndef K0_TOKENTYPE
+# define K0_TOKENTYPE
+  enum k0_tokentype
   {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
+    K0_EMPTY = -2,
+    K0_EOF = 0,                    /* "end of file"  */
+    K0_error = 256,                /* error  */
+    K0_UNDEF = 257,                /* "invalid token"  */
     ADD = 258,                     /* ADD  */
     MULT = 259,                    /* MULT  */
     DIV = 260,                     /* DIV  */
@@ -203,21 +214,21 @@ extern int yydebug;
     ERRNO = 324,                   /* ERRNO  */
     EOFNO = 325                    /* EOFNO  */
   };
-  typedef enum yytokentype yytoken_kind_t;
+  typedef enum k0_tokentype k0_token_kind_t;
 #endif
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
+#if ! defined K0_STYPE && ! defined K0_STYPE_IS_DECLARED
+typedef  Token  K0_STYPE;
+# define K0_STYPE_IS_TRIVIAL 1
+# define K0_STYPE_IS_DECLARED 1
 #endif
 
 
-extern YYSTYPE yylval;
+extern K0_STYPE k0_lval;
 
 
-int yyparse (void);
+int k0_parse (void);
 
 
-#endif /* !YY_YY_SRC_K0GRAM_TAB_H_INCLUDED  */
+#endif /* !YY_K0_SRC_K0GRAM_TAB_H_INCLUDED  */

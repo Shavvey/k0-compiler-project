@@ -1,7 +1,7 @@
 #include "lexer.h"
 #include "common.h"
-#include "token.h"
 #include "k0gram.tab.h"
+#include "token.h"
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -56,9 +56,9 @@ static Token get_and_expect(int expected_category) {
   return t;
 }
 
-static TokenList scan_file(const char *fname) {
+TokenList lex_file(const char *fname) {
   filename = fname; // set filename
-  lineno = 1;       // rest linenumber
+  lineno = 1;       // reset linenumber
   TokenList tl = {0};
   yyin = fopen(fname, "r"); // open file for flex
   if (yyin == NULL) {
@@ -99,7 +99,7 @@ TokenList lex_files(int argc, char **argv) {
     // NOTE: assumes passed files are all the args we are given
     for (int i = 1; i < argc; i += 1) {
       filename = argv[i]; // decode file args
-      TokenList next = scan_file(filename);
+      TokenList next = lex_file(filename);
       merge_tokens(&tl, &next);
       lineno = 1; // reset lineno
     }

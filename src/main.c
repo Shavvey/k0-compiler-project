@@ -1,9 +1,7 @@
 #include "lexer.h"
-#include "token.h"
+#include "parser.h"
 
 int main(int argc, char **argv) {
-  TokenList tl = lex_files(argc, argv);
-  print_tokens(&tl);
-  delete_tokens(&tl);
+  parse(lex_files(argc, argv));
   return EXIT_SUCCESS;
 }
