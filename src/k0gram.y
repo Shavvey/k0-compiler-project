@@ -163,41 +163,42 @@
 %}
 %start program
 %%
-program: func_list { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+program: func_list { $$ = create_nterm(yyn, "program", 1, $1); printf("Something: %d\n", $$->value.nonterm.symbol_name); }
        | %empty { printf("[WARN]: Empty program\n"); }; 
 
-func_list: func_list func { printf("[INFO]: Applied rule: %d\n", yyn-1); }
-         | func { printf("[INFO]: Applied rule: %d\n", yyn-1); };
+func_list: func_list func { $$ = create_nterm(yyn, "func_list", 2, $1, $2); }
+         | func { $$ = create_nterm(yyn, "func_list", 1, $1); };
 
-func: FUN IDENTIFIER LPAR arg_list RPAR block;
+func: FUN IDENTIFIER LPAR arg_list RPAR block { $$ = create_nterm(yyn, "func", 5, $1, $2, $3, $4, $5); };
 
-arg_list: arg_list arg 
-        | arg ;
+arg_list: arg_list arg { $$ = create_nterm(yyn, "arg_list", 2, $1, $2); }
+        | arg {$$ = create_nterm(yyn, "arg_list", 1, $1); } ;
         
-arg: IDENTIFIER COLON type ;
+arg: IDENTIFIER COLON type { $$ = create_nterm(yyn, "arg", 3, $1, $2, $3); };
 
-block: LCURL stmt_list RCURL ;
+block: LCURL stmt_list RCURL { $$ = create_nterm(yyn, "block", 3, $1, $2, $3); };
 
-stmt_list: stmt_list stmt 
-         | stmt ;
+stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); }
+         | stmt { $$ = create_nterm(yyn, "stmt_list", 1, $1); };
 
-stmt: primary_expr ;
+stmt: primary_expr {$$ = create_nterm(yyn, "stmt", 1, $1); };
     
-params: params COMMA param 
-      | param ;
+params: params COMMA param {$$ = create_nterm(yyn, "params", 3, $1, $2, $3); }
+      | param {$$ = create_nterm(yyn, "params", 1, $1); };
 
-param: IDENTIFIER 
-     | literal;
+param: IDENTIFIER { $$ = create_nterm(yyn, "param", 1, $1); }
+     | literal { $$ = create_nterm(yyn, "param", 1, $1); };
 
-literal: INTEGERLITERAL 
-       | REALLITERAL 
-       | STRINGLITERAL 
-       | CHARACTERLITERAL
+literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | REALLITERAL       { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | STRINGLITERAL     { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
 
-primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON ;
+primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON
+            {$$ = create_nterm(yyn, "primary_expr", 5, $1, $2, $3, $4, $5); };
 
-quest: QUEST_NO_WS  
-     | QUEST_WS ;
+quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1); }
+     | QUEST_WS {  $$ = create_nterm(yyn, "quest", 1, $1); };
 
-type: IDENTIFIER 
-    | IDENTIFIER quest ;
+type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1); }
+    | IDENTIFIER quest {$$ = create_nterm(yyn, "type", 2, $1, $2); };

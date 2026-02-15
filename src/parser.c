@@ -21,6 +21,8 @@ ParseTree parse(TokenList tl) {
   if (res == 0) {
     printf("Somehow parsing worked!\n");
   }
+  printf("What is the this value: %d\n", k0_lval->is_term);
+  printf("%d\n", k0_lval->value.term.category);
   delete_tokens(&tl);
   return (ParseTree){0};
 }
@@ -40,7 +42,7 @@ int k0_lex() {
 }
 
 /* This is a tricky function. Right now, I am trying to use
- * a variatic array of arguments to produce node with an arbitrary
+ * a variatic array of arguments to produce an AST node with an arbitrary
  * ammount of children */
 Node *create_nterm(const int prod_rule, char *symbol_name,
                    const int num_children, ...) {

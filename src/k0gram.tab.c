@@ -593,7 +593,7 @@ static const yytype_uint8 yyrline[] =
 {
        0,   166,   166,   167,   169,   170,   172,   174,   175,   177,
      179,   181,   182,   184,   186,   187,   189,   190,   192,   193,
-     194,   195,   197,   199,   200,   202,   203
+     194,   195,   197,   200,   201,   203,   204
 };
 #endif
 
@@ -1189,7 +1189,7 @@ yyreduce:
     {
   case 2: /* program: func_list  */
 #line 166 "src/k0gram.y"
-                   { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+                   { yyval = create_nterm(yyn, "program", 1, yyvsp[0]); printf("Something: %s\n", yyval->value.nonterm.symbol_name); }
 #line 1194 "src/k0gram.tab.c"
     break;
 
@@ -1201,18 +1201,144 @@ yyreduce:
 
   case 4: /* func_list: func_list func  */
 #line 169 "src/k0gram.y"
-                          { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+                          { yyval = create_nterm(yyn, "func_list", 2, yyvsp[-1], yyvsp[0]); }
 #line 1206 "src/k0gram.tab.c"
     break;
 
   case 5: /* func_list: func  */
 #line 170 "src/k0gram.y"
-                { printf("[INFO]: Applied rule: %d\n", yyn-1); }
+                { yyval = create_nterm(yyn, "func_list", 1, yyvsp[0]); }
 #line 1212 "src/k0gram.tab.c"
     break;
 
+  case 6: /* func: FUN IDENTIFIER LPAR arg_list RPAR block  */
+#line 172 "src/k0gram.y"
+                                              { yyval = create_nterm(yyn, "func", 5, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1]); }
+#line 1218 "src/k0gram.tab.c"
+    break;
 
-#line 1216 "src/k0gram.tab.c"
+  case 7: /* arg_list: arg_list arg  */
+#line 174 "src/k0gram.y"
+                       { yyval = create_nterm(yyn, "arg_list", 2, yyvsp[-1], yyvsp[0]); }
+#line 1224 "src/k0gram.tab.c"
+    break;
+
+  case 8: /* arg_list: arg  */
+#line 175 "src/k0gram.y"
+              {yyval = create_nterm(yyn, "arg_list", 1, yyvsp[0]); }
+#line 1230 "src/k0gram.tab.c"
+    break;
+
+  case 9: /* arg: IDENTIFIER COLON type  */
+#line 177 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "arg", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1236 "src/k0gram.tab.c"
+    break;
+
+  case 10: /* block: LCURL stmt_list RCURL  */
+#line 179 "src/k0gram.y"
+                             { yyval = create_nterm(yyn, "block", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1242 "src/k0gram.tab.c"
+    break;
+
+  case 11: /* stmt_list: stmt_list stmt  */
+#line 181 "src/k0gram.y"
+                          { yyval = create_nterm(yyn, "stmt_list", 2, yyvsp[-1], yyvsp[0]); }
+#line 1248 "src/k0gram.tab.c"
+    break;
+
+  case 12: /* stmt_list: stmt  */
+#line 182 "src/k0gram.y"
+                { yyval = create_nterm(yyn, "stmt_list", 1, yyvsp[0]); }
+#line 1254 "src/k0gram.tab.c"
+    break;
+
+  case 13: /* stmt: primary_expr  */
+#line 184 "src/k0gram.y"
+                   {yyval = create_nterm(yyn, "stmt", 1, yyvsp[0]); }
+#line 1260 "src/k0gram.tab.c"
+    break;
+
+  case 14: /* params: params COMMA param  */
+#line 186 "src/k0gram.y"
+                           {yyval = create_nterm(yyn, "params", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1266 "src/k0gram.tab.c"
+    break;
+
+  case 15: /* params: param  */
+#line 187 "src/k0gram.y"
+              {yyval = create_nterm(yyn, "params", 1, yyvsp[0]); }
+#line 1272 "src/k0gram.tab.c"
+    break;
+
+  case 16: /* param: IDENTIFIER  */
+#line 189 "src/k0gram.y"
+                  { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
+#line 1278 "src/k0gram.tab.c"
+    break;
+
+  case 17: /* param: literal  */
+#line 190 "src/k0gram.y"
+               { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
+#line 1284 "src/k0gram.tab.c"
+    break;
+
+  case 18: /* literal: INTEGERLITERAL  */
+#line 192 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1290 "src/k0gram.tab.c"
+    break;
+
+  case 19: /* literal: REALLITERAL  */
+#line 193 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1296 "src/k0gram.tab.c"
+    break;
+
+  case 20: /* literal: STRINGLITERAL  */
+#line 194 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1302 "src/k0gram.tab.c"
+    break;
+
+  case 21: /* literal: CHARACTERLITERAL  */
+#line 195 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1308 "src/k0gram.tab.c"
+    break;
+
+  case 22: /* primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON  */
+#line 198 "src/k0gram.y"
+            {yyval = create_nterm(yyn, "primary_expr", 5, yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1314 "src/k0gram.tab.c"
+    break;
+
+  case 23: /* quest: QUEST_NO_WS  */
+#line 200 "src/k0gram.y"
+                   { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); }
+#line 1320 "src/k0gram.tab.c"
+    break;
+
+  case 24: /* quest: QUEST_WS  */
+#line 201 "src/k0gram.y"
+                {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); }
+#line 1326 "src/k0gram.tab.c"
+    break;
+
+  case 25: /* type: IDENTIFIER  */
+#line 203 "src/k0gram.y"
+                 { yyval = create_nterm(yyn, "type", 1, yyvsp[0]); }
+#line 1332 "src/k0gram.tab.c"
+    break;
+
+  case 26: /* type: IDENTIFIER quest  */
+#line 204 "src/k0gram.y"
+                       {yyval = create_nterm(yyn, "type", 2, yyvsp[-1], yyvsp[0]); }
+#line 1338 "src/k0gram.tab.c"
+    break;
+
+
+#line 1342 "src/k0gram.tab.c"
 
       default: break;
     }
