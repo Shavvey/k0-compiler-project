@@ -153,12 +153,12 @@
 
 %defines "src/k0gram.tab.h"
 %{
-  #include "common.h"
   #include "parser.h"
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(const char* s);
+  extern int yykind;
   int k0_debug = 1;
 %}
 %start program

@@ -77,12 +77,12 @@
 /* First part of user prologue.  */
 #line 155 "src/k0gram.y"
 
-  #include "common.h"
   #include "parser.h"
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(const char* s);
+  extern int yykind;
   int k0_debug = 1;
 
 #line 89 "src/k0gram.tab.c"

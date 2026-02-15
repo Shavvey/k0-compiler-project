@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int k0_error(char *s) {
   fprintf(stderr, "[PARSE ERROR]: %s\n", s);
@@ -44,10 +45,15 @@ int k0_lex() {
 Node *create_nterm(const int prod_rule, char *symbol_name,
                    const int num_children, ...) {
   Node *nterm_parent = malloc(sizeof(Node) * 1);
+  int len = strlen(symbol_name);
+  char *copy_symbol_name = (char *)malloc(sizeof(char) * (len + 1));
+  copy_symbol_name[len] = '\0';
+  strcpy(copy_symbol_name, symbol_name);
   nterm_parent->value.nonterm =
       (NonTerminal){.children = (Node **)malloc(sizeof(Node *) * num_children),
                     .num_children = num_children,
-                    .prod_rule = prod_rule};
+                    .prod_rule = prod_rule,
+                    .symbol_name = copy_symbol_name};
   nterm_parent->is_term = false;
   va_list args;
   va_start(args, num_children);
