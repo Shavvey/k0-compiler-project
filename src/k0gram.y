@@ -152,18 +152,21 @@
 %define parse.trace
 
 %defines "src/k0gram.tab.h"
+%lex-param { ParserContext *pc }
+%parse-param { ParserContext *pc }
 %{
+  #include "lexer.h"
   #include "parser.h"
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
-  extern void yyerror(ParseTree *pt, const char *msg);
+  extern void yyerror(ParserContext *pc, const char *msg);
+  extern int yylex(ParserContext *pc);
   // int k0_debug = 1;
 %}
-%param { ParseTree *pt }
 %start program
 %%
-program: func_list { $$ = create_nterm(yyn, "program", 1, $1); pt->root = $$; }
+program: func_list { $$ = create_nterm(yyn, "program", 1, $1); pc->pt.root = $$; }
        | %empty { printf("[WARN]: Empty program\n"); }; 
 
 func_list: func_list func { $$ = create_nterm(yyn, "func_list", 2, $1, $2); }

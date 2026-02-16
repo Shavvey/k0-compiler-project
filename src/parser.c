@@ -7,24 +7,24 @@
 #include <string.h>
 
 int k0_error(ParseTree *pt, const char *msg) {
+  pt_print_tokens(pt);
   fprintf(stderr, "[PARSE ERROR]: Occured when parsing %s\n:", msg);
   exit(EXIT_FAILURE);
 }
 
-TokenList token_stream = {0}; // EVIL
-size_t cursor = 0;
-
-ParseTree parse(TokenList tl) {
-  token_stream = tl;
-  print_tokens(&token_stream);
-  // create helper parser status, which will allow us to dummp
-  // the in progress tree if needed
-  ParseTree pt = {0};
-  int res = k0_parse(&pt);
+ParseTree parse(TokenList *tl) {
+  /* Once we begin parsing, we have a auxillary struct
+   that helps manage the current state of the tree
+   and the next token that will be place inside it */
+  ParserContext pc = {.tl = tl, .pt = {0}};
+  int res = k0_parse(&pc);
   if (res == 0) {
     printf("Somehow parsing worked!\n");
   }
-  return pt;
+  // NOTE: TokenList should be "consumed" by now
+  // so there shouldn't be any underlying refernce to it
+  tl->items = NULL; // mem "owned" by AST now
+  return pc.pt;
 }
 
 static void root_print_tokens(const Node *root) {
@@ -43,18 +43,18 @@ static void root_print_tokens(const Node *root) {
 
 void pt_print_tokens(const ParseTree *pt) { root_print_tokens(pt->root); }
 
-
 /* I can't believe this works, kind of */
-int k0_lex() {
-  if (cursor == token_stream.size) {
+int k0_lex(ParserContext *pc) {
+  TokenList tlist = *pc->tl;
+  if (pc->cursor == tlist.size) {
     return K0_EMPTY;
   }
-  K0_STYPE peek = create_term(token_stream.items + cursor);
+  K0_STYPE peek = create_term(tlist.items + pc->cursor);
   Token token = peek->value.term;
   printf("Peeking token value! %d:%s\n", token.category,
          ytab_ltable[token.category - YTABLE_START]);
   k0_lval = peek;
-  cursor += 1;
+  pc->cursor += 1;
   return token.category;
 }
 

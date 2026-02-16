@@ -25,9 +25,15 @@ typedef struct {
   Node *root;
 } ParseTree;
 
+typedef struct {
+  ParseTree pt; // NOTE: Okay to pass by ref, only contains pointer
+  TokenList *tl;
+  size_t cursor;
+} ParserContext;
+
 // API
-ParseTree parse(TokenList tl);
-int k0_lex();
+ParseTree parse(TokenList *tl);
+int k0_lex(ParserContext *pc);
 Node *create_nterm(const int prod_rule, char *symbol_name,
                   const int num_children, ...);
 Node *create_term(Token *token);

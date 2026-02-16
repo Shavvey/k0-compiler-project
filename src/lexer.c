@@ -85,6 +85,7 @@ TokenList lex_file(const char *fname) {
    *  Just delete it and ignore it for now */
   free(token.filename);
   free(token.lexeme);
+  // NOTE: fix this so that allocation doesn't happen in the first place
   fclose(yyin);
   return tl;
 }
