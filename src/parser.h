@@ -22,13 +22,8 @@ typedef struct _Node {
 } Node;
 
 typedef struct {
-  Node const *root;
+  Node *root;
 } ParseTree;
-
-typedef struct _ParserStatus {
-  ParseTree parse_tree;
-  int ko_nerrs;
-} ParserStatus;
 
 // API
 ParseTree parse(TokenList tl);
@@ -36,4 +31,5 @@ int k0_lex();
 Node *create_nterm(const int prod_rule, char *symbol_name,
                   const int num_children, ...);
 Node *create_term(Token *token);
+void pt_print_tokens(const ParseTree *pt);
 #endif  // INCLUDE_SRC_PARSER_H_

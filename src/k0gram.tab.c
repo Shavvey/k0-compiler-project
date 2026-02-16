@@ -81,8 +81,8 @@
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
-  extern void yyerror(ParserStatus *ps, const char *msg);
-  int k0_debug = 1;
+  extern void yyerror(ParseTree *pt, const char *msg);
+  // int k0_debug = 1;
 
 #line 88 "src/k0gram.tab.c"
 
@@ -752,7 +752,7 @@ enum { YYENOMEM = -2 };
       }                                                           \
     else                                                          \
       {                                                           \
-        yyerror (ps, YY_("syntax error: cannot back up")); \
+        yyerror (pt, YY_("syntax error: cannot back up")); \
         YYERROR;                                                  \
       }                                                           \
   while (0)
@@ -785,7 +785,7 @@ do {                                                                      \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Kind, Value, ps); \
+                  Kind, Value, pt); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -797,11 +797,11 @@ do {                                                                      \
 
 static void
 yy_symbol_value_print (FILE *yyo,
-                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, ParserStatus *ps)
+                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, ParseTree *pt)
 {
   FILE *yyoutput = yyo;
   YY_USE (yyoutput);
-  YY_USE (ps);
+  YY_USE (pt);
   if (!yyvaluep)
     return;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
@@ -816,12 +816,12 @@ yy_symbol_value_print (FILE *yyo,
 
 static void
 yy_symbol_print (FILE *yyo,
-                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, ParserStatus *ps)
+                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, ParseTree *pt)
 {
   YYFPRINTF (yyo, "%s %s (",
              yykind < YYNTOKENS ? "token" : "nterm", yysymbol_name (yykind));
 
-  yy_symbol_value_print (yyo, yykind, yyvaluep, ps);
+  yy_symbol_value_print (yyo, yykind, yyvaluep, pt);
   YYFPRINTF (yyo, ")");
 }
 
@@ -855,7 +855,7 @@ do {                                                            \
 
 static void
 yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
-                 int yyrule, ParserStatus *ps)
+                 int yyrule, ParseTree *pt)
 {
   int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -868,7 +868,7 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
                        YY_ACCESSING_SYMBOL (+yyssp[yyi + 1 - yynrhs]),
-                       &yyvsp[(yyi + 1) - (yynrhs)], ps);
+                       &yyvsp[(yyi + 1) - (yynrhs)], pt);
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -876,7 +876,7 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
   if (yydebug)                          \
-    yy_reduce_print (yyssp, yyvsp, Rule, ps); \
+    yy_reduce_print (yyssp, yyvsp, Rule, pt); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -917,10 +917,10 @@ int yydebug;
 
 static void
 yydestruct (const char *yymsg,
-            yysymbol_kind_t yykind, YYSTYPE *yyvaluep, ParserStatus *ps)
+            yysymbol_kind_t yykind, YYSTYPE *yyvaluep, ParseTree *pt)
 {
   YY_USE (yyvaluep);
-  YY_USE (ps);
+  YY_USE (pt);
   if (!yymsg)
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
@@ -947,7 +947,7 @@ int yynerrs;
 `----------*/
 
 int
-yyparse (ParserStatus *ps)
+yyparse (ParseTree *pt)
 {
     yy_state_fast_t yystate = 0;
     /* Number of tokens to shift before error messages enabled.  */
@@ -1101,7 +1101,7 @@ yybackup:
   if (yychar == K0_EMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token\n"));
-      yychar = yylex (ps);
+      yychar = yylex (pt);
     }
 
   if (yychar <= K0_EOF)
@@ -1190,7 +1190,7 @@ yyreduce:
     {
   case 2: /* program: func_list  */
 #line 166 "src/k0gram.y"
-                   { yyval = create_nterm(yyn, "program", 1, yyvsp[0]); ps->parse_tree.root = yyval; }
+                   { yyval = create_nterm(yyn, "program", 1, yyvsp[0]); pt->root = yyval; }
 #line 1195 "src/k0gram.tab.c"
     break;
 
@@ -1386,7 +1386,7 @@ yyerrlab:
   if (!yyerrstatus)
     {
       ++yynerrs;
-      yyerror (ps, YY_("syntax error"));
+      yyerror (pt, YY_("syntax error"));
     }
 
   if (yyerrstatus == 3)
@@ -1403,7 +1403,7 @@ yyerrlab:
       else
         {
           yydestruct ("Error: discarding",
-                      yytoken, &yylval, ps);
+                      yytoken, &yylval, pt);
           yychar = K0_EMPTY;
         }
     }
@@ -1459,7 +1459,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-                  YY_ACCESSING_SYMBOL (yystate), yyvsp, ps);
+                  YY_ACCESSING_SYMBOL (yystate), yyvsp, pt);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1497,7 +1497,7 @@ yyabortlab:
 | yyexhaustedlab -- YYNOMEM (memory exhaustion) comes here.  |
 `-----------------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (ps, YY_("memory exhausted"));
+  yyerror (pt, YY_("memory exhausted"));
   yyresult = 2;
   goto yyreturnlab;
 
@@ -1512,7 +1512,7 @@ yyreturnlab:
          user semantic actions for why this is necessary.  */
       yytoken = YYTRANSLATE (yychar);
       yydestruct ("Cleanup: discarding lookahead",
-                  yytoken, &yylval, ps);
+                  yytoken, &yylval, pt);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
@@ -1521,7 +1521,7 @@ yyreturnlab:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  YY_ACCESSING_SYMBOL (+*yyssp), yyvsp, ps);
+                  YY_ACCESSING_SYMBOL (+*yyssp), yyvsp, pt);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow

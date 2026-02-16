@@ -6,10 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int k0_error(ParserStatus *ps, const char *msg) {
-  ps->ko_nerrs += 1;
-  fprintf(stderr, "[PARSE ERROR]: Occured when parsing %d:%s\n", ps->ko_nerrs,
-          msg);
+int k0_error(ParseTree *pt, const char *msg) {
+  fprintf(stderr, "[PARSE ERROR]: Occured when parsing %s\n:", msg);
   exit(EXIT_FAILURE);
 }
 
@@ -21,13 +19,30 @@ ParseTree parse(TokenList tl) {
   print_tokens(&token_stream);
   // create helper parser status, which will allow us to dummp
   // the in progress tree if needed
-  ParserStatus ps = {0};
-  int res = k0_parse(&ps);
+  ParseTree pt = {0};
+  int res = k0_parse(&pt);
   if (res == 0) {
     printf("Somehow parsing worked!\n");
   }
-  return ps.parse_tree;
+  return pt;
 }
+
+static void root_print_tokens(const Node *root) {
+  bool is_term = root->is_term;
+  if (is_term) {
+    Terminal term = root->value.term;
+    printf("Found token: %d\n", term.category);
+    return;
+  } else {
+    NonTerminal nterm = root->value.nonterm;
+    for (int i = 0; i < nterm.num_children; i += 1) {
+      root_print_tokens(nterm.children[i]);
+    }
+  }
+}
+
+void pt_print_tokens(const ParseTree *pt) { root_print_tokens(pt->root); }
+
 
 /* I can't believe this works, kind of */
 int k0_lex() {
