@@ -48,31 +48,52 @@ static void root_print_tokens(const Node *root) {
   }
 }
 
-static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth,
-                             bool is_end) {
+typedef struct {
+  bool *items;
+  size_t size;
+  size_t capacity;
+} TreeStatus;
 
+static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth,
+                             bool is_end, TreeStatus *ts) {
   // first account for depth
-  for (int i = 0; i < depth - 1; i += 1) {
-    sb_append(sb, "│     ");
+  for (size_t s = 1; s < ts->size; s += 1) {
+    bool is_ongoing = ts->items[s];
+    (is_ongoing) ? sb_append(sb, "│   ") : sb_append(sb, "    ");
   }
-  if (depth > 0)
-     (is_end) ? sb_append(sb, "└── ") : sb_append(sb, "├── ");
+
+  if (depth > 0) {
+    if (is_end) {
+      sb_append(sb, "└── ");
+    } else {
+      sb_append(sb, "├── ");
+    }
+  }
   bool is_term = root->is_term;
   if (is_term) {
+    alist_delete_last(ts);
+    alist_append(ts, false);
     Terminal term = root->value.term;
     sb_append(sb, ytab_ltable[term.category - YTABLE_START]);
     sb_append(sb, "\n");
   } else {
     NonTerminal nterm = root->value.nonterm;
+    alist_append(ts, true);
+    if (is_end) {
+      alist_delete_last(ts);
+      alist_append(ts, false);
+    }
     sb_append(sb, nterm.symbol_name);
     sb_append(sb, "\n");
     for (int i = 0; i < nterm.num_children - 1; i += 1) {
       Node *child = nterm.children[i];
-      root_syntax_tree(child, sb, depth + 1, false);
+      root_syntax_tree(child, sb, depth + 1, false, ts);
     }
-    if (nterm.num_children > 0)
+    if (nterm.num_children > 0) {
       root_syntax_tree(nterm.children[nterm.num_children - 1], sb, depth + 1,
-                       true);
+                       true, ts);
+    }
+    alist_delete_last(ts);
   }
 }
 
@@ -81,9 +102,11 @@ void pt_pretty_print(const ParseTree *pt) {
     wprintf("Given tree with nil root!\n");
   } else {
     StringBuilder sb = {0};
-    root_syntax_tree(pt->root, &sb, 0, false);
+    TreeStatus ts = {0};
+    root_syntax_tree(pt->root, &sb, 0, false, &ts);
     char *syntax_tree = sb_to_cstring(&sb, MOVE);
     puts(syntax_tree);
+    alist_free(&ts);
     free(syntax_tree);
   }
 }
