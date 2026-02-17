@@ -7,6 +7,7 @@ int main(int argc, char **argv) {
   ParseTree pt = parse(&tl);
   printf("%s\n", pt.root->value.nonterm.symbol_name);
   pt_print_tokens(&pt);
+  pt_pretty_print(&pt);
   pt_delete(&pt);
   return EXIT_SUCCESS;
 }

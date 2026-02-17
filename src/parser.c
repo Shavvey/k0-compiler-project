@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "common.h"
 #include "k0gram.tab.h"
+#include "strb.h"
 #include "token.h"
 #include <stdarg.h>
 #include <stdio.h>
@@ -13,25 +14,28 @@ int k0_error(ParserContext *pc, const char *msg) {
 }
 
 ParseTree parse(TokenList *tl) {
-  /* Once we begin parsing, we have a auxillary struct
+  /* Once we begin parsing, we have an auxillary struct
    that helps manage the current state of the tree
-   and the next token that will be place inside it */
+   and the next token that will be placed inside it */
   ParserContext pc = {.tl = tl, .pt = {0}, .cursor = 0};
   print_tokens(tl);
   int res = k0_parse(&pc);
   if (res == 0) {
     printf("Somehow parsing worked!\n");
   }
-  // NOTE: TokenList should be "consumed" by now
-  // so there shouldn't be any underlying refernce to it
+  // NOTE: TokenList will be "consumed", into ParseTree
+  // So, we should free any references it holds
   free(tl->items); // mem "owned" by AST now
   return pc.pt;
 }
 
-/* Recursive traversal of AST root, that will visit
+/* Recursive traversal of AST root that will visit
  * all the terminals/tokens and print them out */
 static void root_print_tokens(const Node *root) {
   bool is_term = root->is_term;
+  /* NOTE: root value either stores term or nonterm
+   * `is_term` acts as flag to access the union properly (see parser.h)
+   **/
   if (is_term) {
     Terminal term = root->value.term;
     printf("Found token: %d\n", term.category);
@@ -41,6 +45,40 @@ static void root_print_tokens(const Node *root) {
     for (int i = 0; i < nterm.num_children; i += 1) {
       root_print_tokens(nterm.children[i]);
     }
+  }
+}
+static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth) {
+
+  // first account for depth
+  for (int i = 0; i < depth - 1; i += 1) {
+    sb_append(sb, "    ");
+  }
+  if (depth > 0) sb_append(sb, "├── ");
+  bool is_term = root->is_term;
+  if (is_term) {
+    Terminal term = root->value.term;
+    sb_append(sb, ytab_ltable[term.category - YTABLE_START]);
+    sb_append(sb, "\n");
+  } else {
+    NonTerminal nterm = root->value.nonterm;
+    sb_append(sb, nterm.symbol_name);
+    sb_append(sb, "\n");
+    for (int i = 0; i < nterm.num_children; i += 1) {
+      Node *child = nterm.children[i];
+      root_syntax_tree(child, sb, depth+1);
+    }
+  }
+}
+
+void pt_pretty_print(const ParseTree *pt) {
+  if (pt == NULL) {
+    wprintf("Given tree with nil root!\n");
+  } else {
+    StringBuilder sb = {0};
+    root_syntax_tree(pt->root, &sb, 0);
+    char *syntax_tree = sb_to_cstring(&sb, MOVE);
+    puts(syntax_tree);
+    free(syntax_tree);
   }
 }
 

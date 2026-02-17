@@ -39,4 +39,5 @@ Node *create_nterm(const int prod_rule, char *symbol_name,
 Node *create_term(Token *token);
 void pt_print_tokens(const ParseTree *pt);
 void pt_delete(ParseTree *pt);
+void pt_pretty_print(const ParseTree *pt);
 #endif  // INCLUDE_SRC_PARSER_H_
