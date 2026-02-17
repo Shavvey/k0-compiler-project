@@ -77,16 +77,15 @@
 /* First part of user prologue.  */
 #line 157 "src/k0gram.y"
 
-  #include "lexer.h"
   #include "parser.h"
   extern const char *filename;
   extern int lineno;
   /* Function prototypes */
   extern void yyerror(ParserContext *pc, const char *msg);
   extern int yylex(ParserContext *pc);
-  // int k0_debug = 1;
+  int k0_debug = 1;
 
-#line 90 "src/k0gram.tab.c"
+#line 89 "src/k0gram.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -592,9 +591,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   169,   169,   170,   172,   173,   175,   177,   178,   180,
-     182,   184,   185,   187,   189,   190,   192,   193,   195,   196,
-     197,   198,   200,   203,   204,   206,   207
+       0,   168,   168,   169,   171,   172,   174,   176,   177,   179,
+     181,   183,   184,   186,   188,   189,   191,   192,   194,   195,
+     196,   197,   199,   202,   203,   205,   206
 };
 #endif
 
@@ -1191,157 +1190,157 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: func_list  */
-#line 169 "src/k0gram.y"
+#line 168 "src/k0gram.y"
                    { yyval = create_nterm(yyn, "program", 1, yyvsp[0]); pc->pt.root = yyval; }
-#line 1197 "src/k0gram.tab.c"
+#line 1196 "src/k0gram.tab.c"
     break;
 
   case 3: /* program: %empty  */
-#line 170 "src/k0gram.y"
-                { printf("[WARN]: Empty program\n"); }
-#line 1203 "src/k0gram.tab.c"
+#line 169 "src/k0gram.y"
+                { printf("[WARN]: Empty program\n"); pc->pt.root = yyval; }
+#line 1202 "src/k0gram.tab.c"
     break;
 
   case 4: /* func_list: func_list func  */
-#line 172 "src/k0gram.y"
-                          { yyval = create_nterm(yyn, "func_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1209 "src/k0gram.tab.c"
+#line 171 "src/k0gram.y"
+                          { yyval = create_nterm(yyn, "func_list", 2, yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1208 "src/k0gram.tab.c"
     break;
 
   case 5: /* func_list: func  */
-#line 173 "src/k0gram.y"
-                { yyval = create_nterm(yyn, "func_list", 1, yyvsp[0]); }
-#line 1215 "src/k0gram.tab.c"
+#line 172 "src/k0gram.y"
+                { yyval = create_nterm(yyn, "func_list", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1214 "src/k0gram.tab.c"
     break;
 
   case 6: /* func: FUN IDENTIFIER LPAR arg_list RPAR block  */
-#line 175 "src/k0gram.y"
-                                              { yyval = create_nterm(yyn, "func", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1221 "src/k0gram.tab.c"
+#line 174 "src/k0gram.y"
+                                              { yyval = create_nterm(yyn, "func", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1220 "src/k0gram.tab.c"
     break;
 
   case 7: /* arg_list: arg_list arg  */
-#line 177 "src/k0gram.y"
-                       { yyval = create_nterm(yyn, "arg_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1227 "src/k0gram.tab.c"
+#line 176 "src/k0gram.y"
+                       { yyval = create_nterm(yyn, "arg_list", 2, yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1226 "src/k0gram.tab.c"
     break;
 
   case 8: /* arg_list: arg  */
-#line 178 "src/k0gram.y"
-              {yyval = create_nterm(yyn, "arg_list", 1, yyvsp[0]); }
-#line 1233 "src/k0gram.tab.c"
+#line 177 "src/k0gram.y"
+              {yyval = create_nterm(yyn, "arg_list", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1232 "src/k0gram.tab.c"
     break;
 
   case 9: /* arg: IDENTIFIER COLON type  */
-#line 180 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "arg", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1239 "src/k0gram.tab.c"
+#line 179 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "arg", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1238 "src/k0gram.tab.c"
     break;
 
   case 10: /* block: LCURL stmt_list RCURL  */
-#line 182 "src/k0gram.y"
-                             { yyval = create_nterm(yyn, "block", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1245 "src/k0gram.tab.c"
+#line 181 "src/k0gram.y"
+                             { yyval = create_nterm(yyn, "block", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1244 "src/k0gram.tab.c"
     break;
 
   case 11: /* stmt_list: stmt_list stmt  */
-#line 184 "src/k0gram.y"
-                          { yyval = create_nterm(yyn, "stmt_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1251 "src/k0gram.tab.c"
+#line 183 "src/k0gram.y"
+                          { yyval = create_nterm(yyn, "stmt_list", 2, yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1250 "src/k0gram.tab.c"
     break;
 
   case 12: /* stmt_list: stmt  */
-#line 185 "src/k0gram.y"
-                { yyval = create_nterm(yyn, "stmt_list", 1, yyvsp[0]); }
-#line 1257 "src/k0gram.tab.c"
+#line 184 "src/k0gram.y"
+                { yyval = create_nterm(yyn, "stmt_list", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1256 "src/k0gram.tab.c"
     break;
 
   case 13: /* stmt: primary_expr  */
-#line 187 "src/k0gram.y"
-                   {yyval = create_nterm(yyn, "stmt", 1, yyvsp[0]); }
-#line 1263 "src/k0gram.tab.c"
+#line 186 "src/k0gram.y"
+                   {yyval = create_nterm(yyn, "stmt", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1262 "src/k0gram.tab.c"
     break;
 
   case 14: /* params: params COMMA param  */
-#line 189 "src/k0gram.y"
-                           {yyval = create_nterm(yyn, "params", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1269 "src/k0gram.tab.c"
+#line 188 "src/k0gram.y"
+                           {yyval = create_nterm(yyn, "params", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); pc->pt.root = yyval; }
+#line 1268 "src/k0gram.tab.c"
     break;
 
   case 15: /* params: param  */
-#line 190 "src/k0gram.y"
-              {yyval = create_nterm(yyn, "params", 1, yyvsp[0]); }
-#line 1275 "src/k0gram.tab.c"
+#line 189 "src/k0gram.y"
+              {yyval = create_nterm(yyn, "params", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1274 "src/k0gram.tab.c"
     break;
 
   case 16: /* param: IDENTIFIER  */
-#line 192 "src/k0gram.y"
-                  { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
-#line 1281 "src/k0gram.tab.c"
+#line 191 "src/k0gram.y"
+                  { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1280 "src/k0gram.tab.c"
     break;
 
   case 17: /* param: literal  */
-#line 193 "src/k0gram.y"
-               { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
-#line 1287 "src/k0gram.tab.c"
+#line 192 "src/k0gram.y"
+               { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1286 "src/k0gram.tab.c"
     break;
 
   case 18: /* literal: INTEGERLITERAL  */
-#line 195 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1293 "src/k0gram.tab.c"
+#line 194 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1292 "src/k0gram.tab.c"
     break;
 
   case 19: /* literal: REALLITERAL  */
-#line 196 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1299 "src/k0gram.tab.c"
+#line 195 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1298 "src/k0gram.tab.c"
     break;
 
   case 20: /* literal: STRINGLITERAL  */
-#line 197 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1305 "src/k0gram.tab.c"
+#line 196 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1304 "src/k0gram.tab.c"
     break;
 
   case 21: /* literal: CHARACTERLITERAL  */
-#line 198 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1311 "src/k0gram.tab.c"
+#line 197 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1310 "src/k0gram.tab.c"
     break;
 
   case 22: /* primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON  */
-#line 201 "src/k0gram.y"
-            {yyval = create_nterm(yyn, "primary_expr", 5, yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1317 "src/k0gram.tab.c"
+#line 200 "src/k0gram.y"
+            {yyval = create_nterm(yyn, "primary_expr", 5, yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); pc->pt.root = yyval;  }
+#line 1316 "src/k0gram.tab.c"
     break;
 
   case 23: /* quest: QUEST_NO_WS  */
-#line 203 "src/k0gram.y"
-                   { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); }
-#line 1323 "src/k0gram.tab.c"
+#line 202 "src/k0gram.y"
+                   { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1322 "src/k0gram.tab.c"
     break;
 
   case 24: /* quest: QUEST_WS  */
-#line 204 "src/k0gram.y"
-                {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); }
-#line 1329 "src/k0gram.tab.c"
+#line 203 "src/k0gram.y"
+                {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1328 "src/k0gram.tab.c"
     break;
 
   case 25: /* type: IDENTIFIER  */
-#line 206 "src/k0gram.y"
-                 { yyval = create_nterm(yyn, "type", 1, yyvsp[0]); }
-#line 1335 "src/k0gram.tab.c"
+#line 205 "src/k0gram.y"
+                 { yyval = create_nterm(yyn, "type", 1, yyvsp[0]); pc->pt.root = yyval; }
+#line 1334 "src/k0gram.tab.c"
     break;
 
   case 26: /* type: IDENTIFIER quest  */
-#line 207 "src/k0gram.y"
-                       {yyval = create_nterm(yyn, "type", 2, yyvsp[-1], yyvsp[0]); }
-#line 1341 "src/k0gram.tab.c"
+#line 206 "src/k0gram.y"
+                       {yyval = create_nterm(yyn, "type", 2, yyvsp[-1], yyvsp[0]); pc->pt.root = yyval;  }
+#line 1340 "src/k0gram.tab.c"
     break;
 
 
-#line 1345 "src/k0gram.tab.c"
+#line 1344 "src/k0gram.tab.c"
 
       default: break;
     }

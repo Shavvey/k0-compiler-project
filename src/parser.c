@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int k0_error(ParseTree *pt, const char *msg) {
-  pt_print_tokens(pt);
-  fprintf(stderr, "[PARSE ERROR]: Occured when parsing %s\n:", msg);
+int k0_error(ParserContext *pc, const char *msg) {
+  printf("Tree root address: %p\n", pc->pt.root);
+  fprintf(stderr, "[PARSE ERROR] => Occured during parsing: %s\n", msg);
   exit(EXIT_FAILURE);
 }
 
@@ -16,17 +16,20 @@ ParseTree parse(TokenList *tl) {
   /* Once we begin parsing, we have a auxillary struct
    that helps manage the current state of the tree
    and the next token that will be place inside it */
-  ParserContext pc = {.tl = tl, .pt = {0}};
+  ParserContext pc = {.tl = tl, .pt = {0}, .cursor = 0};
+  print_tokens(tl);
   int res = k0_parse(&pc);
   if (res == 0) {
     printf("Somehow parsing worked!\n");
   }
   // NOTE: TokenList should be "consumed" by now
   // so there shouldn't be any underlying refernce to it
-  tl->items = NULL; // mem "owned" by AST now
+  free(tl->items); // mem "owned" by AST now
   return pc.pt;
 }
 
+/* Recursive traversal of AST root, that will visit
+ * all the terminals/tokens and print them out */
 static void root_print_tokens(const Node *root) {
   bool is_term = root->is_term;
   if (is_term) {
@@ -43,19 +46,36 @@ static void root_print_tokens(const Node *root) {
 
 void pt_print_tokens(const ParseTree *pt) { root_print_tokens(pt->root); }
 
+static void root_delete(Node *root) {
+  bool is_term = root->is_term;
+  if (!is_term) {
+    NonTerminal nterm = root->value.nonterm;
+    for (int i = 0; i < nterm.num_children; i += 1) {
+      // destroy all children first
+      root_delete(nterm.children[i]);
+    }
+    free(root);
+  } else {
+    // destroy terminal
+    Terminal nt = root->value.term;
+    free(nt.lexeme);
+    free(nt.filename);
+    free(nt.val.sval);
+    free(root);
+  }
+}
+
+void pt_delete(ParseTree *pt) { root_delete(pt->root); }
+
 /* I can't believe this works, kind of */
 int k0_lex(ParserContext *pc) {
-  TokenList tlist = *pc->tl;
-  if (pc->cursor == tlist.size) {
-    return K0_EMPTY;
-  }
-  K0_STYPE peek = create_term(tlist.items + pc->cursor);
-  Token token = peek->value.term;
-  printf("Peeking token value! %d:%s\n", token.category,
-         ytab_ltable[token.category - YTABLE_START]);
-  k0_lval = peek;
+  if (pc->cursor == pc->tl->size) return K0_EOF;
+  Token *token = pc->tl->items + pc->cursor;
+  printf("Peeking token value! %d:%s\n", token->category,
+         ytab_ltable[token->category - YTABLE_START]);
+  k0_lval = create_term(token);
   pc->cursor += 1;
-  return token.category;
+  return token->category;
 }
 
 /* This is a tricky function. Right now, I am trying to use
@@ -63,16 +83,13 @@ int k0_lex(ParserContext *pc) {
  * ammount of children */
 Node *create_nterm(const int prod_rule, char *symbol_name,
                    const int num_children, ...) {
+  printf("Creating new nonterm!\n");
   Node *nterm_parent = malloc(sizeof(Node) * 1);
-  int len = strlen(symbol_name);
-  char *copy_symbol_name = (char *)malloc(sizeof(char) * (len + 1));
-  copy_symbol_name[len] = '\0';
-  strcpy(copy_symbol_name, symbol_name);
   nterm_parent->value.nonterm =
       (NonTerminal){.children = (Node **)malloc(sizeof(Node *) * num_children),
                     .num_children = num_children,
                     .prod_rule = prod_rule,
-                    .symbol_name = copy_symbol_name};
+                    .symbol_name = symbol_name};
   nterm_parent->is_term = false;
   va_list args;
   va_start(args, num_children);
@@ -89,6 +106,7 @@ Node *create_nterm(const int prod_rule, char *symbol_name,
  * NOTE: We may want to copy the entire value of the Token,
  * I haven't quite decided yet which is best*/
 Node *create_term(Token *token) {
+  printf("Creating new term for %d!\n", token->category);
   Node *n = malloc(sizeof(Node) * 1);
   n->value.term = *token;
   n->is_term = true;
