@@ -223,7 +223,7 @@ void print_tokens(const TokenList *tl) {
   // print out the header of the table
   const char *const header[] = {"Type", "Lexeme", "Lineno", "File",
                                 "Sval/Ival/Dval"};
-  const int DIV_LENGTH = 110;
+  const int DIV_LENGTH = 105;
   char *div = (char *)malloc(DIV_LENGTH * sizeof(char));
   for (int i = 0; i < DIV_LENGTH; i++) {
     div[i] = '-';
@@ -234,7 +234,7 @@ void print_tokens(const TokenList *tl) {
   for (size_t ts = 0; ts < tl->size; ts += 1) {
     Token token = tl->items[ts];
     // NOTE: make a better guess at the padding required for each row!
-    printf("%-3d:%-20s%-30s%-10d%-15s", token.category,
+    printf("%-3d:%-21s%-30s%-10d%-15s", token.category,
            ytab_ltable[token.category - 258], token.lexeme, token.lineno,
            token.filename);
     switch (token.category) {

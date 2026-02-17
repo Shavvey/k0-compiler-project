@@ -62,17 +62,11 @@ static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth,
     (is_ongoing) ? sb_append(sb, "│   ") : sb_append(sb, "    ");
   }
 
-  if (depth > 0) {
-    if (is_end) {
-      sb_append(sb, "└── ");
-    } else {
-      sb_append(sb, "├── ");
-    }
-  }
+  if (depth > 0)
+    (is_end) ? sb_append(sb, "└── ") : sb_append(sb, "├── ");
+
   bool is_term = root->is_term;
   if (is_term) {
-    alist_delete_last(ts);
-    alist_append(ts, false);
     Terminal term = root->value.term;
     sb_append(sb, ytab_ltable[term.category - YTABLE_START]);
     sb_append(sb, "\n");
