@@ -10,6 +10,7 @@
 int k0_error(ParserContext *pc, const char *msg) {
   printf("Tree root address: %p\n", pc->pt.root);
   fprintf(stderr, "[PARSE ERROR] => Occured during parsing: %s\n", msg);
+  // TODO: implement a proper cleanup routine here!
   exit(EXIT_FAILURE);
 }
 
@@ -140,14 +141,17 @@ void pt_delete(ParseTree *pt) {
   }
 }
 
-/* I can't believe this works, kind of */
+/* This is called from `k0_parse` during shift actions */
 int k0_lex(ParserContext *pc) {
   if (pc->cursor == pc->tl->size)
     return K0_EOF; // emit EOF symbol if tl tokens are exhausted
-  // peek token from tl based on cursor position
+  // Peek token from tl based on cursor position
   Token *peek = pc->tl->items + pc->cursor;
   printf("Peeking token value! %d:%s\n", peek->category,
          ytab_ltable[peek->category - YTABLE_START]);
+  // Construct terminal (token) from peeked value
+  // NOTE: shallow copy is happening here, be wary of this during cleanup if
+  // parsing fails
   k0_lval = create_term(peek);
   pc->cursor += 1;
   return peek->category;

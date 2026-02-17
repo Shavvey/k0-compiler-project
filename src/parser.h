@@ -18,7 +18,7 @@ typedef struct _Node {
     Terminal term;
     NonTerminal nonterm;
   } value;
-  bool is_term;
+  bool is_term; // NOTE: a tag, to make sure union value is accessed properly
 } Node;
 
 typedef struct {
@@ -27,8 +27,8 @@ typedef struct {
 
 typedef struct {
   ParseTree pt; // NOTE: Okay to pass by value, only contains pointer
-  TokenList *tl;
-  size_t cursor;
+  TokenList *tl; 
+  size_t cursor; // Used to "peek" the next token during parsing
 } ParserContext;
 
 // API

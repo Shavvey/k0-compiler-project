@@ -28,6 +28,17 @@ do {\
   exit(1);\
 }while(0)
 
+/* ARRAY LIST INTERFACE */
+
+/* ArrayList (al) requires a few struct members to be implemented:
+ * al = &struct{size_t capacity, size_t size, <type> *items, ...}
+ *
+ * al is a pointer to struct with at least three members visible:
+ * capacity: The current allocation capacity of arraylist.
+ *           When capacity == size, reallocation occurs by some def increment.
+ * size: The current size of the arraylist (i.e. items is an [0, size-1] array of items).
+ * items: A pointer to an array of elements. This can be any type, (so long as it is not a void * pointer!).
+ **/
 #define AL_RESIZE_INC 1 << 3
 
 #define alist_last(al) (al)->items[(al)->size-1]
