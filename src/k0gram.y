@@ -165,42 +165,42 @@
 %}
 %start program
 %%
-program: func_list { $$ = create_nterm(yyn, "program", 1, $1); pc->pt.root = $$; }
+program: func_list { pc->pt.root = $$ = create_nterm(yyn, "program", 1, $1); }
        | %empty { printf("[WARN]: Empty program\n"); pc->pt.root = $$; }; 
 
-func_list: func_list func { $$ = create_nterm(yyn, "func_list", 2, $1, $2); pc->pt.root = $$; }
-         | func { $$ = create_nterm(yyn, "func_list", 1, $1); pc->pt.root = $$; };
+func_list: func_list func { $$ = create_nterm(yyn, "func_list", 2, $1, $2);  }
+         | func { $$ = create_nterm(yyn, "func_list", 1, $1);  };
 
-func: FUN IDENTIFIER LPAR arg_list RPAR block { $$ = create_nterm(yyn, "func", 6, $1, $2, $3, $4, $5, $6); pc->pt.root = $$; };
+func: FUN IDENTIFIER LPAR arg_list RPAR block { $$ = create_nterm(yyn, "func", 6, $1, $2, $3, $4, $5, $6); };
 
-arg_list: arg_list arg { $$ = create_nterm(yyn, "arg_list", 2, $1, $2); pc->pt.root = $$; }
-        | arg {$$ = create_nterm(yyn, "arg_list", 1, $1); pc->pt.root = $$; } ;
+arg_list: arg_list arg { $$ = create_nterm(yyn, "arg_list", 2, $1, $2); }
+        | arg {$$ = create_nterm(yyn, "arg_list", 1, $1);  } ;
         
-arg: IDENTIFIER COLON type { $$ = create_nterm(yyn, "arg", 3, $1, $2, $3); pc->pt.root = $$; };
+arg: IDENTIFIER COLON type { $$ = create_nterm(yyn, "arg", 3, $1, $2, $3); };
 
-block: LCURL stmt_list RCURL { $$ = create_nterm(yyn, "block", 3, $1, $2, $3); pc->pt.root = $$; };
+block: LCURL stmt_list RCURL { $$ = create_nterm(yyn, "block", 3, $1, $2, $3); };
 
-stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); pc->pt.root = $$; }
-         | stmt { $$ = create_nterm(yyn, "stmt_list", 1, $1); pc->pt.root = $$; };
+stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); }
+         | stmt { $$ = create_nterm(yyn, "stmt_list", 1, $1); };
 
-stmt: primary_expr {$$ = create_nterm(yyn, "stmt", 1, $1); pc->pt.root = $$; };
+stmt: primary_expr {$$ = create_nterm(yyn, "stmt", 1, $1); };
     
-params: params COMMA param {$$ = create_nterm(yyn, "params", 3, $1, $2, $3); pc->pt.root = $$; }
-      | param {$$ = create_nterm(yyn, "params", 1, $1); pc->pt.root = $$; };
+params: params COMMA param {$$ = create_nterm(yyn, "params", 3, $1, $2, $3); }
+      | param {$$ = create_nterm(yyn, "params", 1, $1); };
 
-param: IDENTIFIER { $$ = create_nterm(yyn, "param", 1, $1); pc->pt.root = $$; }
-     | literal { $$ = create_nterm(yyn, "param", 1, $1); pc->pt.root = $$; };
+param: IDENTIFIER { $$ = create_nterm(yyn, "param", 1, $1); }
+     | literal { $$ = create_nterm(yyn, "param", 1, $1); };
 
-literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); pc->pt.root = $$; }
-       | REALLITERAL       { $$ = create_nterm(yyn, "literal", 1, $1); pc->pt.root = $$; }
-       | STRINGLITERAL     { $$ = create_nterm(yyn, "literal", 1, $1); pc->pt.root = $$; }
-       | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); pc->pt.root = $$; }
+literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | REALLITERAL       { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | STRINGLITERAL     { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
 
 primary_expr: IDENTIFIER LPAR params RPAR SEMICOLON
-            {$$ = create_nterm(yyn, "primary_expr", 5, $1, $2, $3, $4, $5); pc->pt.root = $$;  };
+            {$$ = create_nterm(yyn, "primary_expr", 5, $1, $2, $3, $4, $5); };
 
-quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1); pc->pt.root = $$; }
-     | QUEST_WS {  $$ = create_nterm(yyn, "quest", 1, $1); pc->pt.root = $$; };
+quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1);  }
+     | QUEST_WS {  $$ = create_nterm(yyn, "quest", 1, $1);  };
 
-type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1); pc->pt.root = $$; }
-    | IDENTIFIER quest {$$ = create_nterm(yyn, "type", 2, $1, $2); pc->pt.root = $$;  };
+type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  }
+    | IDENTIFIER quest {$$ = create_nterm(yyn, "type", 2, $1, $2);   };

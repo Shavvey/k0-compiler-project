@@ -1,10 +1,10 @@
 #include "parser.h"
+#include "common.h"
 #include "k0gram.tab.h"
 #include "token.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int k0_error(ParserContext *pc, const char *msg) {
   printf("Tree root address: %p\n", pc->pt.root);
@@ -44,7 +44,13 @@ static void root_print_tokens(const Node *root) {
   }
 }
 
-void pt_print_tokens(const ParseTree *pt) { root_print_tokens(pt->root); }
+void pt_print_tokens(const ParseTree *pt) {
+  if (pt == NULL) {
+    wprintf("Given tree with nil root!\n");
+  } else {
+    root_print_tokens(pt->root);
+  }
+}
 
 static void root_delete(Node *root) {
   bool is_term = root->is_term;
@@ -54,6 +60,7 @@ static void root_delete(Node *root) {
       // destroy all children first
       root_delete(nterm.children[i]);
     }
+    free(nterm.children);
     free(root);
   } else {
     // destroy terminal
@@ -65,17 +72,25 @@ static void root_delete(Node *root) {
   }
 }
 
-void pt_delete(ParseTree *pt) { root_delete(pt->root); }
+void pt_delete(ParseTree *pt) {
+  if (pt == NULL) {
+    wprintf("Given tree with nil root!\n");
+  } else {
+    root_delete(pt->root);
+  }
+}
 
 /* I can't believe this works, kind of */
 int k0_lex(ParserContext *pc) {
-  if (pc->cursor == pc->tl->size) return K0_EOF;
-  Token *token = pc->tl->items + pc->cursor;
-  printf("Peeking token value! %d:%s\n", token->category,
-         ytab_ltable[token->category - YTABLE_START]);
-  k0_lval = create_term(token);
+  if (pc->cursor == pc->tl->size)
+    return K0_EOF; // emit EOF symbol if tl tokens are exhausted
+  // peek token from tl based on cursor position
+  Token *peek = pc->tl->items + pc->cursor;
+  printf("Peeking token value! %d:%s\n", peek->category,
+         ytab_ltable[peek->category - YTABLE_START]);
+  k0_lval = create_term(peek);
   pc->cursor += 1;
-  return token->category;
+  return peek->category;
 }
 
 /* This is a tricky function. Right now, I am trying to use
@@ -83,7 +98,6 @@ int k0_lex(ParserContext *pc) {
  * ammount of children */
 Node *create_nterm(const int prod_rule, char *symbol_name,
                    const int num_children, ...) {
-  printf("Creating new nonterm!\n");
   Node *nterm_parent = malloc(sizeof(Node) * 1);
   nterm_parent->value.nonterm =
       (NonTerminal){.children = (Node **)malloc(sizeof(Node *) * num_children),
@@ -108,7 +122,7 @@ Node *create_nterm(const int prod_rule, char *symbol_name,
 Node *create_term(Token *token) {
   printf("Creating new term for %d!\n", token->category);
   Node *n = malloc(sizeof(Node) * 1);
-  n->value.term = *token;
+  n->value.term = *token; // WARN: shallow copy
   n->is_term = true;
   return n;
 }
