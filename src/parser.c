@@ -48,14 +48,15 @@ static void root_print_tokens(const Node *root) {
   }
 }
 
-static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth) {
+static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth,
+                             bool is_end) {
 
   // first account for depth
   for (int i = 0; i < depth - 1; i += 1) {
     sb_append(sb, "│     ");
   }
   if (depth > 0)
-    sb_append(sb, "├── ");
+     (is_end) ? sb_append(sb, "└── ") : sb_append(sb, "├── ");
   bool is_term = root->is_term;
   if (is_term) {
     Terminal term = root->value.term;
@@ -65,10 +66,13 @@ static void root_syntax_tree(const Node *root, StringBuilder *sb, int depth) {
     NonTerminal nterm = root->value.nonterm;
     sb_append(sb, nterm.symbol_name);
     sb_append(sb, "\n");
-    for (int i = 0; i < nterm.num_children; i += 1) {
+    for (int i = 0; i < nterm.num_children - 1; i += 1) {
       Node *child = nterm.children[i];
-      root_syntax_tree(child, sb, depth + 1);
+      root_syntax_tree(child, sb, depth + 1, false);
     }
+    if (nterm.num_children > 0)
+      root_syntax_tree(nterm.children[nterm.num_children - 1], sb, depth + 1,
+                       true);
   }
 }
 
@@ -77,7 +81,7 @@ void pt_pretty_print(const ParseTree *pt) {
     wprintf("Given tree with nil root!\n");
   } else {
     StringBuilder sb = {0};
-    root_syntax_tree(pt->root, &sb, 0);
+    root_syntax_tree(pt->root, &sb, 0, false);
     char *syntax_tree = sb_to_cstring(&sb, MOVE);
     puts(syntax_tree);
     free(syntax_tree);
