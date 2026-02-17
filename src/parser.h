@@ -26,7 +26,7 @@ typedef struct {
 } ParseTree;
 
 typedef struct {
-  ParseTree pt; // NOTE: Okay to pass by ref, only contains pointer
+  ParseTree pt; // NOTE: Okay to pass by value, only contains pointer
   TokenList *tl;
   size_t cursor;
 } ParserContext;
