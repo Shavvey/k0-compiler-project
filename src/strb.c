@@ -14,6 +14,8 @@ StringBuilder sb_from_cstring(char *str, CopyOrMove opt) {
 }
 
 void sb_append(StringBuilder *sb, const char *str) {
+  if (str == NULL)
+    return;
   alist_append_many(sb, str, strlen(str));
 }
 
