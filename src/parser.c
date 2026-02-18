@@ -70,6 +70,11 @@ static void root_syntax_tree(const Node *root, StringBuilder *sb, bool is_end,
   if (is_term) {
     Terminal term = root->value.term;
     sb_append(sb, ytab_ltable[term.category - YTABLE_START]);
+    // NOTE: print out interger code for debugging purposes
+    // char *str = (char *)malloc(sizeof(char) * 5);
+    // snprintf(str, 5, ":%d", term.category);
+    // sb_append(sb, str);
+    // free(str);
     sb_append(sb, "\n");
   } else {
     NonTerminal nterm = root->value.nonterm;
@@ -157,6 +162,14 @@ int k0_lex(ParserContext *pc) {
   return peek->category;
 }
 
+static void print_node(Node *n) {
+  if (n->is_term) {
+    printf("%s\n", ytab_ltable[n->value.term.category - YTABLE_START]);
+  } else {
+    printf("%s\n", n->value.nonterm.symbol_name);
+  }
+}
+
 /* This is a tricky function. Right now, I am trying to use
  * a variatic array of arguments to produce an AST node with an arbitrary
  * ammount of children */
@@ -169,10 +182,13 @@ Node *create_nterm(const int prod_rule, char *symbol_name,
                     .prod_rule = prod_rule,
                     .symbol_name = symbol_name};
   nterm_parent->is_term = false;
+  // first determine all children passed that are not null
   va_list args;
   va_start(args, num_children);
   for (int i = 0; i < num_children; i += 1) {
     Node *node = va_arg(args, Node *);
+    printf("Node currently being inserted: ");
+    print_node(node);
     nterm_parent->value.nonterm.children[i] = node;
   }
   va_end(args);
