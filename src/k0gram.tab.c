@@ -188,13 +188,13 @@ enum yysymbol_kind_t
   YYSYMBOL_program = 72,                   /* program  */
   YYSYMBOL_func_list = 73,                 /* func_list  */
   YYSYMBOL_func = 74,                      /* func  */
-  YYSYMBOL_arg_list = 75,                  /* arg_list  */
-  YYSYMBOL_arg = 76,                       /* arg  */
+  YYSYMBOL_param_list = 75,                /* param_list  */
+  YYSYMBOL_param = 76,                     /* param  */
   YYSYMBOL_block = 77,                     /* block  */
   YYSYMBOL_stmt_list = 78,                 /* stmt_list  */
   YYSYMBOL_stmt = 79,                      /* stmt  */
-  YYSYMBOL_param_list = 80,                /* param_list  */
-  YYSYMBOL_param = 81,                     /* param  */
+  YYSYMBOL_arg_list = 80,                  /* arg_list  */
+  YYSYMBOL_arg = 81,                       /* arg  */
   YYSYMBOL_literal = 82,                   /* literal  */
   YYSYMBOL_primary_expr = 83,              /* primary_expr  */
   YYSYMBOL_quest = 84,                     /* quest  */
@@ -621,8 +621,8 @@ static const char *const yytname[] =
   "IDENTIFIER", "LPAR", "RPAR", "LSQUARE", "RSQUARE", "COLON", "SEMICOLON",
   "LCURL", "RCURL", "EXCL_EXCL", "RANGE", "RANGE_UNTIL", "CONST", "IMPORT",
   "HASH", "IN", "ERRNO", "EOFNO", "$accept", "program", "func_list",
-  "func", "arg_list", "arg", "block", "stmt_list", "stmt", "param_list",
-  "param", "literal", "primary_expr", "quest", "type", YY_NULLPTR
+  "func", "param_list", "param", "block", "stmt_list", "stmt", "arg_list",
+  "arg", "literal", "primary_expr", "quest", "type", YY_NULLPTR
 };
 
 static const char *
@@ -1213,27 +1213,27 @@ yyreduce:
 #line 1214 "src/k0gram.tab.c"
     break;
 
-  case 6: /* func: FUN IDENTIFIER LPAR arg_list RPAR block  */
+  case 6: /* func: FUN IDENTIFIER LPAR param_list RPAR block  */
 #line 176 "src/k0gram.y"
-                                              { yyval = create_nterm(yyn, "func", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+                                                { yyval = create_nterm(yyn, "func", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
 #line 1220 "src/k0gram.tab.c"
     break;
 
-  case 7: /* arg_list: arg_list arg  */
+  case 7: /* param_list: param_list param  */
 #line 179 "src/k0gram.y"
-                       { yyval = create_nterm(yyn, "arg_list", 2, yyvsp[-1], yyvsp[0]); }
+                             { yyval = create_nterm(yyn, "param_list", 2, yyvsp[-1], yyvsp[0]); }
 #line 1226 "src/k0gram.tab.c"
     break;
 
-  case 8: /* arg_list: arg  */
+  case 8: /* param_list: param  */
 #line 180 "src/k0gram.y"
-              {yyval = create_nterm(yyn, "arg_list", 1, yyvsp[0]);  }
+                {yyval = create_nterm(yyn, "param_list", 1, yyvsp[0]);  }
 #line 1232 "src/k0gram.tab.c"
     break;
 
-  case 9: /* arg: IDENTIFIER COLON type  */
+  case 9: /* param: IDENTIFIER COLON type  */
 #line 183 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "arg", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+                             { yyval = create_nterm(yyn, "param", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
 #line 1238 "src/k0gram.tab.c"
     break;
 
@@ -1261,27 +1261,27 @@ yyreduce:
 #line 1262 "src/k0gram.tab.c"
     break;
 
-  case 14: /* param_list: param_list COMMA param  */
+  case 14: /* arg_list: arg_list COMMA arg  */
 #line 197 "src/k0gram.y"
-                             {yyval = create_nterm(yyn, "param_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+                         {yyval = create_nterm(yyn, "arg_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
 #line 1268 "src/k0gram.tab.c"
     break;
 
-  case 15: /* param_list: param  */
+  case 15: /* arg_list: arg  */
 #line 198 "src/k0gram.y"
-              {yyval = create_nterm(yyn, "param_list", 1, yyvsp[0]); }
+            {yyval = create_nterm(yyn, "arg_list", 1, yyvsp[0]); }
 #line 1274 "src/k0gram.tab.c"
     break;
 
-  case 17: /* param: IDENTIFIER  */
+  case 17: /* arg: IDENTIFIER  */
 #line 202 "src/k0gram.y"
-                  { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
+                { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
 #line 1280 "src/k0gram.tab.c"
     break;
 
-  case 18: /* param: literal  */
+  case 18: /* arg: literal  */
 #line 203 "src/k0gram.y"
-               { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
+               { yyval = create_nterm(yyn, "arg", 1, yyvsp[0]); }
 #line 1286 "src/k0gram.tab.c"
     break;
 
@@ -1309,7 +1309,7 @@ yyreduce:
 #line 1310 "src/k0gram.tab.c"
     break;
 
-  case 23: /* primary_expr: IDENTIFIER LPAR param_list RPAR SEMICOLON  */
+  case 23: /* primary_expr: IDENTIFIER LPAR arg_list RPAR SEMICOLON  */
 #line 213 "src/k0gram.y"
             {yyval = create_nterm(yyn, "primary_expr", 5, yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
 #line 1316 "src/k0gram.tab.c"
