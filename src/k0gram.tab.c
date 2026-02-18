@@ -1273,80 +1273,86 @@ yyreduce:
 #line 1274 "src/k0gram.tab.c"
     break;
 
+  case 16: /* arg_list: %empty  */
+#line 199 "src/k0gram.y"
+               { yyval = NULL; }
+#line 1280 "src/k0gram.tab.c"
+    break;
+
   case 17: /* arg: IDENTIFIER  */
 #line 202 "src/k0gram.y"
                 { yyval = create_nterm(yyn, "param", 1, yyvsp[0]); }
-#line 1280 "src/k0gram.tab.c"
+#line 1286 "src/k0gram.tab.c"
     break;
 
   case 18: /* arg: literal  */
 #line 203 "src/k0gram.y"
                { yyval = create_nterm(yyn, "arg", 1, yyvsp[0]); }
-#line 1286 "src/k0gram.tab.c"
+#line 1292 "src/k0gram.tab.c"
     break;
 
   case 19: /* literal: INTEGERLITERAL  */
 #line 206 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1292 "src/k0gram.tab.c"
+#line 1298 "src/k0gram.tab.c"
     break;
 
   case 20: /* literal: REALLITERAL  */
 #line 207 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1298 "src/k0gram.tab.c"
+#line 1304 "src/k0gram.tab.c"
     break;
 
   case 21: /* literal: STRINGLITERAL  */
 #line 208 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1304 "src/k0gram.tab.c"
+#line 1310 "src/k0gram.tab.c"
     break;
 
   case 22: /* literal: CHARACTERLITERAL  */
 #line 209 "src/k0gram.y"
                            { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1310 "src/k0gram.tab.c"
+#line 1316 "src/k0gram.tab.c"
     break;
 
   case 23: /* primary_expr: IDENTIFIER LPAR arg_list RPAR SEMICOLON  */
 #line 213 "src/k0gram.y"
             {yyval = create_nterm(yyn, "primary_expr", 5, yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1316 "src/k0gram.tab.c"
+#line 1322 "src/k0gram.tab.c"
     break;
 
   case 24: /* quest: QUEST_NO_WS  */
 #line 215 "src/k0gram.y"
                    { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]);  }
-#line 1322 "src/k0gram.tab.c"
+#line 1328 "src/k0gram.tab.c"
     break;
 
   case 25: /* quest: QUEST_WS  */
 #line 216 "src/k0gram.y"
                 {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]);  }
-#line 1328 "src/k0gram.tab.c"
+#line 1334 "src/k0gram.tab.c"
     break;
 
   case 26: /* type: IDENTIFIER  */
 #line 219 "src/k0gram.y"
                  { yyval = create_nterm(yyn, "type", 1, yyvsp[0]);  }
-#line 1334 "src/k0gram.tab.c"
+#line 1340 "src/k0gram.tab.c"
     break;
 
   case 27: /* type: IDENTIFIER quest  */
 #line 220 "src/k0gram.y"
                        {yyval = create_nterm(yyn, "type", 2, yyvsp[-1], yyvsp[0]);   }
-#line 1340 "src/k0gram.tab.c"
+#line 1346 "src/k0gram.tab.c"
     break;
 
   case 28: /* type: IDENTIFIER LANGLE type RANGLE  */
 #line 221 "src/k0gram.y"
                                     {yyval = create_nterm(yyn, "type", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1346 "src/k0gram.tab.c"
+#line 1352 "src/k0gram.tab.c"
     break;
 
 
-#line 1350 "src/k0gram.tab.c"
+#line 1356 "src/k0gram.tab.c"
 
       default: break;
     }

@@ -178,19 +178,22 @@ Node *create_nterm(const int prod_rule, char *symbol_name,
   Node *nterm_parent = malloc(sizeof(Node) * 1);
   nterm_parent->value.nonterm =
       (NonTerminal){.children = (Node **)malloc(sizeof(Node *) * num_children),
-                    .num_children = num_children,
                     .prod_rule = prod_rule,
                     .symbol_name = symbol_name};
   nterm_parent->is_term = false;
   // first determine all children passed that are not null
+  size_t non_null_idx = 0;
   va_list args;
   va_start(args, num_children);
   for (int i = 0; i < num_children; i += 1) {
     Node *node = va_arg(args, Node *);
-    printf("Node currently being inserted: ");
-    print_node(node);
-    nterm_parent->value.nonterm.children[i] = node;
+    if (node != NULL) {
+      nterm_parent->value.nonterm.children[non_null_idx] = node;
+      non_null_idx += 1;
+    }
   }
+  // NOTE: Maybe we should also resize children alloc?
+  nterm_parent->value.nonterm.num_children = non_null_idx;
   va_end(args);
   return nterm_parent;
 }

@@ -196,7 +196,7 @@ stmt: primary_expr {$$ = create_nterm(yyn, "stmt", 1, $1); } // TODO: expand thi
 arg_list: 
       arg_list COMMA arg {$$ = create_nterm(yyn, "arg_list", 3, $1, $2, $3); }
       | arg {$$ = create_nterm(yyn, "arg_list", 1, $1); }
-      | %empty 
+      | %empty { $$ = NULL; }
       ;
 
 arg: IDENTIFIER { $$ = create_nterm(yyn, "param", 1, $1); }
