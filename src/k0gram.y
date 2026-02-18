@@ -164,30 +164,40 @@
   int k0_debug = 1;
 %}
 %start program
+%left ADD
 %%
-program: func_list { pc->pt.root = $$ = create_nterm(yyn, "program", 1, $1); }
+program: declr_list { pc->pt.root = $$ = create_nterm(yyn, "program", 1, $1); }
        | %empty { printf("[WARN]: Empty program\n"); pc->pt.root = $$; }
        ; 
 
-func_list: func_list func { $$ = create_nterm(yyn, "func_list", 2, $1, $2);  }
-         | func { $$ = create_nterm(yyn, "func_list", 1, $1);  }
+declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2);  }
+         | declr { $$ = create_nterm(yyn, "declr_list", 1, $1);  }
          ;
 
-func: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func", 6, $1, $2, $3, $4, $5, $6); }
+declr: func_declr { $$ = $$; } // NOTE: Maybe cut this?
+     ;
+
+func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
     ;
+
+var_declr: VAL IDENTIFIER COLON type ASSIGNMENT primary_expr SEMICOLON 
+         {$$ = create_nterm(yyn, "var_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
+         ;
 
 param_list: param_list param { $$ = create_nterm(yyn, "param_list", 2, $1, $2); }
         | param {$$ = create_nterm(yyn, "param_list", 1, $1);  } 
+        | %empty { $$ = NULL; }
         ;
         
 param: IDENTIFIER COLON type { $$ = create_nterm(yyn, "param", 3, $1, $2, $3); }
-   ;
+     ;
 
 block: LCURL stmt_list RCURL { $$ = create_nterm(yyn, "block", 3, $1, $2, $3); }
      ;
 
 stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } // Allows expansion of collection of statements
          | stmt { $$ = create_nterm(yyn, "stmt_list", 1, $1); }
+         | %empty { $$ = NULL; }
          ;
 
 stmt: primary_expr {$$ = create_nterm(yyn, "stmt", 1, $1); } // TODO: expand this please!
@@ -209,8 +219,18 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
        | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
        ;
 
-primary_expr: IDENTIFIER LPAR arg_list RPAR SEMICOLON
-            {$$ = create_nterm(yyn, "primary_expr", 5, $1, $2, $3, $4, $5); };
+primary_expr: func_call {$$ = $$; }
+            | assign_expr { $$ = $$; } 
+            ;
+
+func_call: IDENTIFIER LPAR arg_list RPAR SEMICOLON 
+         {$$ = create_nterm(yyn, "func_call", 5, $1, $2, $3, $4, $5); }
+         ;
+
+assign_expr: assign_expr ASSIGNMENT IDENTIFIER SEMICOLON {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr ASSIGNMENT literal SEMICOLON {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr ASSIGNMENT primary_expr {$$ = create_nterm(yyn, "assign_expr", 2, $1, $2); }
+           ;
 
 quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1);  } // production rule when whitespace doesn't have semantic meaning
      | QUEST_WS {  $$ = create_nterm(yyn, "quest", 1, $1);  }
@@ -220,3 +240,8 @@ type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  } // simple type (e.g
     | IDENTIFIER quest {$$ = create_nterm(yyn, "type", 2, $1, $2);   } // nullable type (e.g. x: Int?)
     | IDENTIFIER LANGLE type RANGLE {$$ = create_nterm(yyn, "type", 4, $1, $2, $3, $4); }  // array declaration (e.g. x: ArrayList<String>)
     ;
+
+term: IDENTIFIER { $$ = create_nterm(yyn, "term", 1, $1); }
+    | literal { $$ = create_nterm(yyn, "term", 1, $1); }
+    ;
+%%
