@@ -161,7 +161,7 @@
   /* Function prototypes */
   extern void yyerror(ParserContext *pc, const char *msg);
   extern int yylex(ParserContext *pc);
-  int k0_debug = 1;
+  // int k0_debug = 1;
 %}
 %start program
 %left ADD SUB
@@ -202,7 +202,7 @@ stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } //
          | %empty { $$ = NULL; }
          ;
 
-stmt: primary_expr {$$ = create_nterm(yyn, "stmt", 1, $1); } // TODO: expand this please!
+stmt: primary_expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expand this please!
     ;
     
 arg_list: 
@@ -223,15 +223,15 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
 
 primary_expr: func_call {$$ = $$; }
             | assign_expr { $$ = $$; } 
-            | expr {$$ = $$;}
+            | expr { $$ = $$; }
             ;
 
-func_call: IDENTIFIER LPAR arg_list RPAR SEMICOLON 
-         {$$ = create_nterm(yyn, "func_call", 5, $1, $2, $3, $4, $5); }
+func_call: IDENTIFIER LPAR arg_list RPAR
+         {$$ = create_nterm(yyn, "func_call", 4, $1, $2, $3, $4); }
          ;
 
-assign_expr: assign_expr ASSIGNMENT IDENTIFIER SEMICOLON {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
-           | assign_expr ASSIGNMENT literal SEMICOLON {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+assign_expr: assign_expr ASSIGNMENT IDENTIFIER {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr ASSIGNMENT literal {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
            | assign_expr ASSIGNMENT primary_expr {$$ = create_nterm(yyn, "assign_expr", 2, $1, $2); }
            ;
 
@@ -248,12 +248,12 @@ term: IDENTIFIER { $$ = create_nterm(yyn, "term", 1, $1); }
     | literal { $$ = create_nterm(yyn, "term", 1, $1); }
     ;
 
-expr: expr ADD expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
-    | expr SUB expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
-    | expr MULT expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
-    | expr DIV expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
-    | expr MOD expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
-    | LPAR expr RPAR {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
-    | term {$$ = create_nterm(yyn, "expr", 1, $1);}
+expr: expr ADD expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
+    | expr SUB expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
+    | expr MULT expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
+    | expr DIV expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
+    | expr MOD expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
+    | LPAR expr RPAR { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
+    | term { $$ = create_nterm(yyn, "expr", 1, $1); }
    ;
 %%

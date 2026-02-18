@@ -21,6 +21,9 @@ int lineno = 1;       // linenumber of current tokenizing file
 static void append_token(TokenList *tl, Token t) {
 #ifdef INS_SEMICOLON // NOTE: undef or comment out INS_SEMICOLON to disable this
   if (is_beginner(t.category) && is_ender(alist_last(tl).category) && newline) {
+    if (t.category == INTEGERLITERAL && newline) {
+      SYNTAX_WARN("Integer literal not used/saved to anything\n");
+    }
     alist_append(tl, new_token(SEMICOLON, "AUTO INSERTED SEMICOLON", filename,
                                lineno - 1));
   }

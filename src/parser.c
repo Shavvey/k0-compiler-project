@@ -70,7 +70,7 @@ static void root_syntax_tree(const Node *root, StringBuilder *sb, bool is_end,
   if (is_term) {
     Terminal term = root->value.term;
     sb_append(sb, ytab_ltable[term.category - YTABLE_START]);
-    // NOTE: print out interger code for debugging purposes
+    // NOTE: print out integer code for debugging purposes
     // char *str = (char *)malloc(sizeof(char) * 5);
     // snprintf(str, 5, ":%d", term.category);
     // sb_append(sb, str);
@@ -133,7 +133,8 @@ static void root_delete(Node *root) {
     Terminal nt = root->value.term;
     free(nt.lexeme);
     free(nt.filename);
-    free(nt.val.sval);
+    if (nt.category == STRINGLITERAL)
+      free(nt.val.sval);
     free(root);
   }
 }
@@ -152,22 +153,12 @@ int k0_lex(ParserContext *pc) {
     return K0_EOF; // emit EOF symbol if tl tokens are exhausted
   // Peek token from tl based on cursor position
   Token *peek = pc->tl->items + pc->cursor;
-  printf("Peeking token value! %d:%s\n", peek->category,
-         ytab_ltable[peek->category - YTABLE_START]);
   // Construct terminal (token) from peeked value
   // NOTE: shallow copy is happening here, be wary of this during cleanup if
   // parsing fails
   k0_lval = create_term(peek);
   pc->cursor += 1;
   return peek->category;
-}
-
-static void print_node(Node *n) {
-  if (n->is_term) {
-    printf("%s\n", ytab_ltable[n->value.term.category - YTABLE_START]);
-  } else {
-    printf("%s\n", n->value.nonterm.symbol_name);
-  }
 }
 
 /* This is a tricky function. Right now, I am trying to use
@@ -203,7 +194,6 @@ Node *create_nterm(const int prod_rule, char *symbol_name,
  * NOTE: We may want to copy the entire value of the Token,
  * I haven't quite decided yet which is best*/
 Node *create_term(Token *token) {
-  printf("Creating new term for %d!\n", token->category);
   Node *n = malloc(sizeof(Node) * 1);
   n->value.term = *token; // WARN: shallow copy
   n->is_term = true;

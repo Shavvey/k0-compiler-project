@@ -9,6 +9,15 @@
   exit(1); \
 }while(0)
 
+#define SYNTAX_WARN(msg, ...) do {\
+  fprintf(stderr,  "[SYNTAX WARN]: %s:%d => " msg, filename, lineno, ##__VA_ARGS__);\
+}while(0)
+
+#define SEMANTIC_WARN(msg, ...) do {\
+  fprintf(stderr,  "[SYNTAX WARN]: %s:%d => " msg, filename, lineno, ##__VA_ARGS__);\
+}while(0)
+
+
 #define eprintf(msg, ...) do {\
   fprintf(stderr, "%s:%d:%s() [ERROR]: " msg, __FILE__, __LINE__, __func__, ##__VA_ARGS__);\
 }while(0)

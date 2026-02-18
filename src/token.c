@@ -315,6 +315,9 @@ int is_beginner(int category) {
   case IF:
     return 1;
     break;
+  case INTEGERLITERAL:
+    return 1;
+    break;
   default:
     return 0;
     break;
