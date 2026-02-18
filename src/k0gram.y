@@ -164,7 +164,9 @@
   int k0_debug = 1;
 %}
 %start program
-%left ADD
+%left ADD SUB
+%left MULT DIV MOD
+
 %%
 program: declr_list { pc->pt.root = $$ = create_nterm(yyn, "program", 1, $1); }
        | %empty { printf("[WARN]: Empty program\n"); pc->pt.root = $$; }
@@ -221,6 +223,7 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
 
 primary_expr: func_call {$$ = $$; }
             | assign_expr { $$ = $$; } 
+            | expr {$$ = $$;}
             ;
 
 func_call: IDENTIFIER LPAR arg_list RPAR SEMICOLON 
@@ -244,4 +247,13 @@ type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  } // simple type (e.g
 term: IDENTIFIER { $$ = create_nterm(yyn, "term", 1, $1); }
     | literal { $$ = create_nterm(yyn, "term", 1, $1); }
     ;
+
+expr: expr ADD expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
+    | expr SUB expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
+    | expr MULT expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
+    | expr DIV expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
+    | expr MOD expr {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
+    | LPAR expr RPAR {$$ = create_nterm(yyn, "expr", 3, $1, $2, $3);}
+    | term {$$ = create_nterm(yyn, "expr", 1, $1);}
+   ;
 %%
