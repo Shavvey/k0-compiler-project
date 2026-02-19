@@ -176,15 +176,11 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
          | declr { $$ = create_nterm(yyn, "declr_list", 1, $1);  }
          ;
 
-declr: func_declr { $$ = $$; } // NOTE: Maybe cut this?
+declr: func_declr {$$ = $$; }
      ;
 
 func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
     ;
-
-var_declr: VAL IDENTIFIER COLON type ASSIGNMENT primary_expr SEMICOLON 
-         {$$ = create_nterm(yyn, "var_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
-         ;
 
 param_list: param_list param { $$ = create_nterm(yyn, "param_list", 2, $1, $2); }
         | param {$$ = create_nterm(yyn, "param_list", 1, $1);  } 
@@ -198,7 +194,6 @@ block: LCURL stmt_list RCURL { $$ = create_nterm(yyn, "block", 3, $1, $2, $3); }
      ;
 
 stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } // Allows expansion of collection of statements
-         | stmt { $$ = create_nterm(yyn, "stmt_list", 1, $1); }
          | %empty { $$ = NULL; }
          ;
 
@@ -230,9 +225,7 @@ func_call: IDENTIFIER LPAR arg_list RPAR
          {$$ = create_nterm(yyn, "func_call", 4, $1, $2, $3, $4); }
          ;
 
-assign_expr: assign_expr ASSIGNMENT IDENTIFIER {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
-           | assign_expr ASSIGNMENT literal {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
-           | assign_expr ASSIGNMENT primary_expr {$$ = create_nterm(yyn, "assign_expr", 2, $1, $2); }
+assign_expr: assign_expr ASSIGNMENT primary_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
            ;
 
 quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1);  } // production rule when whitespace doesn't have semantic meaning
