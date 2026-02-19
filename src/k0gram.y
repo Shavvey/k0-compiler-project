@@ -161,12 +161,12 @@
   /* Function prototypes */
   extern void yyerror(ParserContext *pc, const char *msg);
   extern int yylex(ParserContext *pc);
-  // int k0_debug = 1;
+  int k0_debug = 1;
 %}
+%right ASSIGNMENT
 %start program
 %left ADD SUB
 %left MULT DIV MOD
-
 %%
 program: declr_list { pc->pt.root = $$ = create_nterm(yyn, "program", 1, $1); }
        | %empty { printf("[WARN]: Empty program\n"); pc->pt.root = $$; }
@@ -176,11 +176,12 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
          | declr { $$ = create_nterm(yyn, "declr_list", 1, $1);  }
          ;
 
+func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
+          ;
+
+
 declr: func_declr {$$ = $$; }
      ;
-
-func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
-    ;
 
 param_list: param_list param { $$ = create_nterm(yyn, "param_list", 2, $1, $2); }
         | param {$$ = create_nterm(yyn, "param_list", 1, $1);  } 
@@ -197,7 +198,7 @@ stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } //
          | %empty { $$ = NULL; }
          ;
 
-stmt: primary_expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expand this please!
+stmt: expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expand this please!
     ;
     
 arg_list: 
@@ -216,16 +217,17 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
        | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
        ;
 
-primary_expr: func_call {$$ = $$; }
-            | assign_expr { $$ = $$; } 
-            | expr { $$ = $$; }
-            ;
+expr:  func_call {$$ = $$; }
+       | arith_expr { $$ = $$; }
+       | assign_expr { $$ = $$; } 
+       ;
 
 func_call: IDENTIFIER LPAR arg_list RPAR
          {$$ = create_nterm(yyn, "func_call", 4, $1, $2, $3, $4); }
          ;
 
-assign_expr: assign_expr ASSIGNMENT primary_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+assign_expr: term ASSIGNMENT assign_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
+           | term {$$ = $1; }
            ;
 
 quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1);  } // production rule when whitespace doesn't have semantic meaning
@@ -241,12 +243,17 @@ term: IDENTIFIER { $$ = create_nterm(yyn, "term", 1, $1); }
     | literal { $$ = create_nterm(yyn, "term", 1, $1); }
     ;
 
-expr: expr ADD expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
-    | expr SUB expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
-    | expr MULT expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
-    | expr DIV expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
-    | expr MOD expr { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
-    | LPAR expr RPAR { $$ = create_nterm(yyn, "expr", 3, $1, $2, $3); }
-    | term { $$ = create_nterm(yyn, "expr", 1, $1); }
+primary_expr : IDENTIFIER { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
+             | literal { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
+             | LPAR expr RPAR { $$ = create_nterm(yyn, "primary_expr", 3, $1, $2, $3); }
+             ;
+
+arith_expr: arith_expr ADD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+    | arith_expr SUB arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+    | arith_expr MULT arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+    | arith_expr DIV arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+    | arith_expr MOD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+    | LPAR arith_expr RPAR { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+    | primary_expr { $$ = create_nterm(yyn, "arith_expr", 1, $1); }
    ;
 %%
