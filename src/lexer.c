@@ -20,6 +20,11 @@ int lineno = 1;       // linenumber of current tokenizing file
 
 static void append_token(TokenList *tl, Token t) {
 #ifdef INS_SEMICOLON // NOTE: undef or comment out INS_SEMICOLON to disable this
+  // early return to avoid seg_fault when we only have one token (alist_last is undefined in this case)
+  if (tl->size <= 1) {
+    alist_append(tl, t);
+    return;
+  }
   if (is_beginner(t.category) && is_ender(alist_last(tl).category) && newline) {
     if (t.category == INTEGERLITERAL && newline) {
       SYNTAX_WARN("Integer literal not used/saved to anything\n");

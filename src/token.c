@@ -307,15 +307,13 @@ int is_ender(int category) {
  */
 int is_beginner(int category) {
   switch (category) {
+  case FUN:
   case RCURL:
   case VAL:
   case VAR:
   case IDENTIFIER:
   case WHILE:
   case IF:
-    return 1;
-    break;
-  case INTEGERLITERAL:
     return 1;
     break;
   default:

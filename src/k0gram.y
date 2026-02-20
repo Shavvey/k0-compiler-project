@@ -163,8 +163,9 @@
   extern int yylex(ParserContext *pc);
   int k0_debug = 1;
 %}
-%right ASSIGNMENT
 %start program
+%right ASSIGNMENT
+%left GE LE LANGLE RANGLE DISJ CONJ
 %left ADD SUB
 %left MULT DIV MOD
 %%
@@ -179,8 +180,16 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
 func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
           ;
 
+initializer: VAR { $$ = $1; }
+           | VAL { $$ = $1; }
+           ;
 
-declr: func_declr {$$ = $$; }
+gbl_var_declr:  initializer IDENTIFIER COLON type ASSIGNMENT expr SEMICOLON
+             { $$ = create_nterm(yyn,  "gbl_var_declr", 6, $1, $2, $3, $4, $5, $6); }
+             ;
+
+declr: func_declr {$$ = $1; } // FALL THROUGH
+     |  gbl_var_declr {$$ = $1; }
      ;
 
 param_list: param_list param { $$ = create_nterm(yyn, "param_list", 2, $1, $2); }
@@ -217,18 +226,26 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
        | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
        ;
 
-expr:  func_call {$$ = $$; }
-       | arith_expr { $$ = $$; }
-       | assign_expr { $$ = $$; } 
+expr:  func_call {$$ = $1; } // has highest precedence
        ;
 
-func_call: IDENTIFIER LPAR arg_list RPAR
+func_call: assign_expr { $$ = $1; } // FALL THROUGH 
+         | IDENTIFIER LPAR arg_list RPAR
          {$$ = create_nterm(yyn, "func_call", 4, $1, $2, $3, $4); }
          ;
 
-assign_expr: term ASSIGNMENT assign_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
-           | term {$$ = $1; }
+assign_expr: bool_expr { $$ = $1; }
+           | bool_expr ASSIGNMENT assign_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
            ;
+
+bool_expr: arith_expr { $$ = $1;} // FALL THROUGH
+         | bool_expr DISJ bool_expr  { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr CONJ bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr LANGLE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr RANGLE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr LE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr GE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         ;
 
 quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1);  } // production rule when whitespace doesn't have semantic meaning
      | QUEST_WS {  $$ = create_nterm(yyn, "quest", 1, $1);  }
@@ -239,9 +256,9 @@ type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  } // simple type (e.g
     | IDENTIFIER LANGLE type RANGLE {$$ = create_nterm(yyn, "type", 4, $1, $2, $3, $4); }  // array declaration (e.g. x: ArrayList<String>)
     ;
 
-term: IDENTIFIER { $$ = create_nterm(yyn, "term", 1, $1); }
-    | literal { $$ = create_nterm(yyn, "term", 1, $1); }
-    ;
+// term: IDENTIFIER { $$ = create_nterm(yyn, "term", 1, $1); }
+//     | literal { $$ = create_nterm(yyn, "term", 1, $1); }
+//     ;
 
 primary_expr : IDENTIFIER { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | literal { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
@@ -254,6 +271,6 @@ arith_expr: arith_expr ADD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, 
     | arith_expr DIV arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
     | arith_expr MOD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
     | LPAR arith_expr RPAR { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
-    | primary_expr { $$ = create_nterm(yyn, "arith_expr", 1, $1); }
-   ;
+    | primary_expr { $$ = $1; }
+    ;
 %%
