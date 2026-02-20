@@ -164,8 +164,10 @@
   int k0_debug = 1;
 %}
 %start program
-%right ASSIGNMENT
+%right ASSIGNMENT ADD_ASSIGNMENT SUB_ASSIGNMENT
+%right MULT_ASSIGNMENT DIV_ASSIGNMENT MOD_ASSIGNMENT
 %left GE LE LANGLE RANGLE DISJ CONJ
+%left EXCL_EQ EQEQ
 %left ADD SUB
 %left MULT DIV MOD
 %%
@@ -189,7 +191,11 @@ intializer_list: intializer_list COMMA intializer {$$ = create_nterm(yyn, "intia
                | %empty {$$ = NULL; }
                ;
 
+array_intializer: RCURL intializer_list LCURL {$$ = create_nterm(yyn, "array_intializer", 2, $1, $2); }
+                ;
+
 intializer: expr {$$ = create_nterm(yyn, "initializer", 1, $1); }
+          | array_intializer {$$ = create_nterm(yyn, "intializer", 1, $1); }
           ;
 
 gbl_var_declr:  init_prefix IDENTIFIER COLON type ASSIGNMENT intializer_list SEMICOLON
@@ -216,7 +222,26 @@ stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } //
          ;
 
 stmt: expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expand this please!
+    | if_stmt {$$ = create_nterm(yyn, "if_stmt", 1, $1); }
     ;
+
+if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt
+      { $$ = create_nterm(yyn, "if_stmt", 6, $1, $2, $3, $4, $5, $6); }
+      ;
+
+else_if_list: else_if_list else_if_stmt 
+            { $$ = create_nterm(yyn, "if_else_list", 2, $1, $2); }
+            | %empty { $$ = NULL; }
+            ;
+
+else_if_stmt: ELSE IF LPAR bool_expr RPAR block 
+       { $$ = create_nterm(yyn, "if_else", 6, $1, $2, $3, $4, $5, $6); }
+       ;
+
+else_stmt: ELSE block 
+         { $$ = create_nterm(yyn, "else_stmt", 2, $1, $2); }
+        | %empty { $$ = NULL; }
+        ;
     
 arg_list: 
       arg_list COMMA arg {$$ = create_nterm(yyn, "arg_list", 3, $1, $2, $3); }
@@ -238,7 +263,12 @@ expr:  assign_expr {$$ = $1; } // has highest precedence
        ;
 
 assign_expr: bool_expr { $$ = $1; }
-           | assign_expr ASSIGNMENT assign_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
+           | assign_expr ASSIGNMENT assign_expr { $$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
+           | assign_expr ADD_ASSIGNMENT assign_expr { $$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr MULT_ASSIGNMENT assign_expr { $$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr SUB_ASSIGNMENT assign_expr { $$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr DIV_ASSIGNMENT assign_expr { $$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
+           | assign_expr MOD_ASSIGNMENT assign_expr { $$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); }
            ;
 
 func_call: IDENTIFIER LPAR arg_list RPAR
@@ -252,6 +282,8 @@ bool_expr: arith_expr { $$ = $1;} // FALL THROUGH
          | bool_expr RANGLE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
          | bool_expr LE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
          | bool_expr GE bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr EQEQ bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
+         | bool_expr EXCL_EQ bool_expr { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
          ;
 
 quest: QUEST_NO_WS { $$ = create_nterm(yyn, "quest", 1, $1);  } // production rule when whitespace doesn't have semantic meaning
