@@ -226,7 +226,7 @@ stmt: expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expa
     ;
 
 if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt
-      { $$ = create_nterm(yyn, "if_stmt", 6, $1, $2, $3, $4, $5, $6); }
+      { $$ = create_nterm(yyn, "if_stmt", 7, $1, $2, $3, $4, $5, $6, $7); }
       ;
 
 else_if_list: else_if_list else_if_stmt 

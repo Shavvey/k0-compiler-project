@@ -1418,7 +1418,7 @@ yyreduce:
 
   case 27: /* if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt  */
 #line 229 "src/k0gram.y"
-      { yyval = create_nterm(yyn, "if_stmt", 6, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1]); }
+      { yyval = create_nterm(yyn, "if_stmt", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
 #line 1423 "src/k0gram.tab.c"
     break;
 
