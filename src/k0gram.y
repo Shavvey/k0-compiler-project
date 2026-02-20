@@ -180,11 +180,19 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
 func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
           ;
 
-initializer: VAR { $$ = $1; }
+init_prefix: VAR { $$ = $1; }
            | VAL { $$ = $1; }
            ;
 
-gbl_var_declr:  initializer IDENTIFIER COLON type ASSIGNMENT expr SEMICOLON
+intializer_list: intializer_list COMMA intializer {$$ = create_nterm(yyn, "intializer_list", 2, $1, $2); }
+               | intializer {$$ = $1; }
+               | %empty {$$ = NULL; }
+               ;
+
+intializer: expr {$$ = create_nterm(yyn, "initializer", 1, $1); }
+          ;
+
+gbl_var_declr:  init_prefix IDENTIFIER COLON type ASSIGNMENT intializer_list SEMICOLON
              { $$ = create_nterm(yyn,  "gbl_var_declr", 6, $1, $2, $3, $4, $5, $6); }
              ;
 
@@ -192,8 +200,8 @@ declr: func_declr {$$ = $1; } // FALL THROUGH
      |  gbl_var_declr {$$ = $1; }
      ;
 
-param_list: param_list param { $$ = create_nterm(yyn, "param_list", 2, $1, $2); }
-        | param {$$ = create_nterm(yyn, "param_list", 1, $1);  } 
+param_list: param_list COLON param { $$ = create_nterm(yyn, "param_list", 3, $1, $2, $3); }
+        | param {$$ = $1;  } 
         | %empty { $$ = NULL; }
         ;
         
@@ -212,7 +220,7 @@ stmt: expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expa
     
 arg_list: 
       arg_list COMMA arg {$$ = create_nterm(yyn, "arg_list", 3, $1, $2, $3); }
-      | arg {$$ = create_nterm(yyn, "arg_list", 1, $1); }
+      | arg {$$ = $1; }
       | %empty { $$ = NULL; }
       ;
 
@@ -226,17 +234,16 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
        | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
        ;
 
-expr:  func_call {$$ = $1; } // has highest precedence
+expr:  assign_expr {$$ = $1; } // has highest precedence
        ;
 
-func_call: assign_expr { $$ = $1; } // FALL THROUGH 
-         | IDENTIFIER LPAR arg_list RPAR
+assign_expr: bool_expr { $$ = $1; }
+           | assign_expr ASSIGNMENT assign_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
+           ;
+
+func_call: IDENTIFIER LPAR arg_list RPAR
          {$$ = create_nterm(yyn, "func_call", 4, $1, $2, $3, $4); }
          ;
-
-assign_expr: bool_expr { $$ = $1; }
-           | bool_expr ASSIGNMENT assign_expr {$$ = create_nterm(yyn, "assign_expr", 3, $1, $2, $3); } // NOTE: maybe we should have a special unary on lhs?
-           ;
 
 bool_expr: arith_expr { $$ = $1;} // FALL THROUGH
          | bool_expr DISJ bool_expr  { $$ = create_nterm(yyn, "bool_expr", 3, $1, $2, $3); }
@@ -260,17 +267,18 @@ type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  } // simple type (e.g
 //     | literal { $$ = create_nterm(yyn, "term", 1, $1); }
 //     ;
 
+// NOTE: maybe we should just carry these through
 primary_expr : IDENTIFIER { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | literal { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
+             | func_call {$$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | LPAR expr RPAR { $$ = create_nterm(yyn, "primary_expr", 3, $1, $2, $3); }
              ;
 
-arith_expr: arith_expr ADD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
+arith_expr: primary_expr { $$ = $1; } // FALL THROUGH
+    | arith_expr ADD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
     | arith_expr SUB arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
     | arith_expr MULT arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
     | arith_expr DIV arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
     | arith_expr MOD arith_expr { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
-    | LPAR arith_expr RPAR { $$ = create_nterm(yyn, "arith_expr", 3, $1, $2, $3); }
-    | primary_expr { $$ = $1; }
     ;
 %%

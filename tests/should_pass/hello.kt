@@ -1,4 +1,4 @@
-var a: Int = bar()
+var a: Int = (bar() + 3) - 10
 
 fun hello() {
   // simple hello world example, test some very basic tokens
