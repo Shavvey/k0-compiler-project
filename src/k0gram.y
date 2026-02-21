@@ -182,7 +182,7 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
 // NOTE: last func_declr doesn't contain a semi-colon, im not sure if we need to fix this or not
 func_declr: FUN IDENTIFIER LPAR param_list RPAR ret_type block SEMICOLON 
           { $$ = create_nterm(yyn, "func_declr", 8, $1, $2, $3, $4, $5, $6, $7, $8); }
-          | FUN IDENTIFIER LPAR param_list RPAR ret_type block 
+          | FUN IDENTIFIER LPAR param_list RPAR ret_type block // FOR LAST FUNC DECLARE
           { $$ = create_nterm(yyn, "func_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
           ;
 
@@ -240,8 +240,27 @@ stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } //
          ;
 
 stmt: expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expand this please!
-    | if_stmt SEMICOLON {$$ = create_nterm(yyn, "if_stmt", 2, $1, $2); }
+    | if_stmt SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); }
+    | for_stmt_range SEMICOLON { $$ =  create_nterm(yyn, "stmt", 2, $1, $2);}
+    | for_stmt_until_range SEMICOLON { $$ = create_nterm(yyn, "stmt", 2, $1, $2); }
+    | while_stmt SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); }
+    | return_val SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); }
     ;
+
+return_val: RETURN primary_expr { $$ = create_nterm(yyn, "return_val", 2, $1, $2); }
+          ;
+
+while_stmt: WHILE LPAR expr RPAR block 
+         { $$ = create_nterm(yyn, "while_smt", 5, $1, $2, $3, $4, $5); }
+         ;
+
+for_stmt_range: FOR LPAR IDENTIFIER IN expr RANGE expr RPAR block
+              { $$ = create_nterm(yyn, "for_stmt_range", 9, $1, $2, $3, $4, $5, $6, $7, $8, $9); }
+              ;
+
+for_stmt_until_range: FOR LPAR IDENTIFIER IN expr RANGE_UNTIL expr RPAR block
+              { $$ = create_nterm(yyn, "for_stmt_range", 9, $1, $2, $3, $4, $5, $6, $7, $8, $9); }
+              ;
 
 if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt
       { $$ = create_nterm(yyn, "if_stmt", 7, $1, $2, $3, $4, $5, $6, $7); }
@@ -318,17 +337,26 @@ type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  } // simple type (e.g
 //     | literal { $$ = create_nterm(yyn, "term", 1, $1); }
 //     ;
 
-// NOTE: maybe we should just carry these through
+// NOTE: This will also be a huge pain to evaluate later
 array_subscript: IDENTIFIER LSQUARE expr RSQUARE
                { $$ = create_nterm(yyn, "array_subscript", 4, $1, $2, $3, $4); }
                ;
 
-method_call: IDENTIFIER DOT LPAR arg_list RPAR { $$ = create_nterm(yyn, "method_call", 5, $1, $2, $3, $4, $5); }
+method_call: IDENTIFIER DOT IDENTIFIER LPAR arg_list RPAR 
+           { $$ = create_nterm(yyn, "method_call", 6, $1, $2, $3, $4, $5, $6); }
+           ;
 
+safe_method_call: IDENTIFIER QUEST_NO_WS DOT IDENTIFIER LPAR arg_list RPAR 
+                { $$ = create_nterm(yyn, "safe_method_call", 7, $1, $2, $3, $4, $5, $6, $7); }
+                ;
+
+// NOTE: maybe we should just  carry these through?
 primary_expr : IDENTIFIER { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | literal { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | func_call {$$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | array_subscript { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
+             | method_call { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
+             | safe_method_call { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | LPAR expr RPAR { $$ = create_nterm(yyn, "primary_expr", 3, $1, $2, $3); }
              ;
 

@@ -8,6 +8,8 @@ fun hello(): String {
   func()
   a = 15 + 15
   a += 10 + 14
+  a[1] = 1
+  foo.bar(1)
 }
 
 

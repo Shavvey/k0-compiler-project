@@ -314,6 +314,7 @@ int is_beginner(int category) {
   case VAR:
   case IDENTIFIER:
   case WHILE:
+  case FOR:
   case IF:
     return 1;
     break;
