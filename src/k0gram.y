@@ -233,7 +233,7 @@ stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } //
          ;
 
 stmt: expr SEMICOLON {$$ = create_nterm(yyn, "stmt", 2, $1, $2); } // TODO: expand this please!
-    | if_stmt {$$ = create_nterm(yyn, "if_stmt", 1, $1); }
+    | if_stmt SEMICOLON {$$ = create_nterm(yyn, "if_stmt", 2, $1, $2); }
     ;
 
 if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt
@@ -249,7 +249,7 @@ else_if_stmt: ELSE IF LPAR bool_expr RPAR block
        { $$ = create_nterm(yyn, "if_else", 6, $1, $2, $3, $4, $5, $6); }
        ;
 
-else_stmt: ELSE block 
+else_stmt: ELSE block
          { $$ = create_nterm(yyn, "else_stmt", 2, $1, $2); }
         | %empty { $$ = NULL; }
         ;
@@ -260,7 +260,7 @@ arg_list:
       | %empty { $$ = NULL; }
       ;
 
-arg: IDENTIFIER { $$ = create_nterm(yyn, "param", 1, $1); }
+arg: IDENTIFIER { $$ = create_nterm(yyn, "arg", 1, $1); }
      | literal { $$ = create_nterm(yyn, "arg", 1, $1); }
      ;
 
