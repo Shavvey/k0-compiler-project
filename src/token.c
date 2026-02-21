@@ -294,6 +294,7 @@ int is_ender(int category) {
   case CHARACTERLITERAL:
   case STRINGLITERAL:
   case INTEGERLITERAL:
+  case RCURL:
     return 1;
     break;
   default:

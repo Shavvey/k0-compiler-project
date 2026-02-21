@@ -176,10 +176,12 @@ program: declr_list { pc->pt.root = $$ = create_nterm(yyn, "program", 1, $1); }
        ; 
 
 declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2);  }
-         | declr { $$ = create_nterm(yyn, "declr_list", 1, $1);  }
+         | declr { $$ = $1; }
          ;
 
-func_declr: FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
+// NOTE: last func_declr doesn't contain a semi-colon, im not sure if we need to fix this or not
+func_declr: FUN IDENTIFIER LPAR param_list RPAR block SEMICOLON { $$ = create_nterm(yyn, "func_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
+          | FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
           ;
 
 init_prefix: VAR { $$ = $1; }
@@ -195,15 +197,24 @@ intializer_list: intializer_list COMMA intializer {$$ = create_nterm(yyn, "intia
 array_intializer: LCURL intializer_list RCURL {$$ = create_nterm(yyn, "array_intializer", 3, $1, $2, $3); }
                 ;
 
+// NOTE: this might be too complex to evaluate during code-gen, we can (and probably should imo) revisit this later
 intializer: expr {$$ = create_nterm(yyn, "initializer", 1, $1); }
           ;
 
-gbl_var_declr:  init_prefix IDENTIFIER COLON type ASSIGNMENT intializer_list SEMICOLON
-             { $$ = create_nterm(yyn,  "gbl_var_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
+id_declr_list: id_declr_list COMMA IDENTIFIER {$$ = create_nterm(yyn, "id_declr_list", 3, $1, $2, $3); }
+              | IDENTIFIER { $$ = $1; } // FALL THROUGH
+              ;
+
+var_declr:  init_prefix id_declr_list COLON type ASSIGNMENT intializer_list SEMICOLON
+             { $$ = create_nterm(yyn,  "var_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
              ;
 
+var_declr_list: var_declr_list var_declr { $$ = create_nterm(yyn, "var_declr_list", 2, $1, $2); }
+                  | %empty { $$ = NULL; }
+                  ;
+
 declr: func_declr {$$ = $1; } // FALL THROUGH
-     |  gbl_var_declr {$$ = $1; }
+     | var_declr {$$ = $1; }
      ;
 
 param_list: param_list COLON param { $$ = create_nterm(yyn, "param_list", 3, $1, $2, $3); }
@@ -214,7 +225,7 @@ param_list: param_list COLON param { $$ = create_nterm(yyn, "param_list", 3, $1,
 param: IDENTIFIER COLON type { $$ = create_nterm(yyn, "param", 3, $1, $2, $3); }
      ;
 
-block: LCURL stmt_list RCURL { $$ = create_nterm(yyn, "block", 3, $1, $2, $3); }
+block: LCURL var_declr_list stmt_list RCURL { $$ = create_nterm(yyn, "block", 4, $1, $2, $3, $4); }
      ;
 
 stmt_list: stmt_list stmt { $$ = create_nterm(yyn, "stmt_list", 2, $1, $2); } // Allows expansion of collection of statements
