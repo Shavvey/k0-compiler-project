@@ -29,6 +29,8 @@ typedef struct {
   ParseTree pt; // NOTE: Okay to pass by value, only contains pointer
   TokenList *tl; 
   size_t cursor; // Used to "peek" the next token during parsing
+  int lineno; // Current lineno based on last peeked token (useful for error handler)
+  char *filename; // Current filename (also useful during error handling)
 } ParserContext;
 
 // API

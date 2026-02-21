@@ -180,9 +180,9 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
          ;
 
 // NOTE: last func_declr doesn't contain a semi-colon, im not sure if we need to fix this or not
-func_declr: FUN IDENTIFIER LPAR param_list RPAR block ret_type SEMICOLON 
+func_declr: FUN IDENTIFIER LPAR param_list RPAR ret_type block SEMICOLON 
           { $$ = create_nterm(yyn, "func_declr", 8, $1, $2, $3, $4, $5, $6, $7, $8); }
-          | FUN IDENTIFIER LPAR param_list RPAR block ret_type 
+          | FUN IDENTIFIER LPAR param_list RPAR ret_type block 
           { $$ = create_nterm(yyn, "func_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
           ;
 

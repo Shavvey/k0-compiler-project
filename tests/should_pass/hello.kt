@@ -10,7 +10,6 @@ fun hello(): String {
   a += 10 + 14
 }
 
-var a, b, c: Int = 10, 10, 20
 
 fun foo(bar: Int) {
 }

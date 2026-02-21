@@ -11,6 +11,10 @@ int k0_error(ParserContext *pc, const char *msg) {
   printf("Tree root address: %p\n", pc->pt.root);
   fprintf(stderr, "[PARSE ERROR] => Occured during parsing: %s\n", msg);
   // TODO: implement a proper cleanup routine here!
+  if (pc->pt.root != NULL) {
+    pt_delete(&pc->pt);
+    free(pc->tl + pc->cursor);
+  }
   exit(EXIT_FAILURE);
 }
 
@@ -158,6 +162,8 @@ int k0_lex(ParserContext *pc) {
   // parsing fails
   k0_lval = create_term(peek);
   pc->cursor += 1;
+  pc->filename = peek->filename;
+  pc->lineno = peek->lineno;
   return peek->category;
 }
 
