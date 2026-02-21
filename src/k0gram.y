@@ -180,9 +180,15 @@ declr_list: declr_list declr { $$ = create_nterm(yyn, "declr_list", 2, $1, $2); 
          ;
 
 // NOTE: last func_declr doesn't contain a semi-colon, im not sure if we need to fix this or not
-func_declr: FUN IDENTIFIER LPAR param_list RPAR block SEMICOLON { $$ = create_nterm(yyn, "func_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
-          | FUN IDENTIFIER LPAR param_list RPAR block { $$ = create_nterm(yyn, "func_declr", 6, $1, $2, $3, $4, $5, $6); }
+func_declr: FUN IDENTIFIER LPAR param_list RPAR block ret_type SEMICOLON 
+          { $$ = create_nterm(yyn, "func_declr", 8, $1, $2, $3, $4, $5, $6, $7, $8); }
+          | FUN IDENTIFIER LPAR param_list RPAR block ret_type 
+          { $$ = create_nterm(yyn, "func_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
           ;
+
+ret_type: COLON type { $$ = create_nterm(yyn, "ret_type", 2, $1, $2); }
+       | %empty {$$ = NULL; } // OPTIONAL
+
 
 init_prefix: VAR { $$ = $1; }
            | VAL { $$ = $1; }
@@ -201,6 +207,7 @@ array_intializer: LCURL intializer_list RCURL {$$ = create_nterm(yyn, "array_int
 intializer: expr {$$ = create_nterm(yyn, "initializer", 1, $1); }
           ;
 
+// NOTE: people are saying that this feature wasn't addressed last year, maybe I should just delete this
 id_declr_list: id_declr_list COMMA IDENTIFIER {$$ = create_nterm(yyn, "id_declr_list", 3, $1, $2, $3); }
               | IDENTIFIER { $$ = $1; } // FALL THROUGH
               ;
@@ -316,11 +323,13 @@ array_subscript: IDENTIFIER LSQUARE expr RSQUARE
                { $$ = create_nterm(yyn, "array_subscript", 4, $1, $2, $3, $4); }
                ;
 
+method_call: IDENTIFIER DOT LPAR arg_list RPAR { $$ = create_nterm(yyn, "method_call", 5, $1, $2, $3, $4, $5); }
+
 primary_expr : IDENTIFIER { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | literal { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | func_call {$$ = create_nterm(yyn, "primary_expr", 1, $1); }
-             | LPAR expr RPAR { $$ = create_nterm(yyn, "primary_expr", 3, $1, $2, $3); }
              | array_subscript { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
+             | LPAR expr RPAR { $$ = create_nterm(yyn, "primary_expr", 3, $1, $2, $3); }
              ;
 
 arith_expr: primary_expr { $$ = $1; } // FALL THROUGH

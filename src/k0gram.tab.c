@@ -188,35 +188,36 @@ enum yysymbol_kind_t
   YYSYMBOL_program = 72,                   /* program  */
   YYSYMBOL_declr_list = 73,                /* declr_list  */
   YYSYMBOL_func_declr = 74,                /* func_declr  */
-  YYSYMBOL_init_prefix = 75,               /* init_prefix  */
-  YYSYMBOL_intializer_list = 76,           /* intializer_list  */
-  YYSYMBOL_array_intializer = 77,          /* array_intializer  */
-  YYSYMBOL_intializer = 78,                /* intializer  */
-  YYSYMBOL_id_declr_list = 79,             /* id_declr_list  */
-  YYSYMBOL_var_declr = 80,                 /* var_declr  */
-  YYSYMBOL_var_declr_list = 81,            /* var_declr_list  */
-  YYSYMBOL_declr = 82,                     /* declr  */
-  YYSYMBOL_param_list = 83,                /* param_list  */
-  YYSYMBOL_param = 84,                     /* param  */
-  YYSYMBOL_block = 85,                     /* block  */
-  YYSYMBOL_stmt_list = 86,                 /* stmt_list  */
-  YYSYMBOL_stmt = 87,                      /* stmt  */
-  YYSYMBOL_if_stmt = 88,                   /* if_stmt  */
-  YYSYMBOL_else_if_list = 89,              /* else_if_list  */
-  YYSYMBOL_else_if_stmt = 90,              /* else_if_stmt  */
-  YYSYMBOL_else_stmt = 91,                 /* else_stmt  */
-  YYSYMBOL_arg_list = 92,                  /* arg_list  */
-  YYSYMBOL_arg = 93,                       /* arg  */
-  YYSYMBOL_literal = 94,                   /* literal  */
-  YYSYMBOL_expr = 95,                      /* expr  */
-  YYSYMBOL_assign_expr = 96,               /* assign_expr  */
-  YYSYMBOL_func_call = 97,                 /* func_call  */
-  YYSYMBOL_bool_expr = 98,                 /* bool_expr  */
-  YYSYMBOL_quest = 99,                     /* quest  */
-  YYSYMBOL_type = 100,                     /* type  */
-  YYSYMBOL_array_subscript = 101,          /* array_subscript  */
-  YYSYMBOL_primary_expr = 102,             /* primary_expr  */
-  YYSYMBOL_arith_expr = 103                /* arith_expr  */
+  YYSYMBOL_ret_type = 75,                  /* ret_type  */
+  YYSYMBOL_init_prefix = 76,               /* init_prefix  */
+  YYSYMBOL_intializer_list = 77,           /* intializer_list  */
+  YYSYMBOL_array_intializer = 78,          /* array_intializer  */
+  YYSYMBOL_intializer = 79,                /* intializer  */
+  YYSYMBOL_id_declr_list = 80,             /* id_declr_list  */
+  YYSYMBOL_var_declr = 81,                 /* var_declr  */
+  YYSYMBOL_var_declr_list = 82,            /* var_declr_list  */
+  YYSYMBOL_declr = 83,                     /* declr  */
+  YYSYMBOL_param_list = 84,                /* param_list  */
+  YYSYMBOL_param = 85,                     /* param  */
+  YYSYMBOL_block = 86,                     /* block  */
+  YYSYMBOL_stmt_list = 87,                 /* stmt_list  */
+  YYSYMBOL_stmt = 88,                      /* stmt  */
+  YYSYMBOL_if_stmt = 89,                   /* if_stmt  */
+  YYSYMBOL_else_if_list = 90,              /* else_if_list  */
+  YYSYMBOL_else_if_stmt = 91,              /* else_if_stmt  */
+  YYSYMBOL_else_stmt = 92,                 /* else_stmt  */
+  YYSYMBOL_arg_list = 93,                  /* arg_list  */
+  YYSYMBOL_arg = 94,                       /* arg  */
+  YYSYMBOL_literal = 95,                   /* literal  */
+  YYSYMBOL_expr = 96,                      /* expr  */
+  YYSYMBOL_assign_expr = 97,               /* assign_expr  */
+  YYSYMBOL_func_call = 98,                 /* func_call  */
+  YYSYMBOL_bool_expr = 99,                 /* bool_expr  */
+  YYSYMBOL_quest = 100,                    /* quest  */
+  YYSYMBOL_type = 101,                     /* type  */
+  YYSYMBOL_array_subscript = 102,          /* array_subscript  */
+  YYSYMBOL_primary_expr = 103,             /* primary_expr  */
+  YYSYMBOL_arith_expr = 104                /* arith_expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -549,11 +550,11 @@ union yyalloc
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  71
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  33
+#define YYNNTS  34
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  82
+#define YYNRULES  84
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  138
+#define YYNSTATES  141
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   325
@@ -609,15 +610,15 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   174,   174,   175,   178,   179,   183,   184,   187,   188,
-     191,   192,   193,   194,   197,   201,   204,   205,   208,   212,
-     213,   216,   217,   220,   221,   222,   225,   228,   231,   232,
-     235,   236,   239,   243,   245,   248,   252,   254,   258,   259,
-     260,   263,   264,   267,   268,   269,   270,   271,   274,   277,
-     278,   279,   280,   281,   282,   283,   286,   290,   291,   292,
-     293,   294,   295,   296,   297,   298,   301,   302,   305,   306,
-     307,   315,   319,   320,   321,   322,   323,   326,   327,   328,
-     329,   330,   331
+       0,   174,   174,   175,   178,   179,   183,   185,   189,   190,
+     193,   194,   197,   198,   199,   200,   203,   207,   211,   212,
+     215,   219,   220,   223,   224,   227,   228,   229,   232,   235,
+     238,   239,   242,   243,   246,   250,   252,   255,   259,   261,
+     265,   266,   267,   270,   271,   274,   275,   276,   277,   278,
+     281,   284,   285,   286,   287,   288,   289,   290,   293,   297,
+     298,   299,   300,   301,   302,   303,   304,   305,   308,   309,
+     312,   313,   314,   322,   326,   327,   328,   329,   330,   333,
+     334,   335,   336,   337,   338
 };
 #endif
 
@@ -645,12 +646,13 @@ static const char *const yytname[] =
   "IDENTIFIER", "LPAR", "RPAR", "LSQUARE", "RSQUARE", "COLON", "SEMICOLON",
   "LCURL", "RCURL", "EXCL_EXCL", "RANGE", "RANGE_UNTIL", "CONST", "IMPORT",
   "HASH", "IN", "ERRNO", "EOFNO", "$accept", "program", "declr_list",
-  "func_declr", "init_prefix", "intializer_list", "array_intializer",
-  "intializer", "id_declr_list", "var_declr", "var_declr_list", "declr",
-  "param_list", "param", "block", "stmt_list", "stmt", "if_stmt",
-  "else_if_list", "else_if_stmt", "else_stmt", "arg_list", "arg",
-  "literal", "expr", "assign_expr", "func_call", "bool_expr", "quest",
-  "type", "array_subscript", "primary_expr", "arith_expr", YY_NULLPTR
+  "func_declr", "ret_type", "init_prefix", "intializer_list",
+  "array_intializer", "intializer", "id_declr_list", "var_declr",
+  "var_declr_list", "declr", "param_list", "param", "block", "stmt_list",
+  "stmt", "if_stmt", "else_if_list", "else_if_stmt", "else_stmt",
+  "arg_list", "arg", "literal", "expr", "assign_expr", "func_call",
+  "bool_expr", "quest", "type", "array_subscript", "primary_expr",
+  "arith_expr", YY_NULLPTR
 };
 
 static const char *
@@ -660,7 +662,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-72)
+#define YYPACT_NINF (-73)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -672,22 +674,23 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-static const yytype_int16 yypact[] =
+static const yytype_int8 yypact[] =
 {
-      61,   -35,   -72,   -72,    25,    61,   -72,   -19,   -72,   -72,
-     -14,   -72,   -72,   -72,    -2,     6,    16,    33,    -9,   -39,
-     -72,   -72,    82,    56,    33,    78,     6,   -72,   -72,    33,
-     -72,    36,   -72,   -72,    50,   -72,   114,   -72,   -72,   -72,
-     -72,   -72,   -23,    59,    36,    -5,   -72,   -72,   -72,   -72,
-      35,   -72,    73,   -72,   -72,   117,   103,   -72,   -72,    29,
-      59,    85,    -6,    59,   -72,    59,    59,    59,    59,    59,
-      59,    59,    59,    59,    59,    59,    59,    59,    59,    59,
-      59,    59,    59,    59,   -72,    22,   -72,    -3,   -72,   -72,
-      84,   -72,   -72,   -72,    35,    35,    35,   119,   119,   119,
-      32,    32,    32,    32,    32,    32,   -72,   -72,   129,   -72,
-     -72,   -72,   129,    88,   -72,   -72,    86,    87,    29,   -72,
-     -72,    59,   -72,   -72,   -72,    -4,    78,   -72,   107,   -18,
-     -72,   -72,    90,   -72,    59,    11,    78,   -72
+       0,   -41,   -73,   -73,    27,     0,   -73,    -3,   -73,   -73,
+     -14,   -73,   -73,   -73,    -1,     7,    35,    58,   -11,   -13,
+     -73,   -73,    40,    41,    58,    78,     7,   -73,   -73,    58,
+     -73,    38,   -73,   -73,    81,   -73,   115,   -73,   -73,   -73,
+     -73,   -73,   -35,    61,    38,    -5,   -73,   -73,   -73,   -73,
+     108,   -73,    75,   -73,   -73,   125,    37,    58,    82,   -73,
+      31,    61,    87,    -6,    61,   -73,    61,    61,    61,    61,
+      61,    61,    61,    61,    61,    61,    61,    61,    61,    61,
+      61,    61,    61,    61,    61,   -73,    24,   -73,   -73,   -73,
+      -4,   -73,   -73,    86,   -73,   -73,   -73,   108,   108,   108,
+      84,    84,    84,    16,    16,    16,    16,    16,    16,   -73,
+     -73,   102,   -73,   -73,   -73,   102,    90,   -73,   -73,    88,
+      89,    31,   -73,   -73,    61,   -73,   -73,   -73,    -2,    78,
+     -73,   109,   -17,   -73,   -73,    92,   -73,    61,    11,    78,
+     -73
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -695,38 +698,39 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     9,     8,     0,     2,    21,     0,    22,     5,
-       0,     1,     4,    17,     0,    25,     0,     0,     0,     0,
-      24,    16,    68,     0,     0,     0,     0,    67,    66,     0,
-      69,    13,    26,    20,     7,    23,     0,    43,    44,    47,
-      46,    45,    72,     0,    13,     0,    11,    12,    73,    15,
-      48,    74,    49,    76,    77,    57,    29,     6,    70,    40,
-       0,     0,     0,     0,    18,     0,     0,     0,     0,     0,
+       3,     0,    11,    10,     0,     2,    23,     0,    24,     5,
+       0,     1,     4,    19,     0,    27,     0,     0,     0,     0,
+      26,    18,    70,     0,     0,     0,     0,    69,    68,     0,
+      71,    15,    28,    22,     9,    25,     0,    45,    46,    49,
+      48,    47,    74,     0,    15,     0,    13,    14,    75,    17,
+      50,    76,    51,    78,    79,    59,    31,     0,     7,    72,
+      42,     0,     0,     0,     0,    20,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    19,     0,    41,     0,    39,    42,
-       0,    75,    14,    10,    50,    51,    53,    52,    54,    55,
-      59,    58,    60,    61,    62,    63,    65,    64,    78,    80,
-      81,    82,    79,     0,    27,    28,     0,     0,     0,    56,
-      71,     0,    31,    30,    38,     0,     0,    34,    37,     0,
-      33,    32,     0,    36,     0,     0,     0,    35
+       0,     0,     0,     0,     0,    21,     0,     8,     6,    43,
+       0,    41,    44,     0,    77,    16,    12,    52,    53,    55,
+      54,    56,    57,    61,    60,    62,    63,    64,    65,    67,
+      66,    80,    82,    83,    84,    81,     0,    29,    30,     0,
+       0,     0,    58,    73,     0,    33,    32,    40,     0,     0,
+      36,    39,     0,    35,    34,     0,    38,     0,     0,     0,
+      37
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -72,   -72,   -72,   -72,   -72,   104,   -72,    89,   -72,    91,
-     -72,   144,   -72,   124,   -68,   -72,   -72,   -72,   -72,   -72,
-     -72,   -72,    37,   -51,   -32,    49,   -72,   -71,   -72,     3,
-     -72,   -72,    46
+     -73,   -73,   -73,   -73,   -73,   -73,   105,   -73,    91,   -73,
+      94,   -73,   146,   -73,   126,   -71,   -73,   -73,   -73,   -73,
+     -73,   -73,   -73,    32,   -52,   -30,    56,   -73,   -72,   -73,
+      -9,   -73,   -73,    53
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,     4,     5,     6,     7,    45,    46,    47,    14,     8,
-      56,     9,    19,    20,    34,    85,   115,   116,   128,   130,
-     131,    87,    88,    48,    49,    50,    51,    52,    30,    23,
-      53,    54,    55
+       0,     4,     5,     6,    58,     7,    45,    46,    47,    14,
+       8,    56,     9,    19,    20,    34,    86,   118,   119,   131,
+     133,   134,    90,    91,    48,    49,    50,    51,    52,    30,
+      23,    53,    54,    55
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -734,90 +738,91 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-     100,   101,   102,   103,   104,   105,   106,   107,    89,    63,
-      63,    61,   118,    16,    71,    72,    25,   132,    10,    26,
-      73,    74,    75,    76,    77,    11,    78,    32,    90,    71,
-      72,    59,    36,    60,    13,    73,    74,    75,    76,    77,
-      15,    78,    33,    65,    66,    67,    68,    69,    70,    24,
-     125,   126,   119,   117,    64,    92,    17,   113,   127,    18,
-      77,   133,    78,   135,    31,    37,   136,    89,   137,    21,
-      38,    39,    37,    40,    41,    42,    43,    38,    39,    37,
-      40,    41,    86,   114,    38,    39,    22,    40,    41,    42,
-      43,    71,    72,     1,     2,     3,    44,    73,    74,    75,
-      76,    77,    37,    78,    27,    28,    29,    38,    39,    57,
-      40,    41,    42,    43,    94,    95,    96,    97,    98,    99,
-      79,    80,    81,    82,    83,   108,   109,   110,   111,   112,
-      68,    69,    70,    80,    81,    82,     2,     3,    33,    58,
-      91,   120,   121,   129,   134,   122,   123,    84,    62,    12,
-      35,     0,    93,     0,     0,   124
+     103,   104,   105,   106,   107,   108,   109,   110,    92,    64,
+      64,   121,    10,    62,    16,    32,    72,    73,   135,    60,
+      36,    61,    74,    75,    76,    77,    78,    11,    79,    72,
+      73,    93,     1,     2,     3,    74,    75,    76,    77,    78,
+      15,    79,    25,    33,    78,    26,    79,    24,    87,    31,
+      13,   122,   128,   129,    65,    95,   120,    17,   130,   116,
+      18,   136,    27,    28,    29,   138,   139,    37,   140,    92,
+       2,     3,    38,    39,    37,    40,    41,    42,    43,    38,
+      39,    37,    40,    41,    89,   117,    38,    39,    21,    40,
+      41,    42,    43,    72,    73,    69,    70,    71,    44,    74,
+      75,    76,    77,    78,    37,    79,    81,    82,    83,    38,
+      39,    22,    40,    41,    42,    43,    66,    67,    68,    69,
+      70,    71,    97,    98,    99,   100,   101,   102,    80,    81,
+      82,    83,    84,   111,   112,   113,   114,   115,    33,    57,
+      59,    88,    94,   123,   124,   132,   137,   125,   126,    63,
+      85,    12,    35,   127,     0,    96
 };
 
 static const yytype_int16 yycheck[] =
 {
-      71,    72,    73,    74,    75,    76,    77,    78,    59,    15,
-      15,    43,    15,    15,    18,    19,    55,    35,    53,    58,
-      24,    25,    26,    27,    28,     0,    30,    24,    60,    18,
-      19,    54,    29,    56,    53,    24,    25,    26,    27,    28,
-      54,    30,    60,     8,     9,    10,    11,    12,    13,    58,
-     121,    55,    55,    85,    59,    61,    58,    35,   126,    53,
-      28,   129,    30,   134,     8,    43,    55,   118,   136,    53,
-      48,    49,    43,    51,    52,    53,    54,    48,    49,    43,
-      51,    52,    53,    61,    48,    49,    53,    51,    52,    53,
-      54,    18,    19,    32,    33,    34,    60,    24,    25,    26,
-      27,    28,    43,    30,    22,    23,    24,    48,    49,    59,
-      51,    52,    53,    54,    65,    66,    67,    68,    69,    70,
-       3,     4,     5,     6,     7,    79,    80,    81,    82,    83,
-      11,    12,    13,     4,     5,     6,    33,    34,    60,    25,
-      55,    57,    54,    36,    54,    59,    59,    56,    44,     5,
-      26,    -1,    63,    -1,    -1,   118
+      72,    73,    74,    75,    76,    77,    78,    79,    60,    15,
+      15,    15,    53,    43,    15,    24,    18,    19,    35,    54,
+      29,    56,    24,    25,    26,    27,    28,     0,    30,    18,
+      19,    61,    32,    33,    34,    24,    25,    26,    27,    28,
+      54,    30,    55,    60,    28,    58,    30,    58,    57,     8,
+      53,    55,   124,    55,    59,    61,    86,    58,   129,    35,
+      53,   132,    22,    23,    24,   137,    55,    43,   139,   121,
+      33,    34,    48,    49,    43,    51,    52,    53,    54,    48,
+      49,    43,    51,    52,    53,    61,    48,    49,    53,    51,
+      52,    53,    54,    18,    19,    11,    12,    13,    60,    24,
+      25,    26,    27,    28,    43,    30,     4,     5,     6,    48,
+      49,    53,    51,    52,    53,    54,     8,     9,    10,    11,
+      12,    13,    66,    67,    68,    69,    70,    71,     3,     4,
+       5,     6,     7,    80,    81,    82,    83,    84,    60,    58,
+      25,    59,    55,    57,    54,    36,    54,    59,    59,    44,
+      56,     5,    26,   121,    -1,    64
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    32,    33,    34,    72,    73,    74,    75,    80,    82,
-      53,     0,    82,    53,    79,    54,    15,    58,    53,    83,
-      84,    53,    53,   100,    58,    55,    58,    22,    23,    24,
-      99,     8,   100,    60,    85,    84,   100,    43,    48,    49,
-      51,    52,    53,    54,    60,    76,    77,    78,    94,    95,
-      96,    97,    98,   101,   102,   103,    81,    59,    25,    54,
-      56,    95,    76,    15,    59,     8,     9,    10,    11,    12,
-      13,    18,    19,    24,    25,    26,    27,    28,    30,     3,
-       4,     5,     6,     7,    80,    86,    53,    92,    93,    94,
-      95,    55,    61,    78,    96,    96,    96,    96,    96,    96,
-      98,    98,    98,    98,    98,    98,    98,    98,   103,   103,
-     103,   103,   103,    35,    61,    87,    88,    95,    15,    55,
-      57,    54,    59,    59,    93,    98,    55,    85,    89,    36,
-      90,    91,    35,    85,    54,    98,    55,    85
+       0,    32,    33,    34,    72,    73,    74,    76,    81,    83,
+      53,     0,    83,    53,    80,    54,    15,    58,    53,    84,
+      85,    53,    53,   101,    58,    55,    58,    22,    23,    24,
+     100,     8,   101,    60,    86,    85,   101,    43,    48,    49,
+      51,    52,    53,    54,    60,    77,    78,    79,    95,    96,
+      97,    98,    99,   102,   103,   104,    82,    58,    75,    25,
+      54,    56,    96,    77,    15,    59,     8,     9,    10,    11,
+      12,    13,    18,    19,    24,    25,    26,    27,    28,    30,
+       3,     4,     5,     6,     7,    81,    87,   101,    59,    53,
+      93,    94,    95,    96,    55,    61,    79,    97,    97,    97,
+      97,    97,    97,    99,    99,    99,    99,    99,    99,    99,
+      99,   104,   104,   104,   104,   104,    35,    61,    88,    89,
+      96,    15,    55,    57,    54,    59,    59,    94,    99,    55,
+      86,    90,    36,    91,    92,    35,    86,    54,    99,    55,
+      86
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    71,    72,    72,    73,    73,    74,    74,    75,    75,
-      76,    76,    76,    76,    77,    78,    79,    79,    80,    81,
-      81,    82,    82,    83,    83,    83,    84,    85,    86,    86,
-      87,    87,    88,    89,    89,    90,    91,    91,    92,    92,
-      92,    93,    93,    94,    94,    94,    94,    94,    95,    96,
-      96,    96,    96,    96,    96,    96,    97,    98,    98,    98,
-      98,    98,    98,    98,    98,    98,    99,    99,   100,   100,
-     100,   101,   102,   102,   102,   102,   102,   103,   103,   103,
-     103,   103,   103
+      76,    76,    77,    77,    77,    77,    78,    79,    80,    80,
+      81,    82,    82,    83,    83,    84,    84,    84,    85,    86,
+      87,    87,    88,    88,    89,    90,    90,    91,    92,    92,
+      93,    93,    93,    94,    94,    95,    95,    95,    95,    95,
+      96,    97,    97,    97,    97,    97,    97,    97,    98,    99,
+      99,    99,    99,    99,    99,    99,    99,    99,   100,   100,
+     101,   101,   101,   102,   103,   103,   103,   103,   103,   104,
+     104,   104,   104,   104,   104
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     0,     2,     1,     7,     6,     1,     1,
-       3,     1,     1,     0,     3,     1,     3,     1,     7,     2,
-       0,     1,     1,     3,     1,     0,     3,     4,     2,     0,
-       2,     2,     7,     2,     0,     6,     2,     0,     3,     1,
-       0,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       3,     3,     3,     3,     3,     3,     4,     1,     3,     3,
-       3,     3,     3,     3,     3,     3,     1,     1,     1,     2,
-       4,     4,     1,     1,     1,     3,     1,     1,     3,     3,
-       3,     3,     3
+       0,     2,     1,     0,     2,     1,     8,     7,     2,     0,
+       1,     1,     3,     1,     1,     0,     3,     1,     3,     1,
+       7,     2,     0,     1,     1,     3,     1,     0,     3,     4,
+       2,     0,     2,     2,     7,     2,     0,     6,     2,     0,
+       3,     1,     0,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     3,     3,     3,     3,     3,     3,     4,     1,
+       3,     3,     3,     3,     3,     3,     3,     3,     1,     1,
+       1,     2,     4,     4,     1,     1,     1,     3,     1,     1,
+       3,     3,     3,     3,     3
 };
 
 
@@ -1285,491 +1290,503 @@ yyreduce:
   case 2: /* program: declr_list  */
 #line 174 "src/k0gram.y"
                     { pc->pt.root = yyval = create_nterm(yyn, "program", 1, yyvsp[0]); }
-#line 1289 "src/k0gram.tab.c"
+#line 1294 "src/k0gram.tab.c"
     break;
 
   case 3: /* program: %empty  */
 #line 175 "src/k0gram.y"
                 { printf("[WARN]: Empty program\n"); pc->pt.root = yyval; }
-#line 1295 "src/k0gram.tab.c"
+#line 1300 "src/k0gram.tab.c"
     break;
 
   case 4: /* declr_list: declr_list declr  */
 #line 178 "src/k0gram.y"
                              { yyval = create_nterm(yyn, "declr_list", 2, yyvsp[-1], yyvsp[0]);  }
-#line 1301 "src/k0gram.tab.c"
+#line 1306 "src/k0gram.tab.c"
     break;
 
   case 5: /* declr_list: declr  */
 #line 179 "src/k0gram.y"
                  { yyval = yyvsp[0]; }
-#line 1307 "src/k0gram.tab.c"
+#line 1312 "src/k0gram.tab.c"
     break;
 
-  case 6: /* func_declr: FUN IDENTIFIER LPAR param_list RPAR block SEMICOLON  */
-#line 183 "src/k0gram.y"
-                                                                { yyval = create_nterm(yyn, "func_declr", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1313 "src/k0gram.tab.c"
-    break;
-
-  case 7: /* func_declr: FUN IDENTIFIER LPAR param_list RPAR block  */
+  case 6: /* func_declr: FUN IDENTIFIER LPAR param_list RPAR block ret_type SEMICOLON  */
 #line 184 "src/k0gram.y"
-                                                      { yyval = create_nterm(yyn, "func_declr", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1319 "src/k0gram.tab.c"
+          { yyval = create_nterm(yyn, "func_declr", 8, yyvsp[-7], yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1318 "src/k0gram.tab.c"
     break;
 
-  case 8: /* init_prefix: VAR  */
-#line 187 "src/k0gram.y"
-                 { yyval = yyvsp[0]; }
-#line 1325 "src/k0gram.tab.c"
+  case 7: /* func_declr: FUN IDENTIFIER LPAR param_list RPAR block ret_type  */
+#line 186 "src/k0gram.y"
+          { yyval = create_nterm(yyn, "func_declr", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1324 "src/k0gram.tab.c"
     break;
 
-  case 9: /* init_prefix: VAL  */
-#line 188 "src/k0gram.y"
-                 { yyval = yyvsp[0]; }
-#line 1331 "src/k0gram.tab.c"
+  case 8: /* ret_type: COLON type  */
+#line 189 "src/k0gram.y"
+                     { yyval = create_nterm(yyn, "ret_type", 2, yyvsp[-1], yyvsp[0]); }
+#line 1330 "src/k0gram.tab.c"
     break;
 
-  case 10: /* intializer_list: intializer_list COMMA intializer  */
-#line 191 "src/k0gram.y"
-                                                  {yyval = create_nterm(yyn, "intializer_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1337 "src/k0gram.tab.c"
+  case 9: /* ret_type: %empty  */
+#line 190 "src/k0gram.y"
+                {yyval = NULL; }
+#line 1336 "src/k0gram.tab.c"
     break;
 
-  case 11: /* intializer_list: array_intializer  */
-#line 192 "src/k0gram.y"
-                                  {yyval = yyvsp[0]; }
-#line 1343 "src/k0gram.tab.c"
-    break;
-
-  case 12: /* intializer_list: intializer  */
+  case 10: /* init_prefix: VAR  */
 #line 193 "src/k0gram.y"
-                            {yyval = yyvsp[0]; }
-#line 1349 "src/k0gram.tab.c"
+                 { yyval = yyvsp[0]; }
+#line 1342 "src/k0gram.tab.c"
     break;
 
-  case 13: /* intializer_list: %empty  */
+  case 11: /* init_prefix: VAL  */
 #line 194 "src/k0gram.y"
-                        {yyval = NULL; }
-#line 1355 "src/k0gram.tab.c"
+                 { yyval = yyvsp[0]; }
+#line 1348 "src/k0gram.tab.c"
     break;
 
-  case 14: /* array_intializer: LCURL intializer_list RCURL  */
+  case 12: /* intializer_list: intializer_list COMMA intializer  */
 #line 197 "src/k0gram.y"
+                                                  {yyval = create_nterm(yyn, "intializer_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1354 "src/k0gram.tab.c"
+    break;
+
+  case 13: /* intializer_list: array_intializer  */
+#line 198 "src/k0gram.y"
+                                  {yyval = yyvsp[0]; }
+#line 1360 "src/k0gram.tab.c"
+    break;
+
+  case 14: /* intializer_list: intializer  */
+#line 199 "src/k0gram.y"
+                            {yyval = yyvsp[0]; }
+#line 1366 "src/k0gram.tab.c"
+    break;
+
+  case 15: /* intializer_list: %empty  */
+#line 200 "src/k0gram.y"
+                        {yyval = NULL; }
+#line 1372 "src/k0gram.tab.c"
+    break;
+
+  case 16: /* array_intializer: LCURL intializer_list RCURL  */
+#line 203 "src/k0gram.y"
                                               {yyval = create_nterm(yyn, "array_intializer", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1361 "src/k0gram.tab.c"
+#line 1378 "src/k0gram.tab.c"
     break;
 
-  case 15: /* intializer: expr  */
-#line 201 "src/k0gram.y"
+  case 17: /* intializer: expr  */
+#line 207 "src/k0gram.y"
                  {yyval = create_nterm(yyn, "initializer", 1, yyvsp[0]); }
-#line 1367 "src/k0gram.tab.c"
+#line 1384 "src/k0gram.tab.c"
     break;
 
-  case 16: /* id_declr_list: id_declr_list COMMA IDENTIFIER  */
-#line 204 "src/k0gram.y"
+  case 18: /* id_declr_list: id_declr_list COMMA IDENTIFIER  */
+#line 211 "src/k0gram.y"
                                               {yyval = create_nterm(yyn, "id_declr_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1373 "src/k0gram.tab.c"
+#line 1390 "src/k0gram.tab.c"
     break;
 
-  case 17: /* id_declr_list: IDENTIFIER  */
-#line 205 "src/k0gram.y"
-                           { yyval = yyvsp[0]; }
-#line 1379 "src/k0gram.tab.c"
-    break;
-
-  case 18: /* var_declr: init_prefix id_declr_list COLON type ASSIGNMENT intializer_list SEMICOLON  */
-#line 209 "src/k0gram.y"
-             { yyval = create_nterm(yyn,  "var_declr", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1385 "src/k0gram.tab.c"
-    break;
-
-  case 19: /* var_declr_list: var_declr_list var_declr  */
+  case 19: /* id_declr_list: IDENTIFIER  */
 #line 212 "src/k0gram.y"
-                                         { yyval = create_nterm(yyn, "var_declr_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1391 "src/k0gram.tab.c"
+                           { yyval = yyvsp[0]; }
+#line 1396 "src/k0gram.tab.c"
     break;
 
-  case 20: /* var_declr_list: %empty  */
-#line 213 "src/k0gram.y"
-                           { yyval = NULL; }
-#line 1397 "src/k0gram.tab.c"
-    break;
-
-  case 21: /* declr: func_declr  */
+  case 20: /* var_declr: init_prefix id_declr_list COLON type ASSIGNMENT intializer_list SEMICOLON  */
 #line 216 "src/k0gram.y"
-                  {yyval = yyvsp[0]; }
-#line 1403 "src/k0gram.tab.c"
+             { yyval = create_nterm(yyn,  "var_declr", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1402 "src/k0gram.tab.c"
     break;
 
-  case 22: /* declr: var_declr  */
-#line 217 "src/k0gram.y"
-                 {yyval = yyvsp[0]; }
-#line 1409 "src/k0gram.tab.c"
+  case 21: /* var_declr_list: var_declr_list var_declr  */
+#line 219 "src/k0gram.y"
+                                         { yyval = create_nterm(yyn, "var_declr_list", 2, yyvsp[-1], yyvsp[0]); }
+#line 1408 "src/k0gram.tab.c"
     break;
 
-  case 23: /* param_list: param_list COLON param  */
+  case 22: /* var_declr_list: %empty  */
 #line 220 "src/k0gram.y"
+                           { yyval = NULL; }
+#line 1414 "src/k0gram.tab.c"
+    break;
+
+  case 23: /* declr: func_declr  */
+#line 223 "src/k0gram.y"
+                  {yyval = yyvsp[0]; }
+#line 1420 "src/k0gram.tab.c"
+    break;
+
+  case 24: /* declr: var_declr  */
+#line 224 "src/k0gram.y"
+                 {yyval = yyvsp[0]; }
+#line 1426 "src/k0gram.tab.c"
+    break;
+
+  case 25: /* param_list: param_list COLON param  */
+#line 227 "src/k0gram.y"
                                    { yyval = create_nterm(yyn, "param_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1415 "src/k0gram.tab.c"
+#line 1432 "src/k0gram.tab.c"
     break;
 
-  case 24: /* param_list: param  */
-#line 221 "src/k0gram.y"
-                {yyval = yyvsp[0];  }
-#line 1421 "src/k0gram.tab.c"
-    break;
-
-  case 25: /* param_list: %empty  */
-#line 222 "src/k0gram.y"
-                 { yyval = NULL; }
-#line 1427 "src/k0gram.tab.c"
-    break;
-
-  case 26: /* param: IDENTIFIER COLON type  */
-#line 225 "src/k0gram.y"
-                             { yyval = create_nterm(yyn, "param", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1433 "src/k0gram.tab.c"
-    break;
-
-  case 27: /* block: LCURL var_declr_list stmt_list RCURL  */
+  case 26: /* param_list: param  */
 #line 228 "src/k0gram.y"
-                                            { yyval = create_nterm(yyn, "block", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1439 "src/k0gram.tab.c"
+                {yyval = yyvsp[0];  }
+#line 1438 "src/k0gram.tab.c"
     break;
 
-  case 28: /* stmt_list: stmt_list stmt  */
-#line 231 "src/k0gram.y"
-                          { yyval = create_nterm(yyn, "stmt_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1445 "src/k0gram.tab.c"
-    break;
-
-  case 29: /* stmt_list: %empty  */
-#line 232 "src/k0gram.y"
-                  { yyval = NULL; }
-#line 1451 "src/k0gram.tab.c"
-    break;
-
-  case 30: /* stmt: expr SEMICOLON  */
-#line 235 "src/k0gram.y"
-                     {yyval = create_nterm(yyn, "stmt", 2, yyvsp[-1], yyvsp[0]); }
-#line 1457 "src/k0gram.tab.c"
-    break;
-
-  case 31: /* stmt: if_stmt SEMICOLON  */
-#line 236 "src/k0gram.y"
-                        {yyval = create_nterm(yyn, "if_stmt", 2, yyvsp[-1], yyvsp[0]); }
-#line 1463 "src/k0gram.tab.c"
-    break;
-
-  case 32: /* if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt  */
-#line 240 "src/k0gram.y"
-      { yyval = create_nterm(yyn, "if_stmt", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1469 "src/k0gram.tab.c"
-    break;
-
-  case 33: /* else_if_list: else_if_list else_if_stmt  */
-#line 244 "src/k0gram.y"
-            { yyval = create_nterm(yyn, "if_else_list", 2, yyvsp[-1], yyvsp[0]); }
-#line 1475 "src/k0gram.tab.c"
-    break;
-
-  case 34: /* else_if_list: %empty  */
-#line 245 "src/k0gram.y"
-                     { yyval = NULL; }
-#line 1481 "src/k0gram.tab.c"
-    break;
-
-  case 35: /* else_if_stmt: ELSE IF LPAR bool_expr RPAR block  */
-#line 249 "src/k0gram.y"
-       { yyval = create_nterm(yyn, "if_else", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1487 "src/k0gram.tab.c"
-    break;
-
-  case 36: /* else_stmt: ELSE block  */
-#line 253 "src/k0gram.y"
-         { yyval = create_nterm(yyn, "else_stmt", 2, yyvsp[-1], yyvsp[0]); }
-#line 1493 "src/k0gram.tab.c"
-    break;
-
-  case 37: /* else_stmt: %empty  */
-#line 254 "src/k0gram.y"
+  case 27: /* param_list: %empty  */
+#line 229 "src/k0gram.y"
                  { yyval = NULL; }
-#line 1499 "src/k0gram.tab.c"
+#line 1444 "src/k0gram.tab.c"
     break;
 
-  case 38: /* arg_list: arg_list COMMA arg  */
-#line 258 "src/k0gram.y"
-                         {yyval = create_nterm(yyn, "arg_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1505 "src/k0gram.tab.c"
+  case 28: /* param: IDENTIFIER COLON type  */
+#line 232 "src/k0gram.y"
+                             { yyval = create_nterm(yyn, "param", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1450 "src/k0gram.tab.c"
     break;
 
-  case 39: /* arg_list: arg  */
-#line 259 "src/k0gram.y"
-            {yyval = yyvsp[0]; }
-#line 1511 "src/k0gram.tab.c"
+  case 29: /* block: LCURL var_declr_list stmt_list RCURL  */
+#line 235 "src/k0gram.y"
+                                            { yyval = create_nterm(yyn, "block", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1456 "src/k0gram.tab.c"
     break;
 
-  case 40: /* arg_list: %empty  */
+  case 30: /* stmt_list: stmt_list stmt  */
+#line 238 "src/k0gram.y"
+                          { yyval = create_nterm(yyn, "stmt_list", 2, yyvsp[-1], yyvsp[0]); }
+#line 1462 "src/k0gram.tab.c"
+    break;
+
+  case 31: /* stmt_list: %empty  */
+#line 239 "src/k0gram.y"
+                  { yyval = NULL; }
+#line 1468 "src/k0gram.tab.c"
+    break;
+
+  case 32: /* stmt: expr SEMICOLON  */
+#line 242 "src/k0gram.y"
+                     {yyval = create_nterm(yyn, "stmt", 2, yyvsp[-1], yyvsp[0]); }
+#line 1474 "src/k0gram.tab.c"
+    break;
+
+  case 33: /* stmt: if_stmt SEMICOLON  */
+#line 243 "src/k0gram.y"
+                        {yyval = create_nterm(yyn, "if_stmt", 2, yyvsp[-1], yyvsp[0]); }
+#line 1480 "src/k0gram.tab.c"
+    break;
+
+  case 34: /* if_stmt: IF LPAR bool_expr RPAR block else_if_list else_stmt  */
+#line 247 "src/k0gram.y"
+      { yyval = create_nterm(yyn, "if_stmt", 7, yyvsp[-6], yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1486 "src/k0gram.tab.c"
+    break;
+
+  case 35: /* else_if_list: else_if_list else_if_stmt  */
+#line 251 "src/k0gram.y"
+            { yyval = create_nterm(yyn, "if_else_list", 2, yyvsp[-1], yyvsp[0]); }
+#line 1492 "src/k0gram.tab.c"
+    break;
+
+  case 36: /* else_if_list: %empty  */
+#line 252 "src/k0gram.y"
+                     { yyval = NULL; }
+#line 1498 "src/k0gram.tab.c"
+    break;
+
+  case 37: /* else_if_stmt: ELSE IF LPAR bool_expr RPAR block  */
+#line 256 "src/k0gram.y"
+       { yyval = create_nterm(yyn, "if_else", 6, yyvsp[-5], yyvsp[-4], yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1504 "src/k0gram.tab.c"
+    break;
+
+  case 38: /* else_stmt: ELSE block  */
 #line 260 "src/k0gram.y"
-               { yyval = NULL; }
-#line 1517 "src/k0gram.tab.c"
+         { yyval = create_nterm(yyn, "else_stmt", 2, yyvsp[-1], yyvsp[0]); }
+#line 1510 "src/k0gram.tab.c"
     break;
 
-  case 41: /* arg: IDENTIFIER  */
-#line 263 "src/k0gram.y"
-                { yyval = create_nterm(yyn, "arg", 1, yyvsp[0]); }
-#line 1523 "src/k0gram.tab.c"
+  case 39: /* else_stmt: %empty  */
+#line 261 "src/k0gram.y"
+                 { yyval = NULL; }
+#line 1516 "src/k0gram.tab.c"
     break;
 
-  case 42: /* arg: literal  */
-#line 264 "src/k0gram.y"
-               { yyval = create_nterm(yyn, "arg", 1, yyvsp[0]); }
-#line 1529 "src/k0gram.tab.c"
+  case 40: /* arg_list: arg_list COMMA arg  */
+#line 265 "src/k0gram.y"
+                         {yyval = create_nterm(yyn, "arg_list", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1522 "src/k0gram.tab.c"
     break;
 
-  case 43: /* literal: INTEGERLITERAL  */
+  case 41: /* arg_list: arg  */
+#line 266 "src/k0gram.y"
+            {yyval = yyvsp[0]; }
+#line 1528 "src/k0gram.tab.c"
+    break;
+
+  case 42: /* arg_list: %empty  */
 #line 267 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1535 "src/k0gram.tab.c"
+               { yyval = NULL; }
+#line 1534 "src/k0gram.tab.c"
     break;
 
-  case 44: /* literal: REALLITERAL  */
-#line 268 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1541 "src/k0gram.tab.c"
-    break;
-
-  case 45: /* literal: STRINGLITERAL  */
-#line 269 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1547 "src/k0gram.tab.c"
-    break;
-
-  case 46: /* literal: CHARACTERLITERAL  */
+  case 43: /* arg: IDENTIFIER  */
 #line 270 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1553 "src/k0gram.tab.c"
+                { yyval = create_nterm(yyn, "arg", 1, yyvsp[0]); }
+#line 1540 "src/k0gram.tab.c"
     break;
 
-  case 47: /* literal: BOOLEANLITERAL  */
+  case 44: /* arg: literal  */
 #line 271 "src/k0gram.y"
-                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
-#line 1559 "src/k0gram.tab.c"
+               { yyval = create_nterm(yyn, "arg", 1, yyvsp[0]); }
+#line 1546 "src/k0gram.tab.c"
     break;
 
-  case 48: /* expr: assign_expr  */
+  case 45: /* literal: INTEGERLITERAL  */
 #line 274 "src/k0gram.y"
-                   {yyval = yyvsp[0]; }
-#line 1565 "src/k0gram.tab.c"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1552 "src/k0gram.tab.c"
     break;
 
-  case 49: /* assign_expr: bool_expr  */
+  case 46: /* literal: REALLITERAL  */
+#line 275 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1558 "src/k0gram.tab.c"
+    break;
+
+  case 47: /* literal: STRINGLITERAL  */
+#line 276 "src/k0gram.y"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1564 "src/k0gram.tab.c"
+    break;
+
+  case 48: /* literal: CHARACTERLITERAL  */
 #line 277 "src/k0gram.y"
-                       { yyval = yyvsp[0]; }
-#line 1571 "src/k0gram.tab.c"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1570 "src/k0gram.tab.c"
     break;
 
-  case 50: /* assign_expr: assign_expr ASSIGNMENT assign_expr  */
+  case 49: /* literal: BOOLEANLITERAL  */
 #line 278 "src/k0gram.y"
-                                                { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1577 "src/k0gram.tab.c"
+                           { yyval = create_nterm(yyn, "literal", 1, yyvsp[0]); }
+#line 1576 "src/k0gram.tab.c"
     break;
 
-  case 51: /* assign_expr: assign_expr ADD_ASSIGNMENT assign_expr  */
-#line 279 "src/k0gram.y"
-                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1583 "src/k0gram.tab.c"
-    break;
-
-  case 52: /* assign_expr: assign_expr MULT_ASSIGNMENT assign_expr  */
-#line 280 "src/k0gram.y"
-                                                     { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1589 "src/k0gram.tab.c"
-    break;
-
-  case 53: /* assign_expr: assign_expr SUB_ASSIGNMENT assign_expr  */
+  case 50: /* expr: assign_expr  */
 #line 281 "src/k0gram.y"
-                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1595 "src/k0gram.tab.c"
+                   {yyval = yyvsp[0]; }
+#line 1582 "src/k0gram.tab.c"
     break;
 
-  case 54: /* assign_expr: assign_expr DIV_ASSIGNMENT assign_expr  */
-#line 282 "src/k0gram.y"
-                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1601 "src/k0gram.tab.c"
+  case 51: /* assign_expr: bool_expr  */
+#line 284 "src/k0gram.y"
+                       { yyval = yyvsp[0]; }
+#line 1588 "src/k0gram.tab.c"
     break;
 
-  case 55: /* assign_expr: assign_expr MOD_ASSIGNMENT assign_expr  */
-#line 283 "src/k0gram.y"
-                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1607 "src/k0gram.tab.c"
+  case 52: /* assign_expr: assign_expr ASSIGNMENT assign_expr  */
+#line 285 "src/k0gram.y"
+                                                { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1594 "src/k0gram.tab.c"
     break;
 
-  case 56: /* func_call: IDENTIFIER LPAR arg_list RPAR  */
+  case 53: /* assign_expr: assign_expr ADD_ASSIGNMENT assign_expr  */
+#line 286 "src/k0gram.y"
+                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1600 "src/k0gram.tab.c"
+    break;
+
+  case 54: /* assign_expr: assign_expr MULT_ASSIGNMENT assign_expr  */
 #line 287 "src/k0gram.y"
-         {yyval = create_nterm(yyn, "func_call", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1613 "src/k0gram.tab.c"
+                                                     { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1606 "src/k0gram.tab.c"
     break;
 
-  case 57: /* bool_expr: arith_expr  */
+  case 55: /* assign_expr: assign_expr SUB_ASSIGNMENT assign_expr  */
+#line 288 "src/k0gram.y"
+                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1612 "src/k0gram.tab.c"
+    break;
+
+  case 56: /* assign_expr: assign_expr DIV_ASSIGNMENT assign_expr  */
+#line 289 "src/k0gram.y"
+                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1618 "src/k0gram.tab.c"
+    break;
+
+  case 57: /* assign_expr: assign_expr MOD_ASSIGNMENT assign_expr  */
 #line 290 "src/k0gram.y"
-                      { yyval = yyvsp[0];}
-#line 1619 "src/k0gram.tab.c"
+                                                    { yyval = create_nterm(yyn, "assign_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1624 "src/k0gram.tab.c"
     break;
 
-  case 58: /* bool_expr: bool_expr DISJ bool_expr  */
-#line 291 "src/k0gram.y"
-                                     { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1625 "src/k0gram.tab.c"
-    break;
-
-  case 59: /* bool_expr: bool_expr CONJ bool_expr  */
-#line 292 "src/k0gram.y"
-                                    { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1631 "src/k0gram.tab.c"
-    break;
-
-  case 60: /* bool_expr: bool_expr LANGLE bool_expr  */
-#line 293 "src/k0gram.y"
-                                      { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1637 "src/k0gram.tab.c"
-    break;
-
-  case 61: /* bool_expr: bool_expr RANGLE bool_expr  */
+  case 58: /* func_call: IDENTIFIER LPAR arg_list RPAR  */
 #line 294 "src/k0gram.y"
-                                      { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1643 "src/k0gram.tab.c"
+         {yyval = create_nterm(yyn, "func_call", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1630 "src/k0gram.tab.c"
     break;
 
-  case 62: /* bool_expr: bool_expr LE bool_expr  */
-#line 295 "src/k0gram.y"
-                                  { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1649 "src/k0gram.tab.c"
-    break;
-
-  case 63: /* bool_expr: bool_expr GE bool_expr  */
-#line 296 "src/k0gram.y"
-                                  { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1655 "src/k0gram.tab.c"
-    break;
-
-  case 64: /* bool_expr: bool_expr EQEQ bool_expr  */
+  case 59: /* bool_expr: arith_expr  */
 #line 297 "src/k0gram.y"
-                                    { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1661 "src/k0gram.tab.c"
+                      { yyval = yyvsp[0];}
+#line 1636 "src/k0gram.tab.c"
     break;
 
-  case 65: /* bool_expr: bool_expr EXCL_EQ bool_expr  */
+  case 60: /* bool_expr: bool_expr DISJ bool_expr  */
 #line 298 "src/k0gram.y"
-                                       { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1667 "src/k0gram.tab.c"
+                                     { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1642 "src/k0gram.tab.c"
     break;
 
-  case 66: /* quest: QUEST_NO_WS  */
+  case 61: /* bool_expr: bool_expr CONJ bool_expr  */
+#line 299 "src/k0gram.y"
+                                    { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1648 "src/k0gram.tab.c"
+    break;
+
+  case 62: /* bool_expr: bool_expr LANGLE bool_expr  */
+#line 300 "src/k0gram.y"
+                                      { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1654 "src/k0gram.tab.c"
+    break;
+
+  case 63: /* bool_expr: bool_expr RANGLE bool_expr  */
 #line 301 "src/k0gram.y"
-                   { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]);  }
-#line 1673 "src/k0gram.tab.c"
+                                      { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1660 "src/k0gram.tab.c"
     break;
 
-  case 67: /* quest: QUEST_WS  */
+  case 64: /* bool_expr: bool_expr LE bool_expr  */
 #line 302 "src/k0gram.y"
-                {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]);  }
-#line 1679 "src/k0gram.tab.c"
+                                  { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1666 "src/k0gram.tab.c"
     break;
 
-  case 68: /* type: IDENTIFIER  */
+  case 65: /* bool_expr: bool_expr GE bool_expr  */
+#line 303 "src/k0gram.y"
+                                  { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1672 "src/k0gram.tab.c"
+    break;
+
+  case 66: /* bool_expr: bool_expr EQEQ bool_expr  */
+#line 304 "src/k0gram.y"
+                                    { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1678 "src/k0gram.tab.c"
+    break;
+
+  case 67: /* bool_expr: bool_expr EXCL_EQ bool_expr  */
 #line 305 "src/k0gram.y"
+                                       { yyval = create_nterm(yyn, "bool_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1684 "src/k0gram.tab.c"
+    break;
+
+  case 68: /* quest: QUEST_NO_WS  */
+#line 308 "src/k0gram.y"
+                   { yyval = create_nterm(yyn, "quest", 1, yyvsp[0]);  }
+#line 1690 "src/k0gram.tab.c"
+    break;
+
+  case 69: /* quest: QUEST_WS  */
+#line 309 "src/k0gram.y"
+                {  yyval = create_nterm(yyn, "quest", 1, yyvsp[0]);  }
+#line 1696 "src/k0gram.tab.c"
+    break;
+
+  case 70: /* type: IDENTIFIER  */
+#line 312 "src/k0gram.y"
                  { yyval = create_nterm(yyn, "type", 1, yyvsp[0]);  }
-#line 1685 "src/k0gram.tab.c"
+#line 1702 "src/k0gram.tab.c"
     break;
 
-  case 69: /* type: IDENTIFIER quest  */
-#line 306 "src/k0gram.y"
+  case 71: /* type: IDENTIFIER quest  */
+#line 313 "src/k0gram.y"
                        {yyval = create_nterm(yyn, "type", 2, yyvsp[-1], yyvsp[0]);   }
-#line 1691 "src/k0gram.tab.c"
+#line 1708 "src/k0gram.tab.c"
     break;
 
-  case 70: /* type: IDENTIFIER LANGLE type RANGLE  */
-#line 307 "src/k0gram.y"
+  case 72: /* type: IDENTIFIER LANGLE type RANGLE  */
+#line 314 "src/k0gram.y"
                                     {yyval = create_nterm(yyn, "type", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1697 "src/k0gram.tab.c"
+#line 1714 "src/k0gram.tab.c"
     break;
 
-  case 71: /* array_subscript: IDENTIFIER LSQUARE expr RSQUARE  */
-#line 316 "src/k0gram.y"
-               { yyval = create_nterm(yyn, "array_subscript", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1703 "src/k0gram.tab.c"
-    break;
-
-  case 72: /* primary_expr: IDENTIFIER  */
-#line 319 "src/k0gram.y"
-                          { yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
-#line 1709 "src/k0gram.tab.c"
-    break;
-
-  case 73: /* primary_expr: literal  */
-#line 320 "src/k0gram.y"
-                       { yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
-#line 1715 "src/k0gram.tab.c"
-    break;
-
-  case 74: /* primary_expr: func_call  */
-#line 321 "src/k0gram.y"
-                         {yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
-#line 1721 "src/k0gram.tab.c"
-    break;
-
-  case 75: /* primary_expr: LPAR expr RPAR  */
-#line 322 "src/k0gram.y"
-                              { yyval = create_nterm(yyn, "primary_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1727 "src/k0gram.tab.c"
-    break;
-
-  case 76: /* primary_expr: array_subscript  */
+  case 73: /* array_subscript: IDENTIFIER LSQUARE expr RSQUARE  */
 #line 323 "src/k0gram.y"
-                               { yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
-#line 1733 "src/k0gram.tab.c"
+               { yyval = create_nterm(yyn, "array_subscript", 4, yyvsp[-3], yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1720 "src/k0gram.tab.c"
     break;
 
-  case 77: /* arith_expr: primary_expr  */
+  case 74: /* primary_expr: IDENTIFIER  */
 #line 326 "src/k0gram.y"
-                         { yyval = yyvsp[0]; }
-#line 1739 "src/k0gram.tab.c"
+                          { yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
+#line 1726 "src/k0gram.tab.c"
     break;
 
-  case 78: /* arith_expr: arith_expr ADD arith_expr  */
+  case 75: /* primary_expr: literal  */
 #line 327 "src/k0gram.y"
-                                { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1745 "src/k0gram.tab.c"
+                       { yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
+#line 1732 "src/k0gram.tab.c"
     break;
 
-  case 79: /* arith_expr: arith_expr SUB arith_expr  */
+  case 76: /* primary_expr: func_call  */
 #line 328 "src/k0gram.y"
-                                { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1751 "src/k0gram.tab.c"
+                         {yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
+#line 1738 "src/k0gram.tab.c"
     break;
 
-  case 80: /* arith_expr: arith_expr MULT arith_expr  */
+  case 77: /* primary_expr: LPAR expr RPAR  */
 #line 329 "src/k0gram.y"
-                                 { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1757 "src/k0gram.tab.c"
+                              { yyval = create_nterm(yyn, "primary_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1744 "src/k0gram.tab.c"
     break;
 
-  case 81: /* arith_expr: arith_expr DIV arith_expr  */
+  case 78: /* primary_expr: array_subscript  */
 #line 330 "src/k0gram.y"
-                                { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1763 "src/k0gram.tab.c"
+                               { yyval = create_nterm(yyn, "primary_expr", 1, yyvsp[0]); }
+#line 1750 "src/k0gram.tab.c"
     break;
 
-  case 82: /* arith_expr: arith_expr MOD arith_expr  */
-#line 331 "src/k0gram.y"
+  case 79: /* arith_expr: primary_expr  */
+#line 333 "src/k0gram.y"
+                         { yyval = yyvsp[0]; }
+#line 1756 "src/k0gram.tab.c"
+    break;
+
+  case 80: /* arith_expr: arith_expr ADD arith_expr  */
+#line 334 "src/k0gram.y"
                                 { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
-#line 1769 "src/k0gram.tab.c"
+#line 1762 "src/k0gram.tab.c"
+    break;
+
+  case 81: /* arith_expr: arith_expr SUB arith_expr  */
+#line 335 "src/k0gram.y"
+                                { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1768 "src/k0gram.tab.c"
+    break;
+
+  case 82: /* arith_expr: arith_expr MULT arith_expr  */
+#line 336 "src/k0gram.y"
+                                 { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1774 "src/k0gram.tab.c"
+    break;
+
+  case 83: /* arith_expr: arith_expr DIV arith_expr  */
+#line 337 "src/k0gram.y"
+                                { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1780 "src/k0gram.tab.c"
+    break;
+
+  case 84: /* arith_expr: arith_expr MOD arith_expr  */
+#line 338 "src/k0gram.y"
+                                { yyval = create_nterm(yyn, "arith_expr", 3, yyvsp[-2], yyvsp[-1], yyvsp[0]); }
+#line 1786 "src/k0gram.tab.c"
     break;
 
 
-#line 1773 "src/k0gram.tab.c"
+#line 1790 "src/k0gram.tab.c"
 
       default: break;
     }
@@ -1962,5 +1979,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 333 "src/k0gram.y"
+#line 340 "src/k0gram.y"
 
