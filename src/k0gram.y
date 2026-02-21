@@ -186,20 +186,20 @@ init_prefix: VAR { $$ = $1; }
            | VAL { $$ = $1; }
            ;
 
-intializer_list: intializer_list COMMA intializer {$$ = create_nterm(yyn, "intializer_list", 2, $1, $2); }
+intializer_list: intializer_list COMMA intializer {$$ = create_nterm(yyn, "intializer_list", 3, $1, $2, $3); }
+               | array_intializer {$$ = $1; }
                | intializer {$$ = $1; }
                | %empty {$$ = NULL; }
                ;
 
-array_intializer: RCURL intializer_list LCURL {$$ = create_nterm(yyn, "array_intializer", 2, $1, $2); }
+array_intializer: LCURL intializer_list RCURL {$$ = create_nterm(yyn, "array_intializer", 3, $1, $2, $3); }
                 ;
 
 intializer: expr {$$ = create_nterm(yyn, "initializer", 1, $1); }
-          | array_intializer {$$ = create_nterm(yyn, "intializer", 1, $1); }
           ;
 
 gbl_var_declr:  init_prefix IDENTIFIER COLON type ASSIGNMENT intializer_list SEMICOLON
-             { $$ = create_nterm(yyn,  "gbl_var_declr", 6, $1, $2, $3, $4, $5, $6); }
+             { $$ = create_nterm(yyn,  "gbl_var_declr", 7, $1, $2, $3, $4, $5, $6, $7); }
              ;
 
 declr: func_declr {$$ = $1; } // FALL THROUGH
@@ -257,6 +257,7 @@ literal: INTEGERLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
        | REALLITERAL       { $$ = create_nterm(yyn, "literal", 1, $1); }
        | STRINGLITERAL     { $$ = create_nterm(yyn, "literal", 1, $1); }
        | CHARACTERLITERAL  { $$ = create_nterm(yyn, "literal", 1, $1); }
+       | BOOLEANLITERAL    { $$ = create_nterm(yyn, "literal", 1, $1); }
        ;
 
 expr:  assign_expr {$$ = $1; } // has highest precedence
@@ -300,10 +301,15 @@ type: IDENTIFIER { $$ = create_nterm(yyn, "type", 1, $1);  } // simple type (e.g
 //     ;
 
 // NOTE: maybe we should just carry these through
+array_subscript: IDENTIFIER LSQUARE expr RSQUARE
+               { $$ = create_nterm(yyn, "array_subscript", 4, $1, $2, $3, $4); }
+               ;
+
 primary_expr : IDENTIFIER { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | literal { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | func_call {$$ = create_nterm(yyn, "primary_expr", 1, $1); }
              | LPAR expr RPAR { $$ = create_nterm(yyn, "primary_expr", 3, $1, $2, $3); }
+             | array_subscript { $$ = create_nterm(yyn, "primary_expr", 1, $1); }
              ;
 
 arith_expr: primary_expr { $$ = $1; } // FALL THROUGH
